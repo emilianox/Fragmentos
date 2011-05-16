@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!--
+ 
+ Author: Артём Попов <artfwo@gmail.com>
+ License: CC-BY-SA-3.0
+ 
+--> 
+<style-scheme id="light" _name="Light" version="1.0"> 
+  <author>Артём Попов</author> 
+  <_description>Color scheme to complement the new Ubuntu look</_description> 
+  
+  <!-- primary colors --> 
+  <color name="black"       value="#000000"/> 
+  <color name="white"       value="#ffffff"/> 
+  <color name="warm-grey"   value="#aea79f"/> 
+  <color name="cool-grey"   value="#333333"/> 
+  <color name="aubergine"   value="#921172"/> 
+  <color name="corsa"       value="#d90007"/> 
+  <color name="crimson"     value="#ce172c"/> 
+  <color name="denim"       value="#4575a5"/> 
+  <!-- was: #d15e28--> 
+  <color name="orange"      value="#d1581f"/> 
+  <color name="rosewood"    value="#671c18"/> 
+  <color name="rufous"      value="#a81c07"/> 
+  <color name="sand"        value="#ffd773"/> 
+  <color name="slate"       value="#77808a"/> 
+  <color name="teal"        value="#31966f"/> 
+  <!-- was: #7510b0 --> 
+  <color name="violet"      value="#8017bd"/> 
+  
+  <!-- gedit core --> 
+  <style name="bracket-match" foreground="white" background="warm-grey" bold="true"/> 
+  <style name="bracket-mismatch" foreground="white" background="corsa" bold="true"/>
+  <style name="right-margin" foreground="cool-grey" background="warm-grey"/>
+  <style name="search-match" background="sand"/>
+  
+  <!-- comment group -->
+  <style name="def:comment" foreground="slate"/>
+  <style name="def:shebang" foreground="slate" bold="true"/>
+  <style name="def:doc-comment-element" italic="true"/>
+ 
+  <!-- constant group -->
+  <style name="def:constant" foreground="orange"/>
+  <style name="def:special-char" foreground="rosewood"/>
+  <style name="def:special-constant" foreground="violet"/>
+ 
+  <!-- identifier group -->
+  <style name="def:identifier" foreground="teal"/>
+  <!--
+  <style name="def:function" foreground="teal"/>
+  <style name="def:builtin" foreground="teal"/>
+  -->
+  
+  <!-- statement group -->
+  <style name="def:statement" foreground="rufous" bold="true"/>
+  
+  <!-- type group -->
+  <style name="def:type" foreground="denim"/>
+  
+  <!-- others -->
+  <style name="def:preprocessor" foreground="aubergine"/>
+  <style name="def:error" background="corsa" foreground="white"/>
+  <style name="def:note" foreground="crimson" bold="true" underline="true"/>
+  <style name="def:underlined" underline="true"/>
+ 
+  <!-- language specific -->
+  <style name="desktop:category-main" use-style="def:special-constant"/>
+  
+  <style name="diff:added-line" use-style="def:constant"/>
+  <style name="diff:changed-line" use-style="def:identifier"/>
+  <style name="diff:removed-line" use-style="def:type"/>
+  <style name="diff:diff-file" use-style="def:preprocessor"/>
+  <style name="diff:location" bold="true"/>
+  <style name="diff:special-case" use-style="def:error"/>
+  
+  <style name="js:object" bold="true"/>
+ 
+  <style name="latex:command" use-style="def:identifier"/>
+  <style name="latex:display-math" use-style="def:constant"/>
+  <style name="latex:include" use-style="def:preprocessor"/>
+  <style name="latex:verbatim" use-style="def:special-constant"/>
+  
+  <style name="python:format" use-style="def:special-char"/>
+  <style name="python:special-variable" use-style="def:type"/>
+  
+  <style name="sh:variable" use-style="def:special-constant"/>
+  <style name="sh:variable-definition" use-style="def:type"/>
+  
+  <style name="gtkrc:variable" use-style="def:identifier"/>
+  <style name="gtkrc:state" use-style="def:type"/>
+ 
+<!-- the end -->
+</style-scheme>
