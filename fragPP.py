@@ -225,5 +225,6 @@ class VentanaPrincipal:
 #######################################################
 if __name__ == '__main__':
     ventana= VentanaPrincipal()
+    print 'mike'
     gtk.main()
     exit(0)

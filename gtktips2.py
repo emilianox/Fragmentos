@@ -315,4 +315,3 @@ class DateChoose():
         return self.__dia
 
 
-
