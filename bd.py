@@ -62,19 +62,15 @@ class BD:
         resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
         return self.__convertirALista(resultado)
 
-    def realizarConsulta(self,consulta,pathBD=None):
+    def realizarConsulta(self,consulta):
         ''' Realiza una consulta a la base de datos. '''
         #TODO:evitar los self
-        print consulta
-        if (pathBD is None):
-            pathBD = self.__pathBD
-            self.__connection = sqlite3.connect(pathBD)
-            self.__cursor = self.__connection.cursor()
+        #~ print consulta            
         cursor_temp = self.__cursor.execute(consulta)
         lista = []
         for fila in cursor_temp:
             lista.append(fila)
-        print 'Consulta completa...'
+        #~ print 'Consulta completa...'
         return lista
 
 ################################
