@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -66,7 +66,7 @@
             <child>
               <object class="GtkToolButton" id="tbAgregar">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">toolbutton3</property>
+                <property name="label" translatable="yes">Agregar</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
               </object>
@@ -78,7 +78,7 @@
             <child>
               <object class="GtkToolButton" id="tbEditar">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">toolbutton4</property>
+                <property name="label" translatable="yes">Editar</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-edit</property>
               </object>
@@ -90,7 +90,7 @@
             <child>
               <object class="GtkToolButton" id="tbEliminar">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">toolbutton5</property>
+                <property name="label" translatable="yes">Eliminar</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-remove</property>
               </object>
@@ -111,7 +111,7 @@
             <child>
               <object class="GtkToolButton" id="tbPortapapeles">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">toolbutton7</property>
+                <property name="label" translatable="yes">Al portapapeles</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-paste</property>
                 <signal name="clicked" handler="on_tbPortapapeles_clicked"/>
@@ -154,7 +154,7 @@
               <object class="GtkEntry" id="eBusqueda">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">•</property>
+                <property name="invisible_char">&#x2022;</property>
                 <signal name="delete_text" handler="on_eBusqueda_delete_text"/>
                 <signal name="insert_text" handler="on_eBusqueda_insert_text"/>
               </object>
@@ -396,30 +396,130 @@
   <object class="GtkMenu" id="mPrincipal">
     <property name="visible">True</property>
     <child>
-      <object class="GtkMenuItem" id="menuitem1">
+      <object class="GtkMenuItem" id="mBaseDatos">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">menuitem1</property>
+        <property name="label" translatable="yes">Base de datos</property>
+        <property name="use_underline">True</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu1">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkMenuItem" id="mNuevaBD">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Nueva...</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="mSnippets">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Snippets</property>
+        <property name="use_underline">True</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="menu2">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkMenuItem" id="mCantidadSnippets">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Cantidad de Snippets</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSeparatorMenuItem" id="separatormenuitem3">
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="mImportar">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Importar</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu3">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkMenuItem" id="mImp_DesdeBd">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Desde otro archivo...</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="mDesde_Xml">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Desde archivo snippet...</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="mExportar">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Exportar</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="mBusqueda">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Busqueda</property>
         <property name="use_underline">True</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem2">
+      <object class="GtkMenuItem" id="mLenguajes">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">menuitem2</property>
+        <property name="label" translatable="yes">Lenguajes...</property>
         <property name="use_underline">True</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem3">
+      <object class="GtkSeparatorMenuItem" id="separatormenuitem1">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">menuitem3</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="mHistorial">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Historial</property>
         <property name="use_underline">True</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem4">
+      <object class="GtkMenuItem" id="mOpciones">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">menuitem4</property>
+        <property name="label" translatable="yes">Opciones</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="mAyuda">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Ayuda</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+        <property name="visible">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="mAcercaDe">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Acerca de Fragmentos</property>
         <property name="use_underline">True</property>
       </object>
     </child>

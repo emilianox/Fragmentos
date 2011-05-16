@@ -70,7 +70,8 @@ class VentanaPrincipal:
         from gtktips import GtkTips
         self.gtktips = GtkTips()
         scroll = self.builder.get_object("contenedor")
-        nstyle,pstyle = 'blue_dream','style/blue_dream.xml'
+        print self.program_folder+'style\\blue_dream.xml'
+        nstyle,pstyle = 'blue_dream',self.program_folder+'style\\blue_dream.xml'
         self.txtCodigo = self.gtktips.crear_source_text_box(scroll,nstyle,pstyle)
 
 #detalles
@@ -80,6 +81,12 @@ class VentanaPrincipal:
 
     #Info al iniciar
         print "full path =", self.program_folder
+#prueba agregar lenguajes
+        from bdutils import BdUtils
+        bu = BdUtils()
+        self.cbBD = self.builder.get_object('cbBD')
+        self.gtktips.setCombobox(self.cbBD,bu.getBDsNames())
+
 ############
 ## Metods ##
 ############

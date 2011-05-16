@@ -21,9 +21,9 @@
 class Members:
 
     class Consts:
-		''' Clase que contiene todos los miembros constantes 
-		usados en el programa. '''
-		
+        ''' Clase que contiene todos los miembros constantes 
+        usados en el programa. '''
+        
         CFG_FILE = 'settings.cfg'
         DATABASES_DIR = 'databases'
         HISTORY_DIR = 'config'
@@ -40,6 +40,8 @@ class Members:
                                    [starred] TEXT  NULL, 
                                    [reference] TEXT  NULL,
                                    PRIMARY KEY ([title],[language]))'''
+		#Extenciones soportadas para las bases de datos
+        DB_EXTENCIONS = '*.db'
 
 
     class Vars:
