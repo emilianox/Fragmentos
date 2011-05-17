@@ -62,11 +62,6 @@ class BdUtils:
         program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
         bd_folder = self.convertPath(os.path.dirname(program_folder[:-1])+'/'+Members.Consts.DATABASES_DIR +'/')
         return bd_folder
-        
-    def getPathProgramFolder(self):
-        ''' Obtiene la ruta de la carpeta del programa. '''
-        program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        return program_folder 
                 
     def newDataBase(self,pathNewBD):
         ''' Crea una nueva base de datos Fragmentos. '''

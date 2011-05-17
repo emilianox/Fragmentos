@@ -21,16 +21,21 @@
 
 import gtk, os
 from sys import argv, exit
-from gtktips import Multiplataforma
+from gui import GUI
+from snippetmanager import SnippetManager
+from gtktips import SourceView
 
 ###
 #Bienvenidos a las turbulentas aguas de entender a un "desarrollador"
 #la documentacion es tu guia
 ###
 
+
 class VentanaPrincipal:
     """Genera una ventana principal"""
     def __init__(self):
+        SM = SnippetManager()
+        self.GUI = GUI()
     #Imports
         #~ from  import
         #~ import
@@ -38,13 +43,14 @@ class VentanaPrincipal:
         nombreglade = "fragPP.gui"
         nombreventana = "wPrincipal"
         tituloventana = "Fragmentos"
+        xml_estilo = SM.convertPath(SM.getPathProgramFolder()+'style\\blue_dream.xml')
     #Donde estoy
-        self.mp = Multiplataforma()
-        self.program_folder = self.mp.convertpath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        self.data_folder = self.mp.convertpath(os.path.dirname(self.program_folder[:-1])+'/databases/')
+        #self.mp = Multiplataforma()
+        #self.program_folder = self.mp.convertpath(os.path.abspath(os.path.dirname(argv[0])) + "/")
+        #self.data_folder = self.mp.convertpath(os.path.dirname(self.program_folder[:-1])+'/databases/')
     #importar glade
         self.builder = gtk.Builder()
-        self.builder.add_from_file(self.program_folder+ nombreglade)
+        self.builder.add_from_file(SM.getPathProgramFolder()+ nombreglade)
     #objetos basicos
         self.window = self.builder.get_object(nombreventana)
         #self.window.set_icon_from_file(self.program_folder+"*****")
@@ -60,33 +66,26 @@ class VentanaPrincipal:
         self.mPrincipal = self.builder.get_object("mPrincipal")
     #tree list
         self.caja_lenguajes = self.builder.get_object("tvLenguajes")
-        self.caja_lenguajes,self.tree_lenguajes = self.crearArbol(self.caja_lenguajes,
-                            'Lenguajes')
+        self.caja_lenguajes,self.tree_lenguajes = self.GUI.crearArbol(self.caja_lenguajes,'Lenguajes')
 #BDbeta
-        from bd import BD
-        self.BD = BD(self.data_folder+'SourceCode.db')
-        self.insertarEnArbol(self.BD.getLengAndTitles(),self.tree_lenguajes)
+        #from bd import BD
+        #self.BD = BD(self.data_folder+'SourceCode.db')
+        self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes)
 #Sourcecode
-        from gtktips import GtkTips
-        self.gtktips = GtkTips()
+        
+        self.source_view = SourceView()
         scroll = self.builder.get_object("contenedor")
-        print self.program_folder+'style\\blue_dream.xml'
-        nstyle,pstyle = 'blue_dream',self.program_folder+'style\\blue_dream.xml'
-        self.txtCodigo = self.gtktips.crear_source_text_box(scroll,nstyle,pstyle)
+        nstyle,pstyle = 'blue_dream',xml_estilo
+        self.txtCodigo = self.source_view.crear_source_text_box(scroll,nstyle,pstyle)
 
 #detalles
         self.eBusqueda = self.builder.get_object("eBusqueda")
         self.eBusqueda.grab_focus()
-
-
-    #Info al iniciar
-        print "full path =", self.program_folder
-#prueba agregar lenguajes
-        from bdutils import BdUtils
-        bu = BdUtils()
+#cargar bds en combo
         self.cbBD = self.builder.get_object('cbBD')
-        self.gtktips.setCombobox(self.cbBD,bu.getBDsNames())
-
+        self.GUI.cargarBDsEnCombo(self.cbBD)
+#Info al iniciar
+        print "full path =", SM.getPathProgramFolder()
 ############
 ## Metods ##
 ############
@@ -94,23 +93,23 @@ class VentanaPrincipal:
         """XXXXXXXXX"""
         pass
 
-    def crearArbol(self,caja,title):
-        tree_lenguajes = gtk.TreeStore(str)
-        caja.set_model(tree_lenguajes)
-        column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
-        column.set_resizable(True)
-        #column.set_sort_column_id(self.ct)
-        caja.append_column(column)
-        return caja, tree_lenguajes
+#    def crearArbol(self,caja,title):
+#        tree_lenguajes = gtk.TreeStore(str)
+#        caja.set_model(tree_lenguajes)
+#        column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
+#        column.set_resizable(True)
+#        #column.set_sort_column_id(self.ct)
+#        caja.append_column(column)
+#        return caja, tree_lenguajes
 
-    def insertarEnArbol(self,listaparainsertar,tree_lenguajes):
-        tree_lenguajes.clear()
-        dicdeleng = {}
-        for snippet in listaparainsertar:
-            if not dicdeleng.has_key(snippet[0]):
-                dicdeleng[snippet[0]] = tree_lenguajes.append(None,[snippet[0]])
-            tree_lenguajes.append(dicdeleng[snippet[0]],[snippet[1]])
-        print len(listaparainsertar)
+#    def insertarEnArbol(self,listaparainsertar,tree_lenguajes):
+#        tree_lenguajes.clear()
+#        dicdeleng = {}
+#        for snippet in listaparainsertar:
+#            if not dicdeleng.has_key(snippet[0]):
+#                dicdeleng[snippet[0]] = tree_lenguajes.append(None,[snippet[0]])
+#            tree_lenguajes.append(dicdeleng[snippet[0]],[snippet[1]])
+#        print len(listaparainsertar)
 
     def busqueda_inteligente(self,busqueda):
         """Permite la busqueda por keys"""
@@ -158,11 +157,11 @@ class VentanaPrincipal:
         if not (rownodo is None):
             valor_nodo = model.get_value(rownodo,0)
             valor_hijo = model.get_value(row,0)
-
-            lista = self.BD.getSnippet(valor_nodo,valor_hijo)
+            print 'se clickeo ',valor_nodo+' - '+valor_hijo
+            Snippet = self.GUI.obtenerSnippet(valor_nodo,valor_hijo)
             #~ print lista
-            self.gtktips.cambiar_lenguaje_source(self.txtCodigo,valor_nodo.lower())
-            self.txtCodigo.get_buffer().set_text(lista[0][2])
+            self.source_view.cambiar_lenguaje_source(self.txtCodigo,valor_nodo.lower())
+            self.txtCodigo.get_buffer().set_text(Snippet.getCodigo())
             #~ equivalentes={'basic':'vbnet','c#':'c-sharp'}
 
         #~ print '\n',model.iter_n_children(rows)#devuelve cantidad de hijos

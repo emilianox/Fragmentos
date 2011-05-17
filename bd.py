@@ -31,7 +31,7 @@ class BD:
         self.__connection = sqlite3.connect(self.__pathBD)
         #activa el cursor
         self.__cursor = self.__connection.cursor()
-        print 'Una instancia de BD fue creada con exito...'
+        print 'Una instancia de BD fue creada con exito...',rutaBD
 
 ###############
 # METODOS BD  #

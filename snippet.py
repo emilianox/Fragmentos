@@ -18,23 +18,25 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-class snippet:
-	
+class Snippet:
+
     # Variables miembro de la clase
     def __init__(self,datosSnippet):
-        self.__titulo = ''
-        self.__tags = ''
-        self.__lenguaje = ''
-        self.__comentarios = ''
-        self.__fecha = ''
-        self.__referencias = ''
-        self.__codigo = ''
-	
-	def getTitulo(self):
-		return self.__titulo
-		
-	def getTags(self):
-		return self.__tags
+        self.__titulo = datosSnippet[0][0]
+        self.__lenguaje = datosSnippet[0][1]
+        self.__codigo = datosSnippet[0][2]
+        self.__tags = datosSnippet[0][3]
+        self.__comentarios = datosSnippet[0][4]
+        self.__fecha = datosSnippet[0][5]
+        self.__favoritos = datosSnippet[0][6]
+        self.__referencias = datosSnippet[0][7]
+        
+
+    def getTitulo(self):
+        return self.__titulo
+        
+    def getTags(self):
+        return self.__tags
         
     def getLenguaje(self):
         return self.__lenguaje
@@ -50,3 +52,6 @@ class snippet:
 
     def getCodigo(self):
         return self.__codigo
+
+    def getFavoritos(self):
+        return self.__favoritos

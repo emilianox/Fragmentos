@@ -22,12 +22,54 @@
 import gtk
 import time
 import gtksourceview2
-class GtkTips:
-    """Tips que facilitan el uso de herramientas GTK"""
+
+
+class SourceView:
+    ##############GtkSourceView#################################
+    def crear_source_text_box(self,box,nombre_style,path_style):
+        import pango
+        font_desc = pango.FontDescription("Monospace 9")
+        style=gtksourceview2.StyleSchemeManager()
+        style.append_search_path(path_style)
+        myestilo = style.get_scheme(nombre_style)
+        text_buffer = gtksourceview2.Buffer()
+        text_buffer.set_style_scheme(myestilo)
+        text_buffer.set_highlight_syntax(True)
+        text = gtksourceview2.View(text_buffer)
+        text.set_show_line_numbers(True)
+        text.set_tab_width(4)
+        text.set_auto_indent(True)
+        #~ text.set_smart_home_end(True) #sirve para que fin sea findelinea
+
+        text.set_insert_spaces_instead_of_tabs(True)
+        #~ text.set_show_right_margin(True)
+        #~ text.set_right_margin_position(80)
+        text.set_smart_home_end(True)
+        text.modify_font(font_desc)
+        box.add(text)
+        text.show_all()
+        #~ text.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FCF2E4"))
+
+        return text
+
+    def cambiar_lenguaje_source(self,sourceview,languaje):
+        """Cambia el lenguaje de un gtksourceview."""
+        lang_manager = gtksourceview2.LanguageManager()
+        lang_latex = lang_manager.get_language(languaje)
+        sourceview.get_buffer().set_language(lang_latex)
+
+    def lista_ordenada_lenguajes(self):
+        """genera una lista ordenada de lenguajes de gtksourceview."""
+        lang_manager = gtksourceview2.LanguageManager()
+        listalenguaje = lang_manager.get_language_ids()
+        listalenguaje.sort()
+        return listalenguaje
+
+class ListView:
 ################# LISTAS #######################################################
     def __init__(self):
         self.datos="" #obtener los datos que estan actualmente en la lista
-        self.listaColumnas=""
+        self.listaColumnas=""#la lista de las columnas
         self.cellrender=""
 
     def crearLista(self,treeview, listaColumnas,CellRender=gtk.CellRendererText()):
@@ -36,7 +78,7 @@ class GtkTips:
         for basura in viejas_columnas :###crear columnas
             treeview.remove_column(basura)
         self.listaColumnas=listaColumnas
-        liststore = self.crearListview(listaColumnas)
+        liststore = self.crear_liststore(listaColumnas)
         treeview.set_model(liststore)
         i = 0
         for columna in listaColumnas :###crear columnas
@@ -51,7 +93,7 @@ class GtkTips:
         #returns
         return liststore
 
-    def crearListview(self,numColumnas):#dependencia del anterior
+    def crear_liststore(self,numColumnas):#dependencia del anterior
         """A partir de una lista de columnas crea el liststore."""
         __temp = []
         for elemento in numColumnas:
@@ -71,6 +113,8 @@ class GtkTips:
             lista.append(row)
         return lista
 
+class ListViewTF:
+    """Lo mismo que ListView pero con True o false"""
     def crearListaTF(self,treeview, listaColumnas):
         """Recibe un treview y crea un listore con las columnas de la tabla."""
         from herramientas import whois
@@ -156,7 +200,28 @@ class GtkTips:
         print fontnew
         self.cellrender.set_property('font-desc', fontnew)
         pass
-################ Combobox ####################################
+
+class TreeView:
+    def crearArbol(self,caja,title):
+        arbol = gtk.TreeStore(str)
+        caja.set_model(arbol)
+        column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
+        column.set_resizable(True)
+        #column.set_sort_column_id(self.ct)
+        caja.append_column(column)
+        return caja, arbol
+
+    def insertarEnArbol(self,listaparainsertar,arbol):
+        arbol.clear()
+        dicdenodos = {}
+        for elemento in listaparainsertar:
+            if not dicdenodos.has_key(elemento[0]):
+                dicdenodos[elemento[0]] = arbol.append(None,[elemento[0]])
+            arbol.append(dicdenodos[elemento[0]],[elemento[1]])
+        print len(listaparainsertar)
+
+class Combobox:
+    ################ Combobox ####################################
     def setCombobox (self,cb, items):
         """Setup a ComboBox or ComboBoxEntry based on a list of strings."""
         """Written by Thomas Hinkle(thanks for all)."""
@@ -180,7 +245,8 @@ class GtkTips:
             return None
         return self.model[self.activo][0]
 
-################ Label ####################################
+class Label:
+    ################ Label ####################################
     def listtolabel(self, lista, label):
         """Recibe una lista y un label
         y devuelve el label con los valores de la lista
@@ -191,47 +257,7 @@ class GtkTips:
         #print temp
         label.set_label(temp.upper())
 
-##############GtkSourceView#################################
-    def crear_source_text_box(self,box,nombre_style,path_style):
-        import pango
-        font_desc = pango.FontDescription("Monospace 9")
-        style=gtksourceview2.StyleSchemeManager()
-        style.append_search_path(path_style)
-        myestilo = style.get_scheme(nombre_style)
-        text_buffer = gtksourceview2.Buffer()
-        text_buffer.set_style_scheme(myestilo)
-        text_buffer.set_highlight_syntax(True)
-        text = gtksourceview2.View(text_buffer)
-        text.set_show_line_numbers(True)
-        text.set_tab_width(4)
-        text.set_auto_indent(True)
-        #~ text.set_smart_home_end(True) #sirve para que fin sea findelinea
-
-        text.set_insert_spaces_instead_of_tabs(True)
-        #~ text.set_show_right_margin(True)
-        #~ text.set_right_margin_position(80)
-        text.set_smart_home_end(True)
-        text.modify_font(font_desc)
-        box.add(text)
-        text.show_all()
-        #~ text.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FCF2E4"))
-
-        return text
-
-    def cambiar_lenguaje_source(self,sourceview,languaje):
-        """Cambia el lenguaje de un gtksourceview."""
-        lang_manager = gtksourceview2.LanguageManager()
-        lang_latex = lang_manager.get_language(languaje)
-        sourceview.get_buffer().set_language(lang_latex)
-
-    def lista_ordenada_lenguajes(self):
-        """genera una lista ordenada de lenguajes de gtksourceview."""
-        lang_manager = gtksourceview2.LanguageManager()
-        listalenguaje = lang_manager.get_language_ids()
-        listalenguaje.sort()
-        return listalenguaje
-
-###############################entry##################################
+class Entry:
     def change_color_entry(self,entry,lista):
         """Permite cambiar el color si no hay resultados."""
         if len(lista) == 0 :
@@ -241,9 +267,6 @@ class GtkTips:
             entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FFFFFF"))
             entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("#000000"))
 
-
-
-#####################Date##########################################
 class DateChoose():
     """Permite generar un dialog para elegir un dia."""
     def __init__(self):
@@ -290,14 +313,5 @@ class DateChoose():
 
     def getDia(self):
         return self.__dia
-#################################other#########################################
-class Multiplataforma():
 
-    def convertpath(self,path):
-        """Convierte el path a el específico de la plataforma (separador)"""
-        import os
-        if os.name == 'posix':
-            return "/"+apply( os.path.join, tuple(path.split('/')))
-        elif os.name == 'nt':
-            return apply( os.path.join, tuple(path.split('/')))
 
