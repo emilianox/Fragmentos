@@ -28,7 +28,8 @@ class SnippetManager:
     
     def __init__(self):
         self.BU = BdUtils()
-        self.__pathBDInUse = self.BU.getPathDatabasesDir()+'SourceCode.db'#MOMENTANEOOOOOOOOOOOOOOOOOOO!!!
+        #MOMENTANEOOOOOOOOOOOOOOOOOOO!!!
+        self.__pathBDInUse = self.BU.getPathDatabasesDir()+'SourceCode.db'
         self.BD = BD(self.__pathBDInUse)
 
 ##########################

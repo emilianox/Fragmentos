@@ -21,9 +21,7 @@
 
 import gtk, os
 from sys import argv, exit
-from gui import GUI
-from snippetmanager import SnippetManager
-from gtktips import SourceView
+import snippetmanager,gtktips,gui
 
 ###
 #Bienvenidos a las turbulentas aguas de entender a un "desarrollador"
@@ -34,8 +32,8 @@ from gtktips import SourceView
 class VentanaPrincipal:
     """Genera una ventana principal"""
     def __init__(self):
-        SM = SnippetManager()
-        self.GUI = GUI()
+        self.SM = snippetmanager.SnippetManager()
+        self.GUI = gui.GUI()
     #Imports
         #~ from  import
         #~ import
@@ -43,14 +41,10 @@ class VentanaPrincipal:
         nombreglade = "fragPP.gui"
         nombreventana = "wPrincipal"
         tituloventana = "Fragmentos"
-        xml_estilo = SM.convertPath(SM.getPathProgramFolder()+'style\\blue_dream.xml')
-    #Donde estoy
-        #self.mp = Multiplataforma()
-        #self.program_folder = self.mp.convertpath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        #self.data_folder = self.mp.convertpath(os.path.dirname(self.program_folder[:-1])+'/databases/')
+        xml_estilo = self.SM.convertPath(self.SM.getPathProgramFolder()+'style\\blue_dream.xml')    
     #importar glade
         self.builder = gtk.Builder()
-        self.builder.add_from_file(SM.getPathProgramFolder()+ nombreglade)
+        self.builder.add_from_file(self.SM.getPathProgramFolder()+ nombreglade)
     #objetos basicos
         self.window = self.builder.get_object(nombreventana)
         #self.window.set_icon_from_file(self.program_folder+"*****")
@@ -61,19 +55,15 @@ class VentanaPrincipal:
     #variables de Clase
         self.soy_una_variable = ''
     #Llamadas extras
-    #~ self.***** = self.builder.get_object("******")
         self.vbOtros = self.builder.get_object("vbOtros")
         self.mPrincipal = self.builder.get_object("mPrincipal")
     #tree list
         self.caja_lenguajes = self.builder.get_object("tvLenguajes")
         self.caja_lenguajes,self.tree_lenguajes = self.GUI.crearArbol(self.caja_lenguajes,'Lenguajes')
-#BDbeta
-        #from bd import BD
-        #self.BD = BD(self.data_folder+'SourceCode.db')
         self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes)
 #Sourcecode
         
-        self.source_view = SourceView()
+        self.source_view = gtktips.SourceView()
         scroll = self.builder.get_object("contenedor")
         nstyle,pstyle = 'blue_dream',xml_estilo
         self.txtCodigo = self.source_view.crear_source_text_box(scroll,nstyle,pstyle)
@@ -85,7 +75,7 @@ class VentanaPrincipal:
         self.cbBD = self.builder.get_object('cbBD')
         self.GUI.cargarBDsEnCombo(self.cbBD)
 #Info al iniciar
-        print "full path =", SM.getPathProgramFolder()
+        print "full path =", self.SM.getPathProgramFolder()
 ############
 ## Metods ##
 ############
@@ -157,11 +147,10 @@ class VentanaPrincipal:
         if not (rownodo is None):
             valor_nodo = model.get_value(rownodo,0)
             valor_hijo = model.get_value(row,0)
-            print 'se clickeo ',valor_nodo+' - '+valor_hijo
             Snippet = self.GUI.obtenerSnippet(valor_nodo,valor_hijo)
-            #~ print lista
             self.source_view.cambiar_lenguaje_source(self.txtCodigo,valor_nodo.lower())
             self.txtCodigo.get_buffer().set_text(Snippet.getCodigo())
+            #TODO: hacer funcion que contemple la similaridad de lenguajes
             #~ equivalentes={'basic':'vbnet','c#':'c-sharp'}
 
         #~ print '\n',model.iter_n_children(rows)#devuelve cantidad de hijos
@@ -224,6 +213,5 @@ class VentanaPrincipal:
 #######################################################
 if __name__ == '__main__':
     ventana= VentanaPrincipal()
-    print 'mike'
     gtk.main()
     exit(0)
