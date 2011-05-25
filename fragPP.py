@@ -41,7 +41,7 @@ class VentanaPrincipal:
         nombreglade = "fragPP.gui"
         nombreventana = "wPrincipal"
         tituloventana = "Fragmentos"
-        xml_estilo = self.SM.convertPath(self.SM.getPathProgramFolder()+'style\\blue_dream.xml')    
+        xml_estilo = self.SM.convertPath(self.SM.getPathProgramFolder()+'style/blue_dream.xml')
     #importar glade
         self.builder = gtk.Builder()
         self.builder.add_from_file(self.SM.getPathProgramFolder()+ nombreglade)
@@ -62,7 +62,7 @@ class VentanaPrincipal:
         self.caja_lenguajes,self.tree_lenguajes = self.GUI.crearArbol(self.caja_lenguajes,'Lenguajes')
         self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes)
 #Sourcecode
-        
+
         self.source_view = gtktips.SourceView()
         scroll = self.builder.get_object("contenedor")
         nstyle,pstyle = 'blue_dream',xml_estilo
