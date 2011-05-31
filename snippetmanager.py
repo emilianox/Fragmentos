@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#       
+#
 #       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 2 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -25,7 +25,7 @@ from snippet import Snippet
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase GUI'''
-    
+
     def __init__(self):
         self.BU = BdUtils()
         #MOMENTANEOOOOOOOOOOOOOOOOOOO!!!
@@ -40,7 +40,7 @@ class SnippetManager:
 
     def modificarSnippet(self):
         pass
-    
+
     def eliminarSnippet(self):
         pass
 
@@ -57,30 +57,50 @@ class SnippetManager:
     def getAllSnippetsFromBD(self):
         ''' Obtiene los snippets desde la bd.'''
         return self.BD.getAllSnippets()
-    
-    def getLengsAndTitlesFromBD(self):
+
+    def getLengsAndTitlesFromBD(self,consulta=None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
-        return self.BD.getLengAndTitles()
-        
+        #sin args devuelve la lista completa si no devuleve filtrado
+        if consulta != None:
+            from busqueda import Busqueda
+            b = Busqueda()
+            sql =  b.generarConsulta(consulta)
+            #~ print sql
+        else:
+            sql = None
+        return self.BD.getLengAndTitles(sql)
+
     def getPathProgramFolder(self):
         ''' Obtiene la ruta de la carpeta del programa. '''
         import os
         from sys import argv
         program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
         return program_folder
-        
+
     def getSnippetFromBD(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         from snippet import Snippet
         miSnippet = Snippet(self.BD.getSnippet(lenguaje,titulo))
         return miSnippet
 
+    def buscarSnippets (self, argumentos) :
+        """ recibe un argumento y devuelve una consulta en sql """
+        #controlo que no tenga =
+            #si hay = busco por titulo
+
+        #sino controlo que no haya ,
+            #si hay , divido y hago busqueda avanzada
+            #si no hay hago busqueda avanzada
+
+        # returns
+        pass
+
 #################
 ## Metodos Set ##
 #################
     def setPathBDInUse(self,path):
         self.__pathBDInUse = path
-        
+
 ######################
 ## Metodos Privados ##
 ######################

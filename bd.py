@@ -47,9 +47,12 @@ class BD:
         resultado = self.realizarConsulta('SELECT language FROM snippet ORDER BY language')
         return resultado
 
-    def getLengAndTitles(self):
+    def getLengAndTitles(self,consulta=None):
         ''' Obtiene los snippets por lenguajes de la actual BD.'''
-        resultado = self.realizarConsulta('SELECT language,title FROM snippet ORDER BY language,title')
+        if not consulta:
+            resultado = self.realizarConsulta('SELECT language,title FROM snippet ORDER BY language,title')
+        else:
+            resultado = self.realizarConsulta(consulta)
         return self.__convertirALista(resultado)
 
     def getAllSnippets(self):
@@ -65,7 +68,7 @@ class BD:
     def realizarConsulta(self,consulta):
         ''' Realiza una consulta a la base de datos. '''
         #TODO:evitar los self
-        #~ print consulta            
+        #~ print consulta
         cursor_temp = self.__cursor.execute(consulta)
         lista = []
         for fila in cursor_temp:

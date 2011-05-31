@@ -57,10 +57,11 @@ class VentanaPrincipal:
     #Llamadas extras
         self.vbOtros = self.builder.get_object("vbOtros")
         self.mPrincipal = self.builder.get_object("mPrincipal")
+
     #tree list
         self.caja_lenguajes = self.builder.get_object("tvLenguajes")
         self.caja_lenguajes,self.tree_lenguajes = self.GUI.crearArbol(self.caja_lenguajes,'Lenguajes')
-        self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes)
+        self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes,self.SM.getLengsAndTitlesFromBD())
 #Sourcecode
 
         self.source_view = gtktips.SourceView()
@@ -71,10 +72,13 @@ class VentanaPrincipal:
 #detalles
         self.eBusqueda = self.builder.get_object("eBusqueda")
         self.eBusqueda.grab_focus()
+        self.imgStar = [self.builder.get_object("imgStar"),True]
+        self.imgStar[0].set_from_file(self.SM.getPathProgramFolder()+'/art/star-empty.png')
 #cargar bds en combo
         self.cbBD = self.builder.get_object('cbBD')
         self.GUI.cargarBDsEnCombo(self.cbBD)
 #Info al iniciar
+
         print "full path =", self.SM.getPathProgramFolder()
 ############
 ## Metods ##
@@ -83,47 +87,12 @@ class VentanaPrincipal:
         """XXXXXXXXX"""
         pass
 
-#    def crearArbol(self,caja,title):
-#        tree_lenguajes = gtk.TreeStore(str)
-#        caja.set_model(tree_lenguajes)
-#        column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
-#        column.set_resizable(True)
-#        #column.set_sort_column_id(self.ct)
-#        caja.append_column(column)
-#        return caja, tree_lenguajes
-
-#    def insertarEnArbol(self,listaparainsertar,tree_lenguajes):
-#        tree_lenguajes.clear()
-#        dicdeleng = {}
-#        for snippet in listaparainsertar:
-#            if not dicdeleng.has_key(snippet[0]):
-#                dicdeleng[snippet[0]] = tree_lenguajes.append(None,[snippet[0]])
-#            tree_lenguajes.append(dicdeleng[snippet[0]],[snippet[1]])
-#        print len(listaparainsertar)
-
-    def busqueda_inteligente(self,busqueda):
+    def busqueda_inteligente(self,cadena):
         """Permite la busqueda por keys"""
+        datos = self.SM.getLengsAndTitlesFromBD(cadena)
+        self.GUI.cargarSnippetsEnArbol(self.tree_lenguajes,datos)
         #Magic. Do not touch
-        if busqueda.find('=') == -1:
-            #caso en que solo eschibas titulo(o sea nada)
-            #TODO:metodo que me devuelva lengujes, dado un titulo
-            #~ self.insertarEnArbol(*metodovolador*,self.self.tree_lenguajes)
-            pass
-        else:
-            if busqueda.find(',') == -1:
-            #caso en que escribas un solo campo para buscar ej: t=hola
-            #TODO :self.BD.contructor_consulta #mira abajo
-                #~ self.insertarEnArbol(self.BD.contructor_consulta([busqueda]),
-                                        #~ self.tree_lenguajes)
-                pass
-            else:
-                pass
-            #caso en que tengas todo ej: t=hola,l=python
-            #TODO:self.BD.contructor_consulta #mira abajo
-                #~ self.insertarEnArbol(self.BD.contructor_consulta([busqueda.split(',')]),
-                                    #~ self.tree_lenguajes)
 
-        #~ self.lbInfo.set_text(str(len(self.ramsnippets))+" snippets encontrados.")
 
     def alPortapapeles(self):
         """Envia el contenido de el codigo al portapapeles"""
@@ -141,6 +110,14 @@ class VentanaPrincipal:
 ############
 ## Events ##
 ############
+    def on_btStar_clicked(self,widget):
+        if self.imgStar[1]:
+            self.imgStar[0].set_from_file(self.SM.getPathProgramFolder()+'/art/star-full.png')
+            self.imgStar[1] = False
+        else:
+            self.imgStar[0].set_from_file(self.SM.getPathProgramFolder()+'/art/star-empty.png')
+            self.imgStar[1] = True
+
     def on_tvLenguajes_cursor_changed(self,widget):
         model,row = widget.get_selection().get_selected()
         rownodo = model.iter_parent(row)
@@ -192,11 +169,13 @@ class VentanaPrincipal:
         pos = widget.get_position()
         cadena = textoAnterior[:pos]+ingresado+textoAnterior[pos:]
         #TODO
+        self.busqueda_inteligente(cadena)
         pass
 
     def on_eBusqueda_delete_text(self,widget,numAhora,numAntes):
         textoAnterior = widget.get_text()
         cadena = textoAnterior[:numAhora] + textoAnterior[numAntes:]
+        self.busqueda_inteligente(cadena)
         #TODO
         pass
 
