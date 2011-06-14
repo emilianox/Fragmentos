@@ -1,2 +1,2 @@
 #!/bin/bash
-python fragPP.py
+python MAIN.py

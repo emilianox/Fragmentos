@@ -1,43 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
+#       
 #       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#
+#       
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 2 of the License, or
 #       (at your option) any later version.
-#
+#       
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#
+#       
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import gtktips
-import gtk
+class Configurations:
 
-class GUI:
-
-    def __init__(self,snippet_manager):        
-        self.SM = snippet_manager
-        #~ self.GtkTips = gtktips.()
-
-    #~ def crearArbol(self,caja,title):
-        #~ tree_lenguajes = gtk.TreeStore(str)
-        #~ caja.set_model(tree_lenguajes)
-        #~ column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
-        #~ column.set_resizable(True)
-        #~ #column.set_sort_column_id(self.ct)
-        #~ caja.append_column(column)
-        #~ return caja, tree_lenguajes
-
-
-
-
-
-
+    def __init__(self):
+        pass
+        
+    def getBDsInCfgReferences(self):
+        ''' Obtiene los path's de las bases de datos ubicadas en el directorio databases.'''
+        pass

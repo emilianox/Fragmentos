@@ -19,24 +19,36 @@
 #       MA 02110-1301, USA.
 
 from bd import BD
-from bdutils import BdUtils
+from utils import Utils
 from snippet import Snippet
 
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase GUI'''
 
-    def __init__(self):
-        self.BU = BdUtils()
-        #MOMENTANEOOOOOOOOOOOOOOOOOOO!!!
-        self.__pathBDInUse = self.BU.getPathDatabasesDir()+'SourceCode.db'
-        self.BD = BD(self.__pathBDInUse)
+    def __init__(self,pathBD):
+        self.BD = BD(pathBD)
+        self.Utils = Utils()
+        self.pathsBDS = []
+        
 
 ##########################
 ## Metodos de instancia ##
 ##########################
-    def agregarSnippet(self):
-        pass
+
+    def agregarSnippet(self,titulo,tags,lenguaje,contenido,fecha,detalles,referencias):
+        ''' Recibe los datos desde los widgets de la GUI, 
+        y carga los datos en una lista para agregarlos a la BD.'''
+        datosSnippet = []
+        datosSnippet.append(titulo)
+        datosSnippet.append(tags)
+        datosSnippet.append(lenguaje)
+        datosSnippet.append(contenido)
+        datosSnippet.append(detalles)
+        datosSnippet.append(fecha)        
+        datosSnippet.append(referencias)
+        self.BD.agregarSnippet(datosSnippet)
+        
 
     def modificarSnippet(self):
         pass
@@ -52,7 +64,8 @@ class SnippetManager:
         return self.BD.getLenguajes()
 
     def getBDNames(self):
-        return self.BU.getBDsNames()
+        #TODO: agregar la implementacion de esto
+        pass 
 
     def getAllSnippetsFromBD(self):
         ''' Obtiene los snippets desde la bd.'''
@@ -62,26 +75,30 @@ class SnippetManager:
         ''' Obtiene los snippets por lenguajes desde la bd.'''
         #sin args devuelve la lista completa si no devuleve filtrado
         if consulta != None:
-            from busqueda import Busqueda
-            b = Busqueda()
+            from bd import busqueda
+            b = busqueda.Busqueda()
             sql =  b.generarConsulta(consulta)
             #~ print sql
         else:
             sql = None
         return self.BD.getLengAndTitles(sql)
-
-    def getPathProgramFolder(self):
-        ''' Obtiene la ruta de la carpeta del programa. '''
-        import os
-        from sys import argv
-        program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        return program_folder
+    
+    def getPathsBDs(indice = None):
+        ''' Devuleve la/s ruta/s de las bds cargadas en self.pathsBDS'''
+        if indice is None:
+            pass 
+        else:
+            pass
 
     def getSnippetFromBD(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         from snippet import Snippet
         miSnippet = Snippet(self.BD.getSnippet(lenguaje,titulo))
         return miSnippet
+        
+    def getSnippetsCountFromBD(self):
+        ''' Devuelve un entero con la cantidad de snippets cargados en la BD.'''
+        return self.BD.getSnippetsCount()
 
     def buscarSnippets (self, argumentos) :
         """ recibe un argumento y devuelve una consulta en sql """
@@ -98,9 +115,12 @@ class SnippetManager:
 #################
 ## Metodos Set ##
 #################
-    def setPathBDInUse(self,path):
-        self.__pathBDInUse = path
 
+    def setPathsBDs():
+        ''' Carga en una lista, las rutas de las bds existentes en el dir 
+        databases y el cfg '''
+        pass
+        
 ######################
 ## Metodos Privados ##
 ######################

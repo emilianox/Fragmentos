@@ -18,8 +18,26 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import snippetmanager, gui, utils, gtk
+from gui import mainform 
 class Main:
-	
-	def __init__(sefl):
-		''' '''
-		pass 
+
+    def __init__(self):
+        ''' '''
+        mainUtils = utils.Utils()
+        print 'instancia de UTILS generada...'
+        pathbd_volador = mainUtils.getPathDatabasesDir()+'SourceCode.db'
+        mainSM = snippetmanager.SnippetManager(pathbd_volador)
+        print 'instancia de SM generada...'
+        mainGUI = gui.GUI(mainSM)
+        print 'instancia de GUI generada...'
+        mainFORM = mainform.MainForm(mainGUI)
+        print 'instancia de MAINFORM generada...'
+
+
+if __name__ == '__main__':
+    Main()
+    gtk.main()
+    exit(0)
+
+        

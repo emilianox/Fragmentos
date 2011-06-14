@@ -19,8 +19,6 @@
 #       MA 02110-1301, USA.
 
 class Members:
-
-    class Consts:
         ''' Clase que contiene todos los miembros constantes 
         usados en el programa. '''
         
@@ -41,9 +39,4 @@ class Members:
                                    [reference] TEXT  NULL,
                                    PRIMARY KEY ([title],[language]))'''
 		#Extenciones soportadas para las bases de datos
-        DB_EXTENCIONS = '*.db'
-
-
-    class Vars:
-        
-        pathBD = ''
+        DB_EXTENCIONS = '.db'
