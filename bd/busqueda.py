@@ -1,5 +1,20 @@
 class Busqueda :
     '''(NULL)'''
+    
+    def __init__(self):
+		self.diccampos = {
+        't=' : 'title',
+        'l=':'language', 
+        'g=':'tags', 
+        'c=':'contents',
+        'd=':'description',
+        'r=':'references',
+        'n=':'creation',
+        'm=':'modified',
+        'u=':'uploader', 
+        's=':'starred'
+        }
+        
     def generarConsulta (self, labusqueda) :
         """ recibe la busqueda completa y genera un sql para realizar la busqueda """
         listadecriterios = self.__separarPorCampos(labusqueda)
@@ -28,24 +43,20 @@ class Busqueda :
         """ devuelve el sql del campo simple buscado """
         #esto es para __generarSQL
         #preconsulta = 'SELECT language,title FROM snippet ORDER BY language,title where '
-        #~ print 'generando consulta simple... ',campo
-
-        diccampos = {'t=' : 'title', 'l=':'language', 'g=':'tags', 'c=':'contents',
-        'd=':'description','r=':'references','n=':'creation','m=':'modified',
-        'u=':'uploader', 's=': 'starred'}
+        #~ print 'generando consulta simple... ',campo       
 
         #~ campo = 'g=agua'
         if campo[:2] == 'g=':#%,atr,%-%,atr-atr,%-atr
-            sql = "((" + diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
-            " or (" + diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
-            " or (" + diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
-            " or (" + diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
+            sql = "((" + self.self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
+            " or (" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
+            " or (" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
+            " or (" + self.diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
         elif campo[:2] == 'l=':#atr%
-            sql = "(" + diccampos[campo[:2]] + " LIKE '"+campo[2:]+"%')"
+            sql = "(" + self.diccampos[campo[:2]] + " LIKE '"+campo[2:]+"%')"
         elif campo[:2] == 's=':#atr
-            sql = "(" + diccampos[campo[:2]] + " LIKE '"+campo[2:]+"')"
-        elif diccampos.has_key(campo[:2]):#%atr%
-            sql = "(" + diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
+            sql = "(" + self.diccampos[campo[:2]] + " LIKE '"+campo[2:]+"')"
+        elif self.diccampos.has_key(campo[:2]):#%atr%
+            sql = "(" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
         else:#no deberia pasar
             sql = False
 

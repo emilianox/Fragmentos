@@ -5,11 +5,11 @@
 
 #~ from snippetmanager import SnippetManager
 #~ from datetime import *
-#~ 
+#~
 #~ agregar = SnippetManager()
 #~ raw_input()
 #~ print 'instancia de sm iniciada... '
-#~ 
+#~
 #~ agregar.agregarSnippet('probando agregar algo',
                         #~ 'probando',
                         #~ 'mike',
@@ -18,8 +18,9 @@
                         #~ '','')
 #~ print 'se inserto el snippet.... '
 
-from utils import Utils 
+from utils import Utils
+from snippetmanager import SnippetManager
 
-hola = Utils()
+hola = SnippetManager()
 rutas = hola.getBDsInDatabasesDir()
 print rutas

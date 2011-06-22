@@ -34,7 +34,7 @@ class BD:
         print 'Una instancia de BD fue creada con exito...',rutaBD
         #~ except sqlite3.OperationalError, msj:
             #~ print msj
-        
+
 
 ###############
 # METODOS BD  #
@@ -60,14 +60,18 @@ class BD:
 
     def getAllSnippets(self):
         ''' Obtiene todos los snippets de la base de datos. '''
-        resultado = self.realizarConsulta('SELECT language FROM snippet ORDER BY language')
+        resultado = self.realizarConsulta('''SELECT title,language,tags,contens,
+                                                    description,reference,creation,
+                                                    modified,uploader,starred
+                                            FROM snippet
+                                            ORDER BY language,title''')
         return self.__convertirALista(resultado)
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
-        return self.__convertirALista(resultado)
-        
+        return self.__convertirASnippet(resultado)
+
     def getSnippetsCount(self):
         ''' Obtiene la cantidad de snippets cargados en la actual bd. '''
         cantidad = self.realizarConsulta('SELECT count(*) FROM snippet')
@@ -94,6 +98,7 @@ class BD:
         # TODO: agregar los try-catch para contemplar:
         # º snippet repetido
         # º error al agregar un snippet
+        #TODO: implementar un diccionario para q sea dinamica la agregacion
 
         listaDatos = map(unicode,datosSnippet)
         try:
@@ -108,7 +113,7 @@ class BD:
     def editarSnippet(self,datosSnippetIn,datosSnippetOut):
         ''' Lleva a cabo la edicion del SnippetIn en base al SnippetOut'''
         pass
-        
+
     def eliminarSnippet(self,datosSnippet):
         ''' Elimina un Snippet de la bd.'''
         pass
@@ -123,5 +128,24 @@ class BD:
         for fila in datos:
             lista.append(fila)
         return lista
+
+    def __convertirASnippet(self,datos):
+        ''' Obtiene los datos de un snippet desde la BD, y los
+        carga en un diccionario, para luego convertirse en una
+        instancia de Snippet. '''
+
+        snippet = {
+        'title':datos[0][0],
+        'language':datos[0][1],
+        'contens':datos[0][2],
+        'tags':datos[0][3],
+        'description':datos[0][4],
+        'creation':datos[0][5],
+        'starred':datos[0][6],
+        'reference':datos[0][7],
+        'modified':datos[0][8],
+        'uploader':datos[0][9]
+        }
+        return snippet
 
 

@@ -30,14 +30,14 @@ class SnippetManager:
         self.BD = BD(pathBD)
         self.Utils = Utils()
         self.pathsBDS = []
-        
+        self.todos_los_snippets = {}
 
 ##########################
 ## Metodos de instancia ##
 ##########################
 
     def agregarSnippet(self,titulo,tags,lenguaje,contenido,fecha,detalles,referencias):
-        ''' Recibe los datos desde los widgets de la GUI, 
+        ''' Recibe los datos desde los widgets de la GUI,
         y carga los datos en una lista para agregarlos a la BD.'''
         datosSnippet = []
         datosSnippet.append(titulo)
@@ -45,10 +45,10 @@ class SnippetManager:
         datosSnippet.append(lenguaje)
         datosSnippet.append(contenido)
         datosSnippet.append(detalles)
-        datosSnippet.append(fecha)        
+        datosSnippet.append(fecha)
         datosSnippet.append(referencias)
         self.BD.agregarSnippet(datosSnippet)
-        
+
 
     def modificarSnippet(self):
         pass
@@ -65,11 +65,33 @@ class SnippetManager:
 
     def getBDNames(self):
         #TODO: agregar la implementacion de esto
-        pass 
+        pass
 
     def getAllSnippetsFromBD(self):
-        ''' Obtiene los snippets desde la bd.'''
-        return self.BD.getAllSnippets()
+        ''' Obtiene los snippets desde la bd y carga en un diccionario
+        los snippets en formato objeto Snippet().'''
+        clave = ()
+        #orden en que vienen los campos
+        #1-title,2-language,3-tags,4-comments,5-description
+        #6-references,7-creation,8-modified,9-uploader,10-starred
+        all_snippets = self.BD.getAllSnippets()
+        #itera convirtiendo el resultado de la bd, en una
+        #coleccion de instancias de Snippet()
+        #~ snippet = None
+        for actual in all_snippets:
+            #obtengo la clave del snippet
+            clave = (actual[1],actual[0])#snippet[0] = title, snippet[1] = language
+            #se crea una instancia de snippet con los datos actuales
+            snippet = Snippet({'title':actual[0],'language':actual[1],
+            'tags':actual[2],'contens':actual[3],'description':actual[4],
+            'reference':actual[5],'creation':actual[6],'modified':actual[7],
+            'uploader':actual[8],'starred':actual[9]})
+            #diccionario auxiliar
+            elemento_diccionario = {clave:snippet}
+            #carga este snippet en el diccionario
+            self.todos_los_snippets.update(elemento_diccionario)
+
+        return self.todos_los_snippets
 
     def getLengsAndTitlesFromBD(self,consulta=None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
@@ -82,11 +104,11 @@ class SnippetManager:
         else:
             sql = None
         return self.BD.getLengAndTitles(sql)
-    
+
     def getPathsBDs(indice = None):
         ''' Devuleve la/s ruta/s de las bds cargadas en self.pathsBDS'''
         if indice is None:
-            pass 
+            pass
         else:
             pass
 
@@ -95,7 +117,7 @@ class SnippetManager:
         from snippet import Snippet
         miSnippet = Snippet(self.BD.getSnippet(lenguaje,titulo))
         return miSnippet
-        
+
     def getSnippetsCountFromBD(self):
         ''' Devuelve un entero con la cantidad de snippets cargados en la BD.'''
         return self.BD.getSnippetsCount()
@@ -117,10 +139,10 @@ class SnippetManager:
 #################
 
     def setPathsBDs():
-        ''' Carga en una lista, las rutas de las bds existentes en el dir 
+        ''' Carga en una lista, las rutas de las bds existentes en el dir
         databases y el cfg '''
         pass
-        
+
 ######################
 ## Metodos Privados ##
 ######################
@@ -131,3 +153,8 @@ class SnippetManager:
             return "/"+apply( os.path.join, tuple(path.split('/')))
         elif os.name == 'nt':
             return apply( os.path.join, tuple(path.split('/')))
+
+#~ U = Utils()
+#~ pathbd_volador = U.getPathDatabasesDir()+'SourceCode.db'
+#~ f = SnippetManager(pathbd_volador)
+#~ print f.getSnippetFromBD('VB','Solo numeros')
