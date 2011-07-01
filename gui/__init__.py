@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
+#       sin título.py
+#
+#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -18,26 +20,27 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import gtktips
-import gtk
+#TODO: por ahoraaaaaaaaaaaa!!!!
+#~ from tips import *
+import fragPPQT
+from PyQt4 import QtGui
+import sys
+#~ from fragmentos import Fragmentos
 
-class GUI:
+class GUI():
+    def __init__(self,parent) :
+        self.fragmentos = parent
+        self.SM= parent.SM
 
-    def __init__(self,snippet_manager):        
-        self.SM = snippet_manager
-        #~ self.GtkTips = gtktips.()
+        app = QtGui.QApplication(sys.argv)
+        window=fragPPQT.Main(self)
+        window.show()
+        sys.exit(app.exec_())
 
-    #~ def crearArbol(self,caja,title):
-        #~ tree_lenguajes = gtk.TreeStore(str)
-        #~ caja.set_model(tree_lenguajes)
-        #~ column = gtk.TreeViewColumn(title, gtk.CellRendererText() , text=0)
-        #~ column.set_resizable(True)
-        #~ #column.set_sort_column_id(self.ct)
-        #~ caja.append_column(column)
-        #~ return caja, tree_lenguajes
+def main():
+    G = GUI()
 
 
-
-
-
+if __name__ == '__main__':
+    main()
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
+#       sin título.py
+#
+#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -18,26 +20,14 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import snippetmanager, gui, utils, gtk
-from gui import mainform
-class Main:
+class Tips :
+    def __init__(self) :
+        pass
 
-    def __init__(self):
-        ''' '''
-        mainUtils = utils.Utils()
-        print 'instancia de UTILS generada...'
-        pathbd_volador = mainUtils.getPathDatabasesDir()+'SourceCode.db'
-        mainSM = snippetmanager.SnippetManager(pathbd_volador)
-        print 'instancia de SM generada...'
-        mainGUI = gui.GUI(mainSM)
-        print 'instancia de GUI generada...'
-        mainFORM = mainform.MainForm(mainGUI)
-        print 'instancia de MAINFORM generada...'
+def main():
 
+    return 0
 
 if __name__ == '__main__':
-    Main()
-    gtk.main()
-    exit(0)
-
+    main()
 

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
+#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -18,20 +19,21 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import sqlite3
-import os
-#~ import members
+import sqlite3, os
+from busqueda import Busqueda
 #~
-class BD:
+class Database:
 
     def __init__(self,rutaBD):
         ''' Costructor de la clase. '''
+        #~ print 'my path es: ',rutaBD
         self.__pathBD = rutaBD
         #conecta a la base de datos
         self.__connection = sqlite3.connect(self.__pathBD)
         #activa el cursor
         self.__cursor = self.__connection.cursor()
-        print 'Una instancia de BD fue creada con exito...',rutaBD
+        print 'Una instancia de BD fue creada con exito...',#rutaBD
+        self.__Busqueda = Busqueda()
 
 ###############
 # METODOS BD  #
@@ -43,8 +45,7 @@ class BD:
 
     def getLenguajes(self):
         ''' Obtiene los lenguajes para la actual BD. '''
-
-        resultado = self.realizarConsulta('SELECT language FROM snippet ORDER BY language')
+        resultado = self.realizarConsulta('SELECT DISTINCT language FROM snippet ORDER BY language')
         return resultado
 
     def getLengAndTitles(self,consulta=None):
@@ -52,18 +53,28 @@ class BD:
         if not consulta:
             resultado = self.realizarConsulta('SELECT language,title FROM snippet ORDER BY language,title')
         else:
+            consulta = self.__Busqueda.generarConsulta(consulta)
             resultado = self.realizarConsulta(consulta)
         return self.__convertirALista(resultado)
 
     def getAllSnippets(self):
         ''' Obtiene todos los snippets de la base de datos. '''
-        resultado = self.realizarConsulta('SELECT language FROM snippet ORDER BY language')
+        resultado = self.realizarConsulta('''SELECT title,language,tags,contens,
+                                                    description,creation,reference,
+                                                    modified,uploader,starred
+                                            FROM snippet
+                                            ORDER BY language,title''')
         return self.__convertirALista(resultado)
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
-        return self.__convertirALista(resultado)
+        return self.__convertirASnippet(resultado)
+
+    def getSnippetsCount(self):
+        ''' Obtiene la cantidad de snippets cargados en la actual bd. '''
+        cantidad = self.realizarConsulta('SELECT count(*) FROM snippet')
+        return int(cantidad[0][0])
 
     def realizarConsulta(self,consulta):
         ''' Realiza una consulta a la base de datos. '''
@@ -86,20 +97,29 @@ class BD:
         # TODO: agregar los try-catch para contemplar:
         # º snippet repetido
         # º error al agregar un snippet
+        #TODO: implementar un diccionario para q sea dinamica la agregacion
 
         listaDatos = map(unicode,datosSnippet)
-        self.__cursor.execute('''INSERT INTO snippet (title,tags,language,comments,date,contens)
-                                 VALUES (?,?,?,?,?,?)''', datosSnippet)
-        self.__connection.commit()
+        try:
+            self.__cursor.execute('''INSERT INTO snippet (title,tags,language,contens,comments,date,reference)
+                                     VALUES (?,?,?,?,?,?,?)''', listaDatos)
+            self.__connection.commit()
+            return True
+        except sqlite3.OperationalException,msg:
+            print msg
+            return False
 
+    def eliminarSnippet(self,unSnippet):
+        ''' Elimina un Snippet de la bd.'''
 
-    def editarSnippet(self,datosSnippet):
-        ''' '''
-        pass
-
-    def modificarSnippet(self,datosSnippetIn,datosSnippetOut):
-        ''' '''
-        pass
+        sql = 'DELETE FROM snippet WHERE title = ' + unSnippet.getTitulo() +' AND language = ' + unSnippet.getLenguaje()
+        try:
+            connection = sqlite3.connect(self.getPathBD())
+            cursor = connection.cursor(sql)
+            cursor.execute()
+            connection.commit()
+        except sqlite3.OperationalException, msg:
+            print 'eliminarSnippet: ',msg
 
 ######################
 # METODOS AUXILIARES #
@@ -111,5 +131,24 @@ class BD:
         for fila in datos:
             lista.append(fila)
         return lista
+
+    def __convertirASnippet(self,datos):
+        ''' Obtiene los datos de un snippet desde la BD, y los
+        carga en un diccionario, para luego convertirse en una
+        instancia de Snippet. '''
+
+        snippet = {
+        'title':datos[0][0],
+        'language':datos[0][1],
+        'contens':datos[0][2],
+        'tags':datos[0][3],
+        'description':datos[0][4],
+        'creation':datos[0][5],
+        'starred':datos[0][6],
+        'reference':datos[0][7],
+        'modified':datos[0][8],
+        'uploader':datos[0][9]
+        }
+        return snippet
 
 

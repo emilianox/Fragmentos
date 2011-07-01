@@ -25,20 +25,21 @@ class Members:
         CFG_FILE = 'settings.cfg'
         DATABASES_DIR = 'databases'
         HISTORY_DIR = 'config'
-        HISTORY_FILE = 'history.db'
+        HISTORY_FILE = 'history.fht'
         TABLENAME_SNIPPET = 'snippet'
         CONFIG_DIR = 'config'
         SCRIPTSQL_BD_SNIPPET = ''' CREATE TABLE [snippet] (
-                                [title] TEXT  NOT NULL,
-                                [language] TEXT  NOT NULL,
-                                [contens] TEXT  NOT NULL,
-                                [tags] TEXT  NULL,
-                                [description] TEXT  NULL,
-                                [creation] TEXT  NOT NULL,
-                                [starred] TEXT  NULL,
-                                [reference] TEXT  NULL,
-                                [modified] TEXT  NULL,
-                                [uploader] TEXT  NULL,
-                                PRIMARY KEY ([title],[language]))'''
+                                    [title] TEXT  NOT NULL,
+                                    [language] TEXT  NOT NULL,
+                                    [contens] TEXT  NOT NULL,
+                                    [tags] TEXT  NULL,
+                                    [description] TEXT  NULL,
+                                    [creation] TEXT  NOT NULL,
+                                    [starred] TEXT  NULL,
+                                    [reference] TEXT  NULL,
+                                    [modified] TEXT  NULL,
+                                    [uploader] TEXT  NULL,
+                                    PRIMARY KEY ([title],[language])
+                                    );'''
         #Extenciones soportadas para las bases de datos
         DB_EXTENCIONS = '.db'

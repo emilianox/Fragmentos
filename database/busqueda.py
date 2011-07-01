@@ -1,12 +1,33 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
+#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
 class Busqueda :
     '''(NULL)'''
 
     def __init__(self):
         self.diccampos = {
-        't=':'title',
+        't=' : 'title',
         'l=':'language',
         'g=':'tags',
-        'c=':'contens',
+        'c=':'contents',
         'd=':'description',
         'r=':'references',
         'n=':'creation',
@@ -17,8 +38,12 @@ class Busqueda :
 
     def generarConsulta (self, labusqueda) :
         """ recibe la busqueda completa y genera un sql para realizar la busqueda """
-        listadecriterios = self.__separarPorCampos(labusqueda)
-        sql = self.__generarSQL(listadecriterios)
+        listadecriteriosseparados = self.__separarPorCampos(labusqueda)
+        if listadecriteriosseparados:
+            sql = self.__generarSQL(listadecriteriosseparados)
+            print 'hice una consulta: ',len(sql)
+        else :
+            sql = ' '
         return sql
 
     def __separarPorCampos (self, labusqueda) :
@@ -33,10 +58,19 @@ class Busqueda :
         else:
             if labusqueda.find(',') == -1:
                 #caso en que escribas un solo campo para buscar ej: t=hola
-                listadecriterios.append(labusqueda)
+                if len(labusqueda) > 2 :
+                    listadecriterios.append(labusqueda)
+                else:
+                    listadecriterios = False
             else:
             #caso en que tengas todo ej: t=hola,l=python
                 listadecriterios = labusqueda.split(',')
+                #~ print 'el num es: ',len(listadecriterios[-1])
+                #~ print 'nuevo antes:',listadecriterios[:-1]
+                if len(listadecriterios[-1]) < 3 :
+                    #~ listadecriterios = listadecriterios[:-1]
+                    listadecriterios = False
+
         return listadecriterios
 
     def __generarConsultaSimple (self, campo) :
@@ -58,12 +92,13 @@ class Busqueda :
         elif self.diccampos.has_key(campo[:2]):#%atr%
             sql = "(" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
         else:#no deberia pasar
+            print 'error: '
             sql = False
 
         return sql
 
     def __generarConsultaCompleja (self, campocomplejo) :
-        """ devuelve el sql del campo complejo buscado """
+        """ Devuelve el sql del campo complejo buscado """
         #~ print 'generando consulta compleja... ',campocomplejo
         #solo soportado para operadores del mismo tipo,
         #ej: aaa and bbb; cc or ddd or fff
@@ -81,11 +116,10 @@ class Busqueda :
 
     def __generarSQL (self, listadecampos) :
         """ recibe una lista de campos y genera un sql para realizar la busqueda """
-        print 'generando SQL...'
 
         consulta_sql = "SELECT language,title \nFROM snippet \nWHERE "
         for campo in listadecampos:
-                if (campo.find(' and ') == -1) and (campo.find('or') == -1):
+                if (campo.find(' and ') == -1) and (campo.find(' or ') == -1):
                     consulta_sql += self.__generarConsultaSimple(campo)
                 else:
                     consulta_sql += self.__generarConsultaCompleja(campo)

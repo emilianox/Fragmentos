@@ -18,14 +18,33 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLineEdit" name="eBusqueda"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btPrueba">
+       <widget class="QPushButton" name="pushButton_3">
         <property name="text">
-         <string>Prueba</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="fragmentos.qrc">
+          <normaloff>:/icons/star.png</normaloff>:/icons/star.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eBusqueda"/>
       </item>
      </layout>
     </item>
@@ -165,7 +184,16 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>eBusqueda</tabstop>
+  <tabstop>tvLenguajes</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_3</tabstop>
+ </tabstops>
+ <resources>
+  <include location="fragmentos.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton</sender>

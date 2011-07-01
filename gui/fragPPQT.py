@@ -4,74 +4,86 @@
 import os,sys
 # Importamos los módulos de Qt
 from PyQt4 import QtCore, QtGui, uic
-import snippetmanager,utils
+#Importo los iconos
+import fragmentos_rc
+
+
+
 class Main(QtGui.QMainWindow):
     """La ventana principal de la aplicación."""
-    def __init__(self):
+    def __init__(self,parent):
     #Boludeces de instancias
-        mainUtils = utils.Utils()
-        print 'instancia de UTILS generada...'
-        pathbd_volador = mainUtils.getPathDatabasesDir()+'SourceCode.db'
-        self.SM = snippetmanager.SnippetManager(pathbd_volador)
+        self.SM = parent.SM
     #Cargar archivo ui
         FILENAME = 'fragPP.ui'
-        QtGui.QMainWindow.__init__(self)
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
+        QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
     #Treeview agregado
-        self.mytreeview = TreeViewModel()
-        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitlesFromBD())
-        self.tvLenguajes.setModel(self.mytreeview.model)
+        self.mytreeview = TreeViewModel(self.tvLenguajes,self.on_tvLenguajes_selectedItem,self.connect)
+        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
     #Detalles de armado interfaz
       #Widget codigo
         self.widgetcodigo = TheCodeWidget()
         self.spPrincipal.addWidget(self.widgetcodigo.editor)
-      #Reordenamiento
-        self.spPrincipal.setSizes([50,900])#ni idea
-        print self.spPrincipal.sizes()#ni idea
+        #Reordenamiento  y expancion
+        self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
+        #colores x defecto
+        self.colordetextopordefecto = self.eBusqueda.palette().color(
+                                    QtGui.QPalette.Active, QtGui.QPalette.Text).getRgb()[:-1]
 
+############
+## Metods ##
+############
 
     def mostrar_snippet(self,lenguaje,titulo):
-        #hacerlo a lo bruto
-        #~ import codecs
-        #~ self.widgetcodigo.agregar_codigo('aaa', codecs.open("fragPPQT.py", "r", "utf-8" ).read())
-
-        snippet = self.SM.getSnippetFromBD(lenguaje,titulo)
-
+        snippet = self.SM.getSnippet(lenguaje,titulo)
         #~ tags,codigo = 1#con lo anterior busca en SM el codigo
         self.widgetcodigo.agregar_codigo(snippet.getLenguaje(),snippet.getCodigo())
 
-        #################
-        #~ import PyQt4.Qsci
-        #~ langs = [i for i in dir(PyQt4.Qsci) if i.startswith('QsciLexer')]
-        ##################
+    def __convertir_a_unicode(self,myQstring):
+        return str(myQstring.toUtf8())
 
 
-
-    @QtCore.pyqtSlot()
+############
+## Events ##
+############
     @QtCore.pyqtSlot()
     def on_btPrueba_clicked(self):
         print "hello!!"
         print self.eBusqueda.text()
 
     def on_eBusqueda_textChanged(self,cadena):
-        #~ print self.__convertir_a_unicode(cadena)
-        datos = self.SM.getLengsAndTitlesFromBD(str(self.__convertir_a_unicode(cadena)))
-        self.mytreeview.insertarEnArbol(datos)
+        #campo de pruebas en la busqueda
+        datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
+        palette = self.eBusqueda.palette()
 
-    def on_tvLenguajes_clicked(self,indice):
+        if datos != []:
+            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,
+                            QtGui.QColor(self.colordetextopordefecto[0],
+                                        self.colordetextopordefecto[1],
+                                        self.colordetextopordefecto[2],))
+            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,
+                            QtGui.QColor(255, 255, 255))
+
+            self.mytreeview.insertarEnArbol(datos)
+        else:
+            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,
+                            QtGui.QColor(255, 255, 255))
+            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,
+                            QtGui.QColor(255, 102, 102))
+
+        self.eBusqueda.setPalette(palette)
+
+        #TODO:color en la omnibox
+
+    def on_tvLenguajes_selectedItem(self,indice,b):
         #~ print indice.row()
         if indice.parent().row() != -1:
             lenguaje = self.__convertir_a_unicode(indice.parent().data().toString())
             titulo = self.__convertir_a_unicode(indice.data().toString())
 
             self.mostrar_snippet(lenguaje,titulo)
-
-
-    def __convertir_a_unicode(self,myQstring):
-        return str(myQstring.toUtf8())
-
-
 
 
 
@@ -89,7 +101,7 @@ class TheCodeWidget:
         font = QtGui.QFont()
         #~ font.setFamily("Default")
         #~ font.setFixedPitch(True)
-        #~ font.setPointSize(10)
+        font.setPointSize(10)
         # the font metrics here will help
         # building the margin width later
         fm = QtGui.QFontMetrics(font)
@@ -132,7 +144,7 @@ class TheCodeWidget:
 
     def agregar_codigo(self,lenguaje,codigo):
         #diccionario con reemplazos
-        equivalentes = {'C++':'CPP','C':'CPP','C#':'CSharp','Html':'HTML',
+        equivalentes = {'C++':'CPP','Css':'CSS','C':'CPP','C#':'CSharp','Html':'HTML',
                         'MsSql':'SQL','Sql':'SQL','Xml':'XML'}
         if lenguaje in equivalentes:
             lenguaje = equivalentes[lenguaje]
@@ -163,8 +175,16 @@ class TheCodeWidget:
 
 class TreeViewModel:
 
-    def __init__(self):
+    def __init__(self, treeview,metodo,conector):
         self.__model = self.__crearmodelo()
+        #~ self.__treeview = treeview
+        treeview.setModel(self.__model)
+        SelectionModel = QtGui.QItemSelectionModel( self.__model,treeview)
+        treeview.setSelectionModel(SelectionModel)
+        conector(SelectionModel, QtCore.SIGNAL(
+            "currentChanged(const QModelIndex &, const QModelIndex &)"),
+            metodo)
+
 
     def __getModel(self):
        return self.__model
