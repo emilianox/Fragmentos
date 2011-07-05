@@ -26,7 +26,7 @@ from configurations import Configurations
 
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
-    de la logica del programa, con la clase GUI'''
+    de la logica del programa, con la clase Fragmentos'''
 
     def __init__(self,pathBD=False):
         self.__DBUtils = DBUtils()
@@ -120,18 +120,25 @@ class SnippetManager:
             elemento_diccionario = {clave:snippet}
             #carga este snippet en el diccionario
             todos_los_snippets.update(elemento_diccionario)
-
         return todos_los_snippets
 
     def getLengsAndTitles(self,consulta=None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
-
+        #~ print self.__BD.getLengAndTitles(consulta)
+        #~ return self.__Snippets.keys()
+        #TODO: estamos buscando en le BD en vez de en el multiobjeto?? 2011/07/01 11:37:51
         return self.__BD.getLengAndTitles(consulta)
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
-
         try:
+            '''TODO:parece ser que la busqueda de dic no admite unicode
+            soluciones:a-probar el modulo codec , b-eliminar todos los
+            acentos de la BD c-hacer un dic para que reemplaze los acentos
+            d-convertir la clave en unicode(eliminar la tupla)
+
+            despues de investigar un poco es un hueva la codificacion
+             por cosas normales 2011/07/01 12:02:51'''
             snippet = self.__Snippets[(lenguaje,titulo)]
             self.setSnippetActual(snippet)
         except Exception:
@@ -155,7 +162,8 @@ class SnippetManager:
 ## Metodos Set ##
 #################
 
-    def setPathDB(self,pathBD):
+    def setDB(self,pathBD):
+        '''Crea una instancia de BD'''
         self.__BD = database(pathBD)
 
     def setSnippetActual(self,unSnippet):
@@ -174,12 +182,12 @@ class SnippetManager:
 ######################
 ## Metodos Privados ##
 ######################
-    def __convertPath(self,path):
-        """Convierte el path a el específico de la plataforma (separador)"""
-        #TODO: verificar si este metodo es neccesario
-        import os
-        if os.name == 'posix':
-            return "/"+apply( os.path.join, tuple(path.split('/')))
-        elif os.name == 'nt':
-            return apply( os.path.join, tuple(path.split('/')))
+    #~ def __convertPath(self,path):
+        #~ """Convierte el path a el específico de la plataforma (separador)"""
+        #~ #TODO: verificar si este metodo es neccesario
+        #~ import os
+        #~ if os.name == 'posix':
+            #~ return "/"+apply( os.path.join, tuple(path.split('/')))
+        #~ elif os.name == 'nt':
+            #~ return apply( os.path.join, tuple(path.split('/')))
 

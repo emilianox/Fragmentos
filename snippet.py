@@ -25,7 +25,7 @@ class Snippet :
         """ Constructor de la clase. donde:
         datosSnippet, es un objeto de tipo diccionario.
         dbReference, referencia a la instancia actual de la base de datos. """
-        
+
         if datosSnippet != None:
             self.__titulo = datosSnippet['title']
             self.__lenguaje = datosSnippet['language']
@@ -38,7 +38,7 @@ class Snippet :
             self.__fecha_modificacion = datosSnippet['modified']
             self.__uploader = datosSnippet['uploader']
         if dbReference != None:
-            self.__DB = dbReference           
+            self.__DB = dbReference
 
 #################
 ## Metodos Get ##
@@ -76,21 +76,21 @@ class Snippet :
 #################
 
     def setTitulo(self,titulo):
-       self.__actualizarCampo('title',titulo) 
-       
-        
+       self.__actualizarCampo('title',titulo)
+
+
     def setLenguaje(self,lenguaje):
         self.__actualizarCampo('language',lenguaje)
 
     def setCodigo(self,codigo):
         self.__actualizarCampo('contens',codigo)
-        
+
     def setTags(self,tags):
         self.__actualizarCampo('tags',tags)
-        
+
     def setDescripcion(self,descripcion):
         self.__actualizarCampo('descripction',descripcion)
-        
+
     def setFechaCreacion(self,fcreacion):
         self.__actualizarCampo('creation',fcreacion)
 
@@ -98,21 +98,21 @@ class Snippet :
         self.__actualizarCampo('reference',referencias)
 
     def setFavorito(self,favorito):
-        self.__actualizarCampo('starred',favorito) 
-                      
+        self.__actualizarCampo('starred',favorito)
+
     def setFechaModificacion(self,fmodificacion):
-        self.__actualizarCampo('modified',fmodificacion)   
-        
+        self.__actualizarCampo('modified',fmodificacion)
+
     def setUploader(self,uploader):
         self.__actualizarCampo('uploader',uploader)
-        
+
     def setDB(self,dbReference):
         self.__DB = dbReference
-                                   
+
     def __actualizarCampo(self,campo,valorNuevo):
-        ''' Recibe el campo y valor nuevo y edita ese campo en la 
+        ''' Recibe el campo y valor nuevo y edita ese campo en la
         base de datos, correspondiente a este Snippet. '''
-        
+
         sql_update = 'UPDATE snippet SET ' + campo + ' = ' + valorNuevo + ' \
         WHERE title = ' + self.titulo + ' AND language = ' + self.lenguaje
         try:

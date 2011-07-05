@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+#
 
 import os,sys
-# Importamos los módulos de Qt
-from PyQt4 import QtCore, QtGui, uic
-#Importo los iconos
-import fragmentos_rc
-
-
+from PyQt4 import QtCore, QtGui, uic# Importamos los módulos de Qt
+import fragmentos_rc #Importo los iconos
 
 class Main(QtGui.QMainWindow):
     """La ventana principal de la aplicación."""
@@ -29,62 +27,47 @@ class Main(QtGui.QMainWindow):
         #Reordenamiento  y expancion
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
         #colores x defecto
-        self.colordetextopordefecto = self.eBusqueda.palette().color(
-                                    QtGui.QPalette.Active, QtGui.QPalette.Text).getRgb()[:-1]
+        self.colorBusqueda = MyQcolorTextEdit(self.eBusqueda)
+
+        bds = self.SM.getBDNames()
+        for item in bds:
+            self.cbBD.addItem(item)
+
+        self.mmm.setMenu(self.menuHello)
+
 
 ############
 ## Metods ##
 ############
-
     def mostrar_snippet(self,lenguaje,titulo):
         snippet = self.SM.getSnippet(lenguaje,titulo)
-        #~ tags,codigo = 1#con lo anterior busca en SM el codigo
+        #con lo anterior busca en SM el codigo
         self.widgetcodigo.agregar_codigo(snippet.getLenguaje(),snippet.getCodigo())
 
     def __convertir_a_unicode(self,myQstring):
         return str(myQstring.toUtf8())
 
-
 ############
 ## Events ##
 ############
-    @QtCore.pyqtSlot()
-    def on_btPrueba_clicked(self):
-        print "hello!!"
-        print self.eBusqueda.text()
-
     def on_eBusqueda_textChanged(self,cadena):
         #campo de pruebas en la busqueda
         datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
-        palette = self.eBusqueda.palette()
-
         if datos != []:
-            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,
-                            QtGui.QColor(self.colordetextopordefecto[0],
-                                        self.colordetextopordefecto[1],
-                                        self.colordetextopordefecto[2],))
-            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,
-                            QtGui.QColor(255, 255, 255))
-
+            self.colorBusqueda.set_color_busqueda()
             self.mytreeview.insertarEnArbol(datos)
+            self.tvLenguajes.expandAll()
         else:
-            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,
-                            QtGui.QColor(255, 255, 255))
-            palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,
-                            QtGui.QColor(255, 102, 102))
-
-        self.eBusqueda.setPalette(palette)
-
-        #TODO:color en la omnibox
+            self.colorBusqueda.set_color_busqueda(False)
+            self.mytreeview.model.clear()
+            self.tvLenguajes
 
     def on_tvLenguajes_selectedItem(self,indice,b):
         #~ print indice.row()
         if indice.parent().row() != -1:
-            lenguaje = self.__convertir_a_unicode(indice.parent().data().toString())
-            titulo = self.__convertir_a_unicode(indice.data().toString())
-
-            self.mostrar_snippet(lenguaje,titulo)
-
+            lenguaje =  indice.parent().data().toString().toUtf8()#.encode('ascii','utf-8')
+            titulo =  unicode(indice.data().toString().toUtf8(),'utf-8')
+            self.mostrar_snippet(unicode(lenguaje,'utf-8'),titulo)
 
 
 
@@ -141,7 +124,6 @@ class TheCodeWidget:
 
         self.font = font
 
-
     def agregar_codigo(self,lenguaje,codigo):
         #diccionario con reemplazos
         equivalentes = {'C++':'CPP','Css':'CSS','C':'CPP','C#':'CSharp','Html':'HTML',
@@ -173,6 +155,7 @@ class TheCodeWidget:
     def limpiar(self):
         pass
 
+
 class TreeViewModel:
 
     def __init__(self, treeview,metodo,conector):
@@ -184,6 +167,7 @@ class TreeViewModel:
         conector(SelectionModel, QtCore.SIGNAL(
             "currentChanged(const QModelIndex &, const QModelIndex &)"),
             metodo)
+        self.__treeview = treeview
 
 
     def __getModel(self):
@@ -208,13 +192,44 @@ class TreeViewModel:
             item = QtGui.QStandardItem(QtCore.QString(elemento[1]))
             dicdenodos[elemento[0]].appendRow(item)
 
+
     model = property(fget = __getModel, fset = __setModel, doc = None)
 
+
+class MyQcolorTextEdit:
+    def __init__(self,TextEdit):
+        #sacarle el color a textedit
+        self.__txt = TextEdit
+        self.__palette = self.__txt.palette()
+        self.__defaultcolortext = self.__txt.palette().color(
+                                    QtGui.QPalette.Active, QtGui.QPalette.Text).getRgb()[:-1]
+        self.__defaultcolorbase = self.__txt.palette().color(
+                                    QtGui.QPalette.Active, QtGui.QPalette.Base).getRgb()[:-1]
+        #colores
+        self.__blanco = QtGui.QColor(255, 255, 255)
+        self.__rojito = QtGui.QColor(255, 102, 102)
+        self.__defaulttext = QtGui.QColor(self.__defaultcolortext[0],self.__defaultcolortext[1],
+                                        self.__defaultcolortext[2])
+        self.__defaultbase = QtGui.QColor(self.__defaultcolorbase[0],self.__defaultcolorbase[1],
+                                        self.__defaultcolorbase[2])
+
+    def set_color_busqueda(self,estado=True):
+        if estado:
+            textcolor = self.__defaulttext
+            basecolor = self.__defaultbase
+        else:
+            textcolor = self.__blanco
+            basecolor = self.__rojito
+
+        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,textcolor)
+        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,basecolor)
+        self.__txt.setPalette(self.__palette)
+
+        return True
+        #return confirmacion si cambio de color
+
 def main():
-    app = QtGui.QApplication(sys.argv)
-    window=Main()
-    window.show()
-    sys.exit(app.exec_())
+    pass
 
 if __name__ == "__main__":
     main()

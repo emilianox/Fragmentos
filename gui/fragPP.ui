@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Fragmentos</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -108,7 +108,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="cbBD">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -160,6 +160,25 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>750</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHello">
+    <property name="title">
+     <string>Hello</string>
+    </property>
+    <addaction name="actionSaas"/>
+    <addaction name="actionSasasa"/>
+    <addaction name="actionFfwwe"/>
+   </widget>
+   <addaction name="menuHello"/>
+  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -170,24 +189,50 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionMenu"/>
-   <addaction name="actionAl_Portapapeles"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="mmm"/>
+   <addaction name="actionRemove"/>
   </widget>
-  <action name="actionMenu">
+  <action name="mmm">
+   <property name="icon">
+    <iconset resource="fragmentos.qrc">
+     <normaloff>:/icons/add.png</normaloff>
+     <normalon>:/icons/star.png</normalon>:/icons/add.png</iconset>
+   </property>
    <property name="text">
-    <string>Menu</string>
+    <string>mmmmm</string>
    </property>
   </action>
-  <action name="actionAl_Portapapeles">
+  <action name="actionSaas">
    <property name="text">
-    <string>Al Portapapeles</string>
+    <string>saas</string>
+   </property>
+  </action>
+  <action name="actionSasasa">
+   <property name="text">
+    <string>sasasa</string>
+   </property>
+  </action>
+  <action name="actionFfwwe">
+   <property name="text">
+    <string>ffwwe</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="icon">
+    <iconset resource="fragmentos.qrc">
+     <normaloff>:/icons/remove.png</normaloff>:/icons/remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove</string>
    </property>
   </action>
  </widget>
  <tabstops>
   <tabstop>eBusqueda</tabstop>
   <tabstop>tvLenguajes</tabstop>
-  <tabstop>comboBox</tabstop>
+  <tabstop>cbBD</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_3</tabstop>
  </tabstops>
@@ -198,16 +243,48 @@
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>mainWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>720</x>
-     <y>476</y>
+     <x>739</x>
+     <y>539</y>
     </hint>
     <hint type="destinationlabel">
      <x>374</x>
      <y>410</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>eBusqueda</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>87</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbBD</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>eBusqueda</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>593</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>85</y>
     </hint>
    </hints>
   </connection>
