@@ -32,7 +32,7 @@ class Database:
         self.__connection = sqlite3.connect(self.__pathBD)
         #activa el cursor
         self.__cursor = self.__connection.cursor()
-        print 'Una instancia de BD fue creada con exito...',#rutaBD
+        #~ print 'Una instancia de BD fue creada con exito...',#rutaBD
         self.__Busqueda = Busqueda()
 
 ###############
@@ -55,7 +55,7 @@ class Database:
         else:
             consulta = self.__Busqueda.generarConsulta(consulta)
             resultado = self.realizarConsulta(consulta)
-        return self.__convertirALista(resultado)
+        return resultado
 
     def getAllSnippets(self):
         ''' Obtiene todos los snippets de la base de datos. '''
@@ -64,7 +64,7 @@ class Database:
                                                     modified,uploader,starred
                                             FROM snippet
                                             ORDER BY language,title''')
-        return self.__convertirALista(resultado)
+        return resultado
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
@@ -125,12 +125,6 @@ class Database:
 # METODOS AUXILIARES #
 ######################
 
-    def __convertirALista(self,datos):
-        ''' Carga el resultado de una consulta a la BD, en una lista. '''
-        lista = []
-        for fila in datos:
-            lista.append(fila)
-        return lista
 
     def __convertirASnippet(self,datos):
         ''' Obtiene los datos de un snippet desde la BD, y los

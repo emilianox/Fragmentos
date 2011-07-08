@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       sin título.py
-#
 #       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -20,37 +18,15 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-#TODO: por ahoraaaaaaaaaaaa!!!!
-#~ from tips import *
-import MainForm
-from PyQt4 import QtGui
-import sys
-#~ from fragmentos import Fragmentos
+class QTTips :
+    
+    def __init__(self) :
+        pass
 
-class GUI():
-    def __init__(self,parent) :
-        self.fragmentos = parent
-        self.SM = parent.SM
 
-        app = QtGui.QApplication(sys.argv)
-        window=MainForm.Main(self)
-        window.show()
-        sys.exit(app.exec_())
-
-    def newSnippetManager(self,pathDB):
-        ''' Recrea una instancia de SnippetManager 
-        a partir de la pathDB indicado.'''
-        self.SM = self.fragmentos.newSnippetManager(pathDB)
-        return self.SM
-        print 'nueva instancia de SM creada desde -GUI-'
-        
-    def setSMInstance(self,newSM):
-        ''' Establece la referencia de la nueva instancia creada. '''
-        self.SM = newSM
-        
 def main():
-    G = GUI()
 
+    return 0
 
 if __name__ == '__main__':
     main()

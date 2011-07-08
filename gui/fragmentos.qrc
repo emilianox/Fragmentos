@@ -1,5 +1,13 @@
 <RCC>
   <qresource prefix="icons">
+    <file>settings2.png</file>
+    <file>Settings.png</file>
+    <file>paste.png</file>
+    <file>fav.png</file>
+    <file>snippet-new.png</file>
+    <file>add2.png</file>
+    <file>back.png</file>
+    <file>forward.png</file>
     <file>remove.png</file>
     <file>star.png</file>
     <file>add.png</file>

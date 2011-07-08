@@ -33,6 +33,7 @@ class SnippetManager:
         self.__AllPathDBs = self.setAllPathDBs()
         if not pathBD :
             pathBD = self.__AllPathDBs[0]
+        #~ print pathBD
         self.__BD = Database(pathBD)
         self.__Snippets = self.getAllSnippets()
 
@@ -61,18 +62,6 @@ class SnippetManager:
     def eliminarSnippet(self,unSnippet):
         ''' '''
         self.__BD.eliminarSnippet(unSnippet)
-
-    def buscarSnippets (self, argumentos) :
-        """ recibe un argumento y devuelve una consulta en sql """
-        #controlo que no tenga =
-            #si hay = busco por titulo
-
-        #sino controlo que no haya ,
-            #si hay , divido y hago busqueda avanzada
-            #si no hay hago busqueda avanzada
-
-        # returns
-        pass
 
 #################
 ## Metodos Get ##
@@ -158,6 +147,10 @@ class SnippetManager:
     def getAllPathDBs(self):
         return self.__AllPathDBs
 
+    def getPathDB(self,index):
+        ''' Recupera de la lista de bds la ruta en el indice especificado.'''
+        return self.__AllPathDBs[index]
+        
 #################
 ## Metodos Set ##
 #################
