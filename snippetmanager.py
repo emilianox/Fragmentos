@@ -22,7 +22,6 @@
 from database import Database
 from dbutils import DBUtils
 from snippet import Snippet
-from configurations import Configurations
 
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
@@ -59,7 +58,7 @@ class SnippetManager:
     def eliminarSnippet(self, unSnippet):
         ''' Manda a eliminarSnippet de la Bd que
         borre el snippet segun su titulo y lenguaje.'''
-        self.__BD.eliminarSnippet(
+        return self.__BD.eliminarSnippet(
             unSnippet.getTitulo(), unSnippet.getLenguaje())
 
     def newSnippet(self,tuplaSnippet):
@@ -124,13 +123,6 @@ class SnippetManager:
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         try:
-            '''TODO:parece ser que la busqueda de dic no admite unicode
-            soluciones:a-probar el modulo codec , b-eliminar todos los
-            acentos de la BD c-hacer un dic para que reemplaze los acentos
-            d-convertir la clave en unicode(eliminar la tupla)
-
-            despues de investigar un poco es un hueva la codificacion
-             por cosas normales 2011/07/01 12:02:51'''
             snippet = self.__Snippets[(lenguaje,titulo)]
             self.setSnippetActual(snippet)
         except Exception:
@@ -160,7 +152,7 @@ class SnippetManager:
 
     def setDB(self,pathBD):
         '''Crea una instancia de BD'''
-        self.__BD = database(pathBD)
+        self.__BD = Database(pathBD)
 
     def setSnippetActual(self,unSnippet):
         ''' Establece los datos del Snippet usado actualmente.'''

@@ -83,7 +83,7 @@ class DBUtils:
     def validarBD(self,pathBD = None):
         ''' Verifica que la estructura de la bd sea una bd tipo Fragmentos.'''
 
-        if (pathBD is None):
+        if pathBD is None:
             pathBD = self.__pathBD
         connection = sqlite3.connect(pathBD)
         cursor = connection.cursor()

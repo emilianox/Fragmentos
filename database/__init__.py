@@ -19,7 +19,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import sqlite3, os
+import sqlite3
 from busqueda import Busqueda
 
 #~
@@ -115,17 +115,17 @@ class Database:
     def eliminarSnippet(self,titulo,lenguaje):
         ''' Elimina un Snippet de la bd.'''
 
-        sql = 'DELETE FROM snippet ' + \
+        sql = u'DELETE FROM snippet ' + \
         'WHERE title = "{0}" AND language = "{1}"'.format(titulo,lenguaje)
         print sql
         try:
-            connection = sqlite3.connect(self.getPathBD())
-            print 'bd eliminar: ',self.getPathBD()
-            cursor = connection.cursor(sql)
-            cursor.execute()
-            connection.commit()
+            self.__cursor.execute(sql)
+            self.__connection.commit()
+            print "Un registro fue eliminado."
+            return True
         except Exception, msg:
             print 'eliminarSnippet: ',msg
+            return False
 
 ######################
 # METODOS AUXILIARES #

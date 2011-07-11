@@ -105,14 +105,13 @@ class Main(QtGui.QMainWindow):
     def on_eBusqueda_textChanged(self,cadena):
         #campo de pruebas en la busqueda
         datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
-        if datos != []:
+        if datos:
             self.colorBusqueda.set_color_busqueda()
             self.mytreeview.insertarEnArbol(datos)
             self.tvLenguajes.expandAll()
         else:
             self.colorBusqueda.set_color_busqueda(False)
             self.mytreeview.model.clear()
-            self.tvLenguajes
 
     def on_tvLenguajes_selectedItem(self,indice,b):
         #~ print indice.row()

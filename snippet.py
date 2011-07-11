@@ -26,7 +26,7 @@ class Snippet :
         datosSnippet, es un objeto de tipo diccionario.
         dbReference, referencia a la instancia actual de la base de datos. """
 
-        if datosSnippet != None:
+        if datosSnippet is not None:
             self.__titulo = datosSnippet['title']
             self.__lenguaje = datosSnippet['language']
             self.__codigo = datosSnippet['contens']
@@ -37,7 +37,7 @@ class Snippet :
             self.__referencias = datosSnippet['reference']
             self.__fecha_modificacion = datosSnippet['modified']
             self.__uploader = datosSnippet['uploader']
-        if dbReference != None:
+        if dbReference is not None:
             self.__DB = dbReference
 
 #################

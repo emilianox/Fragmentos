@@ -78,7 +78,7 @@ class agregarSnippet(QtGui.QMainWindow):
 ########################
  
     def __centerOnScreen(self):
-        '''Centers the window on the screen.'''
+        """Centers the window on the screen."""
         resolution = QtGui.QDesktopWidget().screenGeometry()
         self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
                   (resolution.height() / 2) - (self.frameSize().height() / 2))
@@ -140,8 +140,6 @@ class agregarSnippet(QtGui.QMainWindow):
         if self.__toUnicode(self.eTitulo.text()) != '' and self.__toUnicode(self.cbLenguajes.itemText(self.cbLenguajes.currentIndex())) != '' and self.__toUnicode(self.widgetcodigo.getCode()) != '':
             valido = True
         else:
-            valido = False
-        if not valido:
             mensaje = '''Alguno de estos campos no pueden estar en blanco:
 
             - Titulo

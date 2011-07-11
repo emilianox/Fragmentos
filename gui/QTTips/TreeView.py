@@ -58,7 +58,7 @@ class TreeView:
             dicdenodos[elemento[0]].appendRow(item)
 
 
-    model = property(fget = __getModel, fset = __setModel, doc = None)
+    model = property(fget = __getModel, fset = __setModel)
 
 
 def main():
