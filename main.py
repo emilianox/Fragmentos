@@ -24,7 +24,6 @@ class Main :
 
     def __init__(self) :
         self.Fragmentos = Fragmentos()
-
     def validar (self) :
         # returns
         pass

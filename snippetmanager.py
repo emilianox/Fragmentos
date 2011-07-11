@@ -28,10 +28,10 @@ class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase Fragmentos'''
 
-    def __init__(self,pathBD=False):
+    def __init__(self, pathBD=False):
         self.__DBUtils = DBUtils()
         self.__AllPathDBs = self.setAllPathDBs()
-        if not pathBD :
+        if not pathBD:
             pathBD = self.__AllPathDBs[0]
         #~ print pathBD
         self.__BD = Database(pathBD)
@@ -43,29 +43,53 @@ class SnippetManager:
 ## Metodos de instancia ##
 ##########################
 
-    def agregarSnippet(self,dicdecosas):
-        ''' Recibe un diccionario de las cosas que debe guardar
-        y carga los datos en una lista para agregarlos a la BD.'''
-        #TODO: convertir a diccionario,debe recibir
-        #el diccionario('titulo':'un titulo cualquiera', etc)
-        #y generar o devolver a algun metodo de bd para que se agrege.
-        datosSnippet = []
-        datosSnippet.append(titulo)
-        datosSnippet.append(tags)
-        datosSnippet.append(lenguaje)
-        datosSnippet.append(contenido)
-        datosSnippet.append(detalles)
-        datosSnippet.append(fecha)
-        datosSnippet.append(referencias)
-        self.__BD.agregarSnippet(datosSnippet)
+    def agregarSnippet(self, datosSnippet):
+        ''' Recibe un dicionario de los datos de lo que sera un nuevo
+        snippet y lo agrega a la BD.'''
+        if self.__BD.agregarSnippet(datosSnippet):
+            #crea una instancia del nuevo snippet
+            newSnippet = Snippet(datosSnippet, self.__BD)
+            print '\n valores snippet : ',datosSnippet
+            #lo agrega a los snippets ya existentes
+            self.__addNewSnippetToCollection(newSnippet)
+            return True
+        else:
+            return False
 
-    def eliminarSnippet(self,unSnippet):
-        ''' '''
-        self.__BD.eliminarSnippet(unSnippet)
+    def eliminarSnippet(self, unSnippet):
+        ''' Manda a eliminarSnippet de la Bd que
+        borre el snippet segun su titulo y lenguaje.'''
+        self.__BD.eliminarSnippet(
+            unSnippet.getTitulo(), unSnippet.getLenguaje())
+
+    def newSnippet(self,tuplaSnippet):
+        ''' Crea una instancia de snippet. '''
+        nuevoSnippet = Snippet({
+            'title':tuplaSnippet[0],
+            'language':tuplaSnippet[1],
+            'tags':tuplaSnippet[2],
+            'contens':tuplaSnippet[3],
+            'description':tuplaSnippet[4],
+            'creation':tuplaSnippet[5],
+            'reference':tuplaSnippet[6],
+            'modified':tuplaSnippet[7],
+            'uploader':tuplaSnippet[8],
+            'starred':tuplaSnippet[9]},
+            self.__BD)
+        clave = (tuplaSnippet[1],tuplaSnippet[0])
+        elemento_diccionario = (clave,nuevoSnippet)
+
+        return elemento_diccionario
+
+    def __addNewSnippetToCollection(self,newSnippet):
+        ''' Agrega el nuevo snippet creado a la coleccion actual de snippets. '''
+        self.__Snippets.update(
+            {(newSnippet.getLenguaje(), newSnippet.getTitulo()):newSnippet})
 
 #################
 ## Metodos Get ##
 #################
+
     def getAllLenguajes(self):
         ''' Obtiene una lista de los lenguajes desde la bd.'''
         all_lenguajes = self.__BD.getLenguajes()
@@ -81,35 +105,14 @@ class SnippetManager:
     def getAllSnippets(self):
         ''' Obtiene los snippets desde la bd y carga en un diccionario
         los snippets en formato objeto Snippet().'''
-        clave = ()
-        todos_los_snippets = {}
         #orden en que vienen los campos
         #1-title,2-language,3-tags,4-contens,5-description
         #6-creation,7-reference,8-modified,9-uploader,10-starred
         all_snippets = self.__BD.getAllSnippets()
-        #itera convirtiendo el resultado de la bd, en una
-        #coleccion de instancias de Snippet()
-        for actual in all_snippets:
-            #obtengo la clave del snippet
-            clave = (actual[1],actual[0])#snippet[0] = title, snippet[1] = language
-            #se crea una instancia de snippet con los datos actuales
-            snippet = Snippet({
-            'title':actual[0],
-            'language':actual[1],
-            'tags':actual[2],
-            'contens':actual[3],
-            'description':actual[4],
-            'creation':actual[5],
-            'reference':actual[6],
-            'modified':actual[7],
-            'uploader':actual[8],
-            'starred':actual[9]},
-            self.__BD)
-            #diccionario auxiliar
-            elemento_diccionario = {clave:snippet}
-            #carga este snippet en el diccionario
-            todos_los_snippets.update(elemento_diccionario)
-        return todos_los_snippets
+        #devuelve tuplas de: (claveSnippet : instanciaSnippet)
+        todos_los_snippets = map(self.newSnippet,all_snippets)
+        #dict(), convierte la tupla de tuplas a diccionario
+        return dict(todos_los_snippets)
 
     def getLengsAndTitles(self,consulta=None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
@@ -150,7 +153,7 @@ class SnippetManager:
     def getPathDB(self,index):
         ''' Recupera de la lista de bds la ruta en el indice especificado.'''
         return self.__AllPathDBs[index]
-        
+
 #################
 ## Metodos Set ##
 #################

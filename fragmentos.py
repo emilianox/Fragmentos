@@ -25,7 +25,7 @@ from gui import GUI
 
 class Fragmentos :
     def __init__(self) :
-        self.SM = SnippetManager()
+        self.SM = None #SnippetManager()
         self.GUI = GUI(self)
 
     def newSnippetManager(self,pathDB):
@@ -34,8 +34,6 @@ class Fragmentos :
         #recrea la instancia de SM
         self.SM = SnippetManager(pathDB)
         return self.SM
-        #le pasa a GUI la nueva instancia
-        print 'nueva instancia de SM creada desde -Fragmentos-'
         
 def main():
     fragmentos = Fragmentos()

@@ -33,8 +33,8 @@ class GUI():
         self.SM = parent.SM
 
         app = QtGui.QApplication(sys.argv)
-        window=MainForm.Main(self)
-        window.show()
+        self.window = MainForm.Main(self)
+        self.window.show()
         sys.exit(app.exec_())
 
     def newSnippetManager(self,pathDB):
@@ -47,6 +47,13 @@ class GUI():
     def setSMInstance(self,newSM):
         ''' Establece la referencia de la nueva instancia creada. '''
         self.SM = newSM
+    
+    def showAgregarSnippet(self):
+        ''' '''
+        from agregarSnippet import agregarSnippet
+        self.agregar = agregarSnippet(self)
+        self.agregar.show()
+        
         
 def main():
     G = GUI()

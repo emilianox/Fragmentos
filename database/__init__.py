@@ -21,7 +21,8 @@
 
 import sqlite3, os
 from busqueda import Busqueda
-#~
+
+#~
 class Database:
 
     def __init__(self,rutaBD):
@@ -97,28 +98,33 @@ class Database:
         # TODO: agregar los try-catch para contemplar:
         # º snippet repetido
         # º error al agregar un snippet
-        #TODO: implementar un diccionario para q sea dinamica la agregacion
 
-        listaDatos = map(unicode,datosSnippet)
+        #genera los sig de preguntas segun la cantidad de campos recibidos
+        sp = str('('+'?,'*len(datosSnippet))[:-1] + ')'
+        #genera un string con los nombre de los campos
+        campos = '('+','.join(datosSnippet.keys())+')'
         try:
-            self.__cursor.execute('''INSERT INTO snippet (title,tags,language,contens,comments,date,reference)
-                                     VALUES (?,?,?,?,?,?,?)''', listaDatos)
+            self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, datosSnippet.values())
             self.__connection.commit()
             return True
-        except sqlite3.OperationalException,msg:
-            print msg
+        #~ except sqlite3.OperationalException,msg:
+        except Exception,msg:
+            print 'agregarSnippet >> ',msg
             return False
 
-    def eliminarSnippet(self,unSnippet):
+    def eliminarSnippet(self,titulo,lenguaje):
         ''' Elimina un Snippet de la bd.'''
 
-        sql = 'DELETE FROM snippet WHERE title = ' + unSnippet.getTitulo() +' AND language = ' + unSnippet.getLenguaje()
+        sql = 'DELETE FROM snippet ' + \
+        'WHERE title = "{0}" AND language = "{1}"'.format(titulo,lenguaje)
+        print sql
         try:
             connection = sqlite3.connect(self.getPathBD())
+            print 'bd eliminar: ',self.getPathBD()
             cursor = connection.cursor(sql)
             cursor.execute()
             connection.commit()
-        except sqlite3.OperationalException, msg:
+        except Exception, msg:
             print 'eliminarSnippet: ',msg
 
 ######################
