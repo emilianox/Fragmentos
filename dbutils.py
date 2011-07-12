@@ -74,7 +74,7 @@ class DBUtils:
         if not os.path.exists(pathNewBD):
             connection = sqlite3.connect(pathNewBD)
             cursor = connection.cursor()
-            cursor.execute(Consts.SCRIPTSQL_BD_SNIPPET)
+            cursor.execute(Members.SCRIPTSQL_BD_SNIPPET)
             connection.commit()
             print 'BD creada con exito...'
         else:

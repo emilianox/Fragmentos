@@ -41,7 +41,7 @@ class agregarSnippet(QtGui.QMainWindow):
         self.widgetcodigo = Scintilla()
         self.verticalLayout_6.addWidget(self.widgetcodigo.getEditor())
         self.widgetcodigo.setFocus()
-        #~ self.splitter_2.setSizes([200,50])
+#        self.splitter.setSizes([200,200])
     #cargar lenguajes en combo
         self.__cargarLenguajesEnCombo()
         #~ print 'intentando establecer codigo...'
@@ -100,6 +100,7 @@ class agregarSnippet(QtGui.QMainWindow):
                 #actualiza el arbol de la interfaz principal
 
             else:
+                #FIXME:concatenar con str() y probar(add documentation string)
                 QtGui.QMessageBox.critical(self, "Agregar snippet",
                 "Se ha producido un error.\nMensaje del error: " + mensaje)
 
