@@ -137,7 +137,11 @@ class Scintilla:
         ''' '''
         self.setCode(codigo)
         self.setLanguage(lenguaje)
-        
+
+    def setFocus(self):
+        """ Put focus in editor. """
+        self.__editor.setFocus()
+
     def copyToClipboard(self):
         pass
 

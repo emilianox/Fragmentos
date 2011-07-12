@@ -38,7 +38,6 @@ class Main(QtGui.QMainWindow):
         self.Padre = parent
         self.SM = self.Padre.newSnippetManager(None)
 
-
         self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
     #carga las bds en el combo
         self.PasePorAca = False
@@ -98,9 +97,18 @@ class Main(QtGui.QMainWindow):
                     QtGui.QMessageBox.critical(self, "Eliminar snippet",
                     "Se produjo un error al intentar eliminar este snippet.")
 
+    def __modificarSnippet(self):
+        """ Ejecuta las instrucciones para modificar el snippet actual. """
+        actual = self.SM.getSnippetActual()
+        if actual is None:
+            QtGui.QMessageBox.warning(self, "Modificar snippet",
+        "Debes seleccionar un snippet para modificarlo.")
+        else:
+            pass           
 ############
 ## Events ##
 ############
+
     def on_eBusqueda_textChanged(self,cadena):
         #campo de pruebas en la busqueda
         datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
@@ -122,13 +130,12 @@ class Main(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btAgregarSnippet_clicked(self):
         print 'mostrando agregar...'
+        self.hide()
         self.Padre.showAgregarSnippet()
 
     @QtCore.pyqtSlot()
     def on_btCopiarAlPortapapeles_clicked(self):
-
         self.__eliminarSnippet()
-
 
     @QtCore.pyqtSlot(int)
     def on_cbBD_currentIndexChanged(self,index):
