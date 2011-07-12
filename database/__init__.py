@@ -67,7 +67,7 @@ class Database:
                                             ORDER BY language,title''')
         return resultado
 
-    def getSnippet(self,lenguaje,titulo):
+    def getSnippet(self, lenguaje, titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
         return self.__convertirASnippet(resultado)
@@ -92,7 +92,7 @@ class Database:
 # METODOS PARA MANEJAR SNIPPET #
 ################################
 
-    def agregarSnippet(self,datosSnippet):
+    def agregarSnippet(self, datosSnippet):
         ''' Agrega un nuevo Snippet a la base de datos. '''
 
         # TODO: agregar los try-catch para contemplar:
@@ -103,14 +103,15 @@ class Database:
         sp = str('('+'?,'*len(datosSnippet))[:-1] + ')'
         #genera un string con los nombre de los campos
         campos = '('+','.join(datosSnippet.keys())+')'
+        print 'campos >> ',campos
         try:
             self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, datosSnippet.values())
             self.__connection.commit()
-            return True
+            return True, None
         #~ except sqlite3.OperationalException,msg:
-        except Exception,msg:
+        except Exception, msg:
             print 'agregarSnippet >> ',msg
-            return False
+            return False, msg
 
     def eliminarSnippet(self,titulo,lenguaje):
         ''' Elimina un Snippet de la bd.'''

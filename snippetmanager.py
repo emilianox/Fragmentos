@@ -29,13 +29,15 @@ class SnippetManager:
 
     def __init__(self, pathBD=False):
         self.__DBUtils = DBUtils()
+        #lista con las rutas de las base de datos
         self.__AllPathDBs = self.setAllPathDBs()
         if not pathBD:
             pathBD = self.__AllPathDBs[0]
         #~ print pathBD
         self.__BD = Database(pathBD)
+        #diccionario con todas las instancia de objeto Snippet
         self.__Snippets = self.getAllSnippets()
-
+        #objeto snippet mostrado actualmente en GUI
         self.__SnippetActual = None # Snippet
 
 ##########################
@@ -45,21 +47,31 @@ class SnippetManager:
     def agregarSnippet(self, datosSnippet):
         ''' Recibe un dicionario de los datos de lo que sera un nuevo
         snippet y lo agrega a la BD.'''
-        if self.__BD.agregarSnippet(datosSnippet):
+        
+        resultado, mensaje = self.__BD.agregarSnippet(datosSnippet)
+        if resultado:
             #crea una instancia del nuevo snippet
             newSnippet = Snippet(datosSnippet, self.__BD)
-            print '\n valores snippet : ',datosSnippet
+            #~ print '\n valores snippet : ',datosSnippet
             #lo agrega a los snippets ya existentes
             self.__addNewSnippetToCollection(newSnippet)
-            return True
+            return True, None
         else:
-            return False
+            return False,mensaje
 
     def eliminarSnippet(self, unSnippet):
         ''' Manda a eliminarSnippet de la Bd que
         borre el snippet segun su titulo y lenguaje.'''
-        return self.__BD.eliminarSnippet(
-            unSnippet.getTitulo(), unSnippet.getLenguaje())
+        if self.__BD.eliminarSnippet(
+            unSnippet.getTitulo(), unSnippet.getLenguaje()):
+                #quita del diccionario el snippet
+                self.__Snippets.pop((unSnippet.getLenguaje(),
+                                        unSnippet.getTitulo()))
+                #establece como actual snippet a None
+                self.__SnippetActual = None
+                return True
+        else:
+            return False
 
     def newSnippet(self,tuplaSnippet):
         ''' Crea una instancia de snippet. '''
