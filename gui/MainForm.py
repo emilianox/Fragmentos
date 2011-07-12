@@ -48,9 +48,8 @@ class Main(QtGui.QMainWindow):
             self.cbBD.addItem(item)
         #self.mmm.setMenu(self.menuHello)
 
-
-
-
+    #icon
+        self.Padre.settrayIcon(self)
 ############
 ## Metods ##
 ############

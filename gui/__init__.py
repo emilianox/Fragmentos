@@ -23,12 +23,13 @@
 #TODO: por ahoraaaaaaaaaaaa!!!!
 #~ from tips import *
 import MainForm
+from QTTips import TrayIcon
 from PyQt4 import QtGui
 import sys
 #~ from fragmentos import Fragmentos
 
 class GUI():
-    def __init__(self,parent) :
+    def __init__(self, parent):
         self.fragmentos = parent
         self.SM = parent.SM
 
@@ -37,24 +38,32 @@ class GUI():
         self.window.show()
         sys.exit(app.exec_())
 
-    def newSnippetManager(self,pathDB):
+    def settrayIcon(self,mainforminstance):
+        icon = QtGui.QIcon('gui/star.png')
+        self.__trayIcon = TrayIcon.SystemTrayIcon(icon,mainforminstance)
+        self.__trayIcon.show()
+        print 'por aca'
+
+    def newSnippetManager(self, pathDB):
         ''' Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado.'''
         self.SM = self.fragmentos.newSnippetManager(pathDB)
-        return self.SM
         print 'nueva instancia de SM creada desde -GUI-'
-        
-    def setSMInstance(self,newSM):
+        return self.SM
+
+
+    def setSMInstance(self, newSM):
         ''' Establece la referencia de la nueva instancia creada. '''
         self.SM = newSM
-    
+
     def showAgregarSnippet(self):
         ''' '''
         from agregarSnippet import agregarSnippet
+
         self.agregar = agregarSnippet(self)
         self.agregar.show()
-        
-        
+
+
 def main():
     G = GUI()
 

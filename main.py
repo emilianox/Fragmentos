@@ -30,8 +30,25 @@ class Main :
 
 
 def main():
-    Main()
-    return 0
+    import os
+    if os.name == 'posix':
+        import fcntl
+        pid_file = 'Singleton'
+        fp = open(pid_file, 'w')
+        try:
+            fcntl.lockf(fp, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            ventana = Main()
+            gtk.main()
+            exit(0)
+
+        except IOError:
+            # another instance is running
+            print 'Ya hay otra instancia corriendo. Ciao'
+            exit(0)
+    elif os.name == 'nt':
+        ventana = VentanaPrincipal()
+        gtk.main()
+        exit(0)
 
 if __name__ == '__main__':
     main()

@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from snippetmanager import SnippetManager
-from dbutils import DBUtils
-dbu = DBUtils()
+import sys
+from PyQt4 import QtGui, QtCore
+from gui import TrayIcon
 
-path = dbu.getPathDatabasesDir() + 'MikeSourceCode.db'
+app = QtGui.QApplication(sys.argv)
 
-sm = SnippetManager(path)
-leng = sm.getAllLenguajes()
-#~ for l in leng: 
-    #~ print l[0]
-print leng
+w = QtGui.QWidget()
+trayIcon = TrayIcon.SystemTrayIcon(QtGui.QIcon("gui/star.png"), w)
+
+trayIcon.show()
+sys.exit(app.exec_())
+
