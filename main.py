@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 #
 #       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
-#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -18,6 +17,7 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
+
 from fragmentos import Fragmentos
 
 class Main :

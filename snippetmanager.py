@@ -20,15 +20,14 @@
 #       MA 02110-1301, USA.
 
 from database import Database
-from dbutils import DBUtils
 from snippet import Snippet
 
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase Fragmentos'''
 
-    def __init__(self, pathBD=False):
-        self.__DBUtils = DBUtils()
+    def __init__(self, pathBD = False, DBUtils = None):
+        self.__DBUtils = DBUtils
         #lista con las rutas de las base de datos
         self.__AllPathDBs = self.setAllPathDBs()
         if not pathBD:
@@ -173,6 +172,9 @@ class SnippetManager:
     def setAllPathDBs(self):
         ''' Obtiene todsa las rutas de las bds incluidas en
         el dir databases y el CFG '''
+        
+        #TODO: llevar estas instrucciones a BDUTILS.
+        
         databases_dir = self.__DBUtils.getBDsInDatabasesDir()
         #TODO: implementar estooo
         databases_cfg = []

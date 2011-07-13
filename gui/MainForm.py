@@ -36,27 +36,29 @@ class Main(QtGui.QMainWindow):
         self.colorBusqueda = QcolorTextEdit(self.eBusqueda)
     #Boludeces de instancias
         self.Padre = parent
-        self.SM = self.Padre.newSnippetManager(None)
+        self.SM = self.Padre.newSnippetManager(None, self.Padre.BDU)
 
         self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
+    
     #carga las bds en el combo
         self.PasePorAca = False
         bds = self.SM.getBDNames()
         for item in bds:
             print item
             self.cbBD.addItem(item)
-        #self.mmm.setMenu(self.menuHello)
-
+        
     #icon
         self.Padre.settrayIcon(self)
-############
+    #ShortCut
+        self.__loadAppShortcuts()
+        
 ## Metods ##
 ############
 
     def __mostrar_snippet(self,lenguaje,titulo):
         snippet = self.SM.getSnippet(lenguaje,titulo)
         #con lo anterior busca en SM el codigo
-        self.widgetcodigo.setFullCode(snippet.getCodigo(),snippet.getLenguaje())
+        self.widgetcodigo.setFullCode(snippet.codigo,snippet.lenguaje)
 
     def __convertir_a_unicode(self,myQstring):
         return str(myQstring.toUtf8())
@@ -67,7 +69,7 @@ class Main(QtGui.QMainWindow):
         #obtiene la ruta de la bd segun el indice
         rutaNueva = self.SM.getPathDB(indice)
         #le pide a GUI que vuelva a crear la instancia
-        self.SM = self.Padre.newSnippetManager(rutaNueva)
+        self.SM = self.Padre.newSnippetManager(rutaNueva, self.Padre.BDU)
         #carga los snippets en el arbol
         self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
 
@@ -86,7 +88,7 @@ class Main(QtGui.QMainWindow):
         else:
             result = QtGui.QMessageBox.warning(self, "Eliminar snippet",
             "Esta seguro que desea eliminar este snippet?.\n\n" + \
-            actual.getTitulo() + '\n' + actual.getLenguaje(),
+            actual.titulo + '\n' + actual.lenguaje,
             QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
 
             if result == QtGui.QMessageBox.Yes:
@@ -105,6 +107,12 @@ class Main(QtGui.QMainWindow):
         "Debes seleccionar un snippet para modificarlo.")
         else:
             pass           
+            
+    def __loadAppShortcuts(self):
+        u""" Load shortcuts used in the application. """
+        #Add Snippet Shortcut
+        QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
+        
 ############
 ## Events ##
 ############

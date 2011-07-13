@@ -73,13 +73,19 @@ class agregarSnippet(QtGui.QMainWindow):
                             self.cbLenguajes.currentIndex()).toUtf8())
         self.widgetcodigo.setLanguage(lenguaje)
         #print 'lenguaje: ',lenguaje
- 
+        
+    def on_eTags_editingFinished(self):
+        #aplica esta funcion al texto en el campo tags
+        self.eTags.setText(
+            self.__normalizarTags(
+                self.__toUnicode(self.eTags.text())))
+    
 ########################
 ## Metodos Auxiliares ##
 ########################
- 
+    
     def __centerOnScreen(self):
-        """Centers the window on the screen."""
+        u"""Centers the window on the screen."""
         resolution = QtGui.QDesktopWidget().screenGeometry()
         self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
                   (resolution.height() / 2) - (self.frameSize().height() / 2))
@@ -100,12 +106,11 @@ class agregarSnippet(QtGui.QMainWindow):
                 #actualiza el arbol de la interfaz principal
 
             else:
-                #FIXME:concatenar con str() y probar(add documentation string)
                 QtGui.QMessageBox.critical(self, "Agregar snippet",
-                "Se ha producido un error.\nMensaje del error: " + mensaje)
+                "Se ha producido un error.\n\nMensaje del error: " + mensaje)
 
     def __showFileDialog(self):
-        """ Muestra un cuadro de dialogo desde donde seleccionar un archivo. """
+        u""" Muestra un cuadro de dialogo desde donde seleccionar un archivo. """
         
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Abrir desde archivo')
         fname = open(filename)
@@ -114,14 +119,14 @@ class agregarSnippet(QtGui.QMainWindow):
         return data
 
     def __cargarLenguajesEnCombo(self):
-        """ Carga los lenguajes disponibles, en la lista desplegable."""
+        u""" Carga los lenguajes disponibles, en la lista desplegable."""
         
         lenguajes = self.widgetcodigo.getLanguages()
         for lenguaje in lenguajes:
             self.cbLenguajes.addItem(lenguaje)
 
     def __leerDatosDeLosCampos(self):
-        """ Recupera la informacion cargada en los campos de la interfaz. """
+        u""" Recupera la informacion cargada en los campos de la interfaz. """
 
         from datetime import datetime
         #carga los datos de lso campos en un diccionario,
@@ -144,7 +149,7 @@ class agregarSnippet(QtGui.QMainWindow):
         return snippet
 
     def __limpiarCampos(self):
-        """ Limpia los valores de los campos."""
+        u""" Limpia los valores de los campos."""
         
         self.eTitulo.setText("")
         self.widgetcodigo.setCode("")
@@ -155,11 +160,11 @@ class agregarSnippet(QtGui.QMainWindow):
         self.chkFavorito.setChecked(False)
         
     def __toUnicode(self,myQstring):
-        """ Convierte a UTF8 el objeto QString recibido. """
+        u""" Convierte a UTF8 el objeto QString recibido. """
         return str(myQstring.toUtf8())
 
     def __validarCampos(self):
-        """ Verifica que los campos obligatorios no estén vacíos. """
+        u""" Verifica que los campos obligatorios no estén vacíos. """
         valido = False
         #TODO: acortar esta condicion
         if self.__toUnicode(self.eTitulo.text()) != '' and self.__toUnicode(self.cbLenguajes.itemText(self.cbLenguajes.currentIndex())) != '' and self.__toUnicode(self.widgetcodigo.getCode()) != '':
@@ -173,6 +178,23 @@ class agregarSnippet(QtGui.QMainWindow):
             QtGui.QMessageBox.warning(self, "Agregar snippet",mensaje)
         return valido
 
+    def __normalizarTags(self, tags):
+        u""" 
+            Normaliza los tags: quitando espacios, 
+            quitando acentos, etc.
+        """
+        #quita todo espacio en blanco de la palabra
+        tags = ''.join(tags.split())
+        #pasa todas las letras a minuscula
+        tags = tags.lower()
+        #reemplaza las dobles comas por una sola
+        while tags.find(",,") != -1:
+            tags = tags.replace(",,",",")
+        #si llegaran a existe comas al principio y final, las quita
+        tags = tags.strip(",")
+        #vuelve a unir todas las palabras
+        return tags
+            
 def main():
     app = QtGui.QApplication(sys.argv)
     m = agregarSnippet()

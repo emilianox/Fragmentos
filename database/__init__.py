@@ -103,7 +103,6 @@ class Database:
         sp = str('('+'?,'*len(datosSnippet))[:-1] + ')'
         #genera un string con los nombre de los campos
         campos = '('+','.join(datosSnippet.keys())+')'
-        print 'campos >> ',campos
         try:
             self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, datosSnippet.values())
             self.__connection.commit()
@@ -111,7 +110,7 @@ class Database:
         #~ except sqlite3.OperationalException,msg:
         except Exception, msg:
             print 'agregarSnippet >> ',msg
-            return False, msg
+            return False, str(msg)
 
     def eliminarSnippet(self,titulo,lenguaje):
         ''' Elimina un Snippet de la bd.'''

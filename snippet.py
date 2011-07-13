@@ -22,7 +22,7 @@
 class Snippet :
 
     def __init__(self,datosSnippet=None,dbReference=None):
-        """ Constructor de la clase. donde:
+        u""" Constructor de la clase. donde:
         datosSnippet, es un objeto de tipo diccionario.
         dbReference, referencia a la instancia actual de la base de datos. """
 
@@ -39,71 +39,73 @@ class Snippet :
             self.__uploader = datosSnippet['uploader']
         if dbReference is not None:
             self.__DB = dbReference
-
+    
 #################
 ## Metodos Get ##
 #################
 
-    def getTitulo(self):
+    def __getTitulo(self):
         return self.__titulo
 
-    def getLenguaje(self):
+    def __getLenguaje(self):
         return self.__lenguaje
 
-    def getCodigo(self):
+    def __getCodigo(self):
         return self.__codigo
 
-    def getTags(self):
+    def __getTags(self):
         return self.__tags
 
-    def getDescripcion(self):
+    def __getDescripcion(self):
         return self.__descripcion
 
-    def getFechaCreacion(self):
+    def __getFechaCreacion(self):
         return self.__fecha_creacion
 
-    def getReferencias(self):
+    def __getReferencias(self):
         return self.__referencias
 
-    def getFavorito(self):
+    def __getFavorito(self):
         return self.__favorito
 
-    def getFechaModificacion(self):
+    def __getFechaModificacion(self):
         return self.__fecha_modificacion
-
+    def __getUploader(self):
+        return self.__uploader
+        
 #################
 ## Metodos Set ##
 #################
 
-    def setTitulo(self,titulo):
+    def __setTitulo(self,titulo):
        self.__actualizarCampo('title',titulo)
 
 
-    def setLenguaje(self,lenguaje):
+    def __setLenguaje(self,lenguaje):
         self.__actualizarCampo('language',lenguaje)
 
-    def setCodigo(self,codigo):
+    def __setCodigo(self,codigo):
         self.__actualizarCampo('contens',codigo)
 
-    def setTags(self,tags):
+    def __setTags(self,tags):
         self.__actualizarCampo('tags',tags)
 
-    def setDescripcion(self,descripcion):
+    def __setDescripcion(self,descripcion):
         self.__actualizarCampo('descripction',descripcion)
 
-    def setFechaCreacion(self,fcreacion):
+    def __setFechaCreacion(self,fcreacion):
         self.__actualizarCampo('creation',fcreacion)
 
-    def setReferencias(self,referencias):
+    def __setReferencias(self,referencias):
         self.__actualizarCampo('reference',referencias)
 
-    def setFavorito(self,favorito):
+    def __setFavorito(self,favorito):
         self.__actualizarCampo('starred',favorito)
 
-    def setFechaModificacion(self,fmodificacion):
+    def __setFechaModificacion(self,fmodificacion):
         self.__actualizarCampo('modified',fmodificacion)
 
-    def setUploader(self,uploader):
+    def __setUploader(self,uploader):
         self.__actualizarCampo('uploader',uploader)
 
     def setDB(self,dbReference):
@@ -122,3 +124,19 @@ class Snippet :
             connection.commit()
         except sqlite3.OperationalException, msg:
             print 'actualizarCampo: ',msg
+
+
+################
+## Properties ##
+################
+
+    titulo = property(__getTitulo,__setTitulo)
+    lenguaje = property(__getLenguaje,__setLenguaje)
+    codigo = property(__getCodigo,__setCodigo)
+    tags = property(__getTags,__setTags)
+    descripcion = property(__getDescripcion,__setDescripcion)
+    fechaCreacion = property(__getFechaCreacion,__setFechaCreacion)
+    fechaModificacion = property(__getFechaModificacion,__setFechaModificacion)
+    referencias = property(__getReferencias,__setReferencias)
+    favorito = property(__getFavorito,__setFavorito)
+    uploader = property(__getUploader,__setUploader)

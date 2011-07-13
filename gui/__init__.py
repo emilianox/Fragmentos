@@ -20,18 +20,16 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-#TODO: por ahoraaaaaaaaaaaa!!!!
-#~ from tips import *
 import MainForm
 from QTTips import TrayIcon
 from PyQt4 import QtGui
 import sys
-#~ from fragmentos import Fragmentos
 
 class GUI():
     def __init__(self, parent):
         self.fragmentos = parent
         self.SM = parent.SM
+        self.BDU = parent.BDU
 
         app = QtGui.QApplication(sys.argv)
         self.window = MainForm.Main(self)
@@ -44,10 +42,10 @@ class GUI():
         self.__trayIcon.show()
         print 'por aca'
 
-    def newSnippetManager(self, pathDB):
+    def newSnippetManager(self, pathDB, BDU = None):
         ''' Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado.'''
-        self.SM = self.fragmentos.newSnippetManager(pathDB)
+        self.SM = self.fragmentos.newSnippetManager(pathDB, BDU)
         print 'nueva instancia de SM creada desde -GUI-'
         return self.SM
 

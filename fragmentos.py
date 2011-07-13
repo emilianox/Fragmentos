@@ -20,19 +20,22 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+from dbutils import DBUtils
 from snippetmanager import SnippetManager
 from gui import GUI
 
 class Fragmentos :
+
     def __init__(self) :
+        self.BDU = DBUtils()
         self.SM = None #SnippetManager()
         self.GUI = GUI(self)
 
-    def newSnippetManager(self,pathDB):
+    def newSnippetManager(self,pathDB, BDU = None):
         ''' Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado.'''
         #recrea la instancia de SM
-        self.SM = SnippetManager(pathDB)
+        self.SM = SnippetManager(pathDB, self.BDU)
         return self.SM
         
 def main():
