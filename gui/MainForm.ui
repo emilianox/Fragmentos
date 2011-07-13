@@ -17,9 +17,12 @@
    <string>Fragmentos</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QPushButton" name="btAgregarSnippet">
         <property name="enabled">
@@ -323,47 +326,11 @@
     </item>
     <item>
      <widget class="QSplitter" name="spPrincipal">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="opaqueResize">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMinimumSize</enum>
-        </property>
+      <widget class="QWidget" name="">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QTreeView" name="tvLenguajes">
           <property name="sizePolicy">
@@ -378,9 +345,6 @@
             <height>0</height>
            </size>
           </property>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
@@ -404,12 +368,145 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="">
+       <layout class="QVBoxLayout" name="vlCodigo">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QWidget" name="wgtDetalles" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>sxsxsxs:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_5">
+                 <property name="text">
+                  <string>saaaaaaaaaaaaaaaaaaaaaaaaaaaxdscscdscdsc</string>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>sxsxsxs:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_6">
+                 <property name="text">
+                  <string>saaaaaaaaaaaaaaaaaaaaaaaaaaaxdscscdscdsc</string>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>sxsxsxs:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_7">
+                 <property name="text">
+                  <string>saaaaaaaaaaaaaaaaaaaaaaaaaaaxdscscdscdsc</string>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Tags:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_8">
+              <property name="text">
+               <string>sssxs,sxsxsxsxxs,sxxsxssx</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_4">
+              <property name="text">
+               <string>Mas detalles</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="autoDefault">
+               <bool>true</bool>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
-       <spacer name="horizontalSpacer">
+       <widget class="QLabel" name="lbEstado">
+        <property name="text">
+         <string>60 Snippet encontrados</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -422,13 +519,6 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Naranja</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btCerrar">
         <property name="text">
          <string>Cerrar</string>
@@ -439,50 +529,14 @@
     </item>
    </layout>
   </widget>
-  <action name="mmm">
-   <property name="icon">
-    <iconset resource="fragmentos.qrc">
-     <normaloff>:/icons/add.png</normaloff>
-     <normalon>:/icons/star.png</normalon>:/icons/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>mmmmm</string>
-   </property>
-  </action>
-  <action name="actionSaas">
-   <property name="text">
-    <string>saas</string>
-   </property>
-  </action>
-  <action name="actionSasasa">
-   <property name="text">
-    <string>sasasa</string>
-   </property>
-  </action>
-  <action name="actionFfwwe">
-   <property name="text">
-    <string>ffwwe</string>
-   </property>
-  </action>
-  <action name="actionRemove">
-   <property name="icon">
-    <iconset resource="fragmentos.qrc">
-     <normaloff>:/icons/remove.png</normaloff>:/icons/remove.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove</string>
-   </property>
-  </action>
  </widget>
  <tabstops>
   <tabstop>eBusqueda</tabstop>
   <tabstop>btCerrar</tabstop>
   <tabstop>btBuscarEnFavoritos</tabstop>
   <tabstop>btAgregarSnippet</tabstop>
-  <tabstop>cbBD</tabstop>
   <tabstop>btCopiarAlPortapapeles</tabstop>
   <tabstop>btMenu</tabstop>
-  <tabstop>tvLenguajes</tabstop>
   <tabstop>btSptAnterior</tabstop>
   <tabstop>btSptSiguiente</tabstop>
  </tabstops>
@@ -498,7 +552,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>739</x>
-     <y>539</y>
+     <y>508</y>
     </hint>
     <hint type="destinationlabel">
      <x>374</x>
@@ -513,28 +567,28 @@
    <slot>setFocus()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>35</x>
-     <y>91</y>
+     <x>391</x>
+     <y>41</y>
     </hint>
     <hint type="destinationlabel">
-     <x>87</x>
-     <y>91</y>
+     <x>668</x>
+     <y>67</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>cbBD</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>eBusqueda</receiver>
-   <slot>setFocus()</slot>
+   <sender>pushButton_4</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>wgtDetalles</receiver>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>593</x>
-     <y>492</y>
+     <x>675</x>
+     <y>326</y>
     </hint>
     <hint type="destinationlabel">
-     <x>320</x>
-     <y>85</y>
+     <x>519</x>
+     <y>200</y>
     </hint>
    </hints>
   </connection>

@@ -23,15 +23,13 @@ from PyQt4 import QtGui,QtCore
 class TreeView:
 
     def __init__(self, treeview,metodo,conector):
-        '''Buscar doc de esto'''
+        '''TODO:Buscar doc de esto'''
         self.__model = self.__crearmodelo()
-        #~ self.__treeview = treeview
         treeview.setModel(self.__model)
         SelectionModel = QtGui.QItemSelectionModel( self.__model,treeview)
         treeview.setSelectionModel(SelectionModel)
         conector(SelectionModel, QtCore.SIGNAL(
-            "currentChanged(const QModelIndex &, const QModelIndex &)"),
-            metodo)
+                    "currentChanged(const QModelIndex &, const QModelIndex &)"),metodo)
         self.__treeview = treeview
 
 
@@ -45,18 +43,24 @@ class TreeView:
         model = QtGui.QStandardItemModel()
         return model
 
-    def insertarEnArbol(self,listaparainsertar):
-        #TODO:Limpiar arbol
+    def insertarEnArbol(self,listaitems):
+        u"""
+        """
         self.__model.clear()
-        dicdenodos = {}
-        for elemento in listaparainsertar:
-            if not dicdenodos.has_key(elemento[0]):
-                temp = self.__model.invisibleRootItem()
-                dicdenodos[elemento[0]] = QtGui.QStandardItem(QtCore.QString(elemento[0]))
-                temp.appendRow(dicdenodos[elemento[0]])
-            item = QtGui.QStandardItem(QtCore.QString(elemento[1]))
-            dicdenodos[elemento[0]].appendRow(item)
-
+        dicDeRootQitems = {}
+        for criterios in listaitems:
+            if not (criterios[0] in dicDeRootQitems):#no hay raiz
+                tempRootItem = self.__model.invisibleRootItem()#creo un Root item vacio
+                #se crea un item y la agrega al diccionario local
+                dicDeRootQitems[criterios[0]] = QtGui.QStandardItem(QtCore.QString(criterios[0]))
+                dicDeRootQitems[criterios[0]].setEditable(False)
+                #agrego el item al root item(convirtiendolo en root)
+                tempRootItem.appendRow(dicDeRootQitems[criterios[0]])
+            subitem = QtGui.QStandardItem(QtCore.QString(criterios[1]))
+            subitem.setEditable(False)
+            #agrega el subitem al root_item correspondiente
+            dicDeRootQitems[criterios[0]].appendRow(subitem)
+        return str(len(listaitems))
 
     model = property(fget = __getModel, fset = __setModel)
 

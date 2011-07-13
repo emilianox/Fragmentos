@@ -29,7 +29,8 @@ class Main(QtGui.QMainWindow):
     #Detalles de armado interfaz
         #Widget codigo
         self.widgetcodigo = Scintilla()
-        self.spPrincipal.addWidget(self.widgetcodigo.getEditor())
+        self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
+        self.wgtDetalles.setVisible(False)
         #Reordenamiento  y expancion
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
         #colores x defecto
@@ -38,7 +39,9 @@ class Main(QtGui.QMainWindow):
         self.Padre = parent
         self.SM = self.Padre.newSnippetManager(None, self.Padre.BDU)
 
-        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
+        self.lbEstado.setText('Se encontraron '+
+                                self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
+                                ' snippets')
     
     #carga las bds en el combo
         self.PasePorAca = False
@@ -51,6 +54,7 @@ class Main(QtGui.QMainWindow):
         self.Padre.settrayIcon(self)
     #ShortCut
         self.__loadAppShortcuts()
+        self.fullScreen = False
         
 ## Metods ##
 ############
@@ -71,8 +75,9 @@ class Main(QtGui.QMainWindow):
         #le pide a GUI que vuelva a crear la instancia
         self.SM = self.Padre.newSnippetManager(rutaNueva, self.Padre.BDU)
         #carga los snippets en el arbol
-        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
-
+        self.lbEstado.setText('Se encontraron '+
+                            self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
+                            ' snippets')
     def __centerOnScreen (self):
         '''Centers the window on the screen.'''
         resolution = QtGui.QDesktopWidget().screenGeometry()
@@ -112,6 +117,8 @@ class Main(QtGui.QMainWindow):
         u""" Load shortcuts used in the application. """
         #Add Snippet Shortcut
         QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
+        QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
+
         
 ############
 ## Events ##
@@ -122,7 +129,9 @@ class Main(QtGui.QMainWindow):
         datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
         if datos:
             self.colorBusqueda.set_color_busqueda()
-            self.mytreeview.insertarEnArbol(datos)
+            self.lbEstado.setText('Se encontraron '+
+                                self.mytreeview.insertarEnArbol(datos)+
+                                ' snippets')
             self.tvLenguajes.expandAll()
         else:
             self.colorBusqueda.set_color_busqueda(False)
@@ -152,7 +161,27 @@ class Main(QtGui.QMainWindow):
         else:
             self.PasePorAca = True
 
-    #~ #@QtCore.pyqtSlot()
+    def __toogleFullScreen(self):
+        if not self.fullScreen :
+            self.showFullScreen()
+        else:
+            self.showNormal()
+        self.fullScreen = not self.fullScreen
+
+    def __addKeytoBusqueda(self,cadena):
+        u'''Soporte de atajos generico.Manipula los atajos
+        en la barra de busqueda'''
+        ubicacion = self.__convertir_a_unicode(self.eBusqueda.text)
+        self.eBusqueda.setFocus()
+        if ubicacion.find(cadena) == -1:
+            if not len(ubicacion.strip()):
+                self.eBusqueda.setText(cadena)
+            else:
+                self.eBusqueda.setText(ubicacion+u","+cadena)
+            self.eBusqueda.setCursorPosition(self.__convertir_a_unicode(self.eBusqueda.text).find(cadena)+2)
+        else:
+            self.eBusqueda.setCursorPosition(ubicacion.find(cadena)+2)
+
     def destroyed(self):
         ''' Hace volar la ventana. '''
         #TODO: hacer que cierre todas las ventanas
