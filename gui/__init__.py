@@ -29,7 +29,6 @@ class GUI():
     def __init__(self, parent):
         self.fragmentos = parent
         self.SM = parent.SM
-        self.BDU = parent.BDU
 
         app = QtGui.QApplication(sys.argv)
         self.window = MainForm.Main(self)
@@ -42,25 +41,43 @@ class GUI():
         self.__trayIcon.show()
         print 'por aca'
 
-    def newSnippetManager(self, pathDB, BDU = None):
-        ''' Recrea una instancia de SnippetManager 
-        a partir de la pathDB indicado.'''
-        self.SM = self.fragmentos.newSnippetManager(pathDB, BDU)
+    def newSnippetManager(self, pathDB):
+        u""" Recrea una instancia de SnippetManager 
+        a partir de la pathDB indicado."""
+        self.SM = self.fragmentos.newSnippetManager(pathDB)
         print 'nueva instancia de SM creada desde -GUI-'
         return self.SM
 
 
     def setSMInstance(self, newSM):
-        ''' Establece la referencia de la nueva instancia creada. '''
+        u""" Establece la referencia de la nueva instancia creada. """
         self.SM = newSM
 
     def showAgregarSnippet(self):
-        ''' '''
+        u""" """
         from agregarSnippet import agregarSnippet
 
-        self.agregar = agregarSnippet(self)
+        self.agregar = agregarSnippet(self,"Agregar Snippet")
         self.agregar.show()
 
+    def showModificarSnippet(self, unSnippet):
+        u""" """
+        from agregarSnippet import agregarSnippet
+        #instancia de agregarSnippet
+        self.modificar = agregarSnippet(self, "Modificar Snippet")
+        #carga los valores del snippet en los campos
+        self.modificar.eTitulo.setText(unSnippet.titulo)
+        self.modificar.eDescripcion.setText(unSnippet.descripcion)
+        self.modificar.eAutor.setText(unSnippet.uploader)
+        self.modificar.eTags.setText(unSnippet.tags)
+        if unSnippet.referencias == None: unSnippet.referencias = ""
+        self.modificar.eReferencias.setText(unSnippet.referencias)
+        self.modificar.widgetcodigo.setCode(unSnippet.codigo)
+        self.modificar.cbLenguajes.setCurrentIndex(
+            self.modificar.cbLenguajes.findText(unSnippet.lenguaje))
+        print '>>>>>>>',unSnippet.favorito
+        self.modificar.show()
+        
 
 def main():
     G = GUI()

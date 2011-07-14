@@ -62,10 +62,10 @@ class SnippetManager:
         ''' Manda a eliminarSnippet de la Bd que
         borre el snippet segun su titulo y lenguaje.'''
         if self.__BD.eliminarSnippet(
-            unSnippet.getTitulo(), unSnippet.getLenguaje()):
+            unSnippet.titulo, unSnippet.lenguaje):
                 #quita del diccionario el snippet
-                self.__Snippets.pop((unSnippet.getLenguaje(),
-                                        unSnippet.getTitulo()))
+                self.__Snippets.pop((unSnippet.lenguaje,
+                                        unSnippet.titulo))
                 #establece como actual snippet a None
                 self.__SnippetActual = None
                 return True
@@ -94,7 +94,7 @@ class SnippetManager:
     def __addNewSnippetToCollection(self,newSnippet):
         ''' Agrega el nuevo snippet creado a la coleccion actual de snippets. '''
         self.__Snippets.update(
-            {(newSnippet.getLenguaje(), newSnippet.getTitulo()):newSnippet})
+            {(newSnippet.lenguaje, newSnippet.titulo):newSnippet})
 
 #################
 ## Metodos Get ##
@@ -126,9 +126,6 @@ class SnippetManager:
 
     def getLengsAndTitles(self,consulta=None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
-        #~ print self.__BD.getLengAndTitles(consulta)
-        #~ return self.__Snippets.keys()
-        #TODO: estamos buscando en le BD en vez de en el multiobjeto?? 2011/07/01 11:37:51
         return self.__BD.getLengAndTitles(consulta)
 
     def getSnippet(self,lenguaje,titulo):
@@ -179,17 +176,3 @@ class SnippetManager:
         #TODO: implementar estooo
         databases_cfg = []
         return databases_dir + databases_cfg
-
-
-######################
-## Metodos Privados ##
-######################
-    #~ def __convertPath(self,path):
-        #~ """Convierte el path a el específico de la plataforma (separador)"""
-        #~ #TODO: verificar si este metodo es neccesario
-        #~ import os
-        #~ if os.name == 'posix':
-            #~ return "/"+apply( os.path.join, tuple(path.split('/')))
-        #~ elif os.name == 'nt':
-            #~ return apply( os.path.join, tuple(path.split('/')))
-

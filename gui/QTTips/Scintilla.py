@@ -99,8 +99,8 @@ class Scintilla:
         
         
     def getCode(self):
-        ''' '''
-        return self.__editor.text()
+        ''' Devulve el codigo convertido en utf-8/unicode. '''
+        return unicode(self.__editor.text().toUtf8(),'utf-8')
         
     def getEditor(self):
         ''' '''

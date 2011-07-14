@@ -30,24 +30,24 @@ class agregarSnippet(QtGui.QMainWindow):
 
     """Ventana agregar Snippet."""
 
-    def __init__(self, parent):
+    def __init__(self, parent, titulo):
     #Cargar archivo ui
         FILENAME = 'wAgregarSnippet.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
+        #establece el titulo de la ventana
+        #TODO: establecer el titulo de la ventana
+        #~ print '>>>>>>>',titulo
+        #~ QtGui.QMainWindow.setWindowTitle(titulo)
         uic.loadUi(uifile, self)
         self.__centerOnScreen()
+        
     #cargar widget de codigo
         self.widgetcodigo = Scintilla()
         self.verticalLayout_6.addWidget(self.widgetcodigo.getEditor())
         self.widgetcodigo.setFocus()
-#        self.splitter.setSizes([200,200])
     #cargar lenguajes en combo
         self.__cargarLenguajesEnCombo()
-        #~ print 'intentando establecer codigo...'
-        #~ self.widgetcodigo.setLenguaje('Python')
-        #~ print 'codigo establecido...'
-        #~ self.pase_por_aca = False
     #instancia de SnippetManager desde GUI
         self.SM = parent.SM
 
@@ -72,7 +72,6 @@ class agregarSnippet(QtGui.QMainWindow):
         lenguaje = str(self.cbLenguajes.itemText(
                             self.cbLenguajes.currentIndex()).toUtf8())
         self.widgetcodigo.setLanguage(lenguaje)
-        #print 'lenguaje: ',lenguaje
         
     def on_eTags_editingFinished(self):
         #aplica esta funcion al texto en el campo tags
@@ -80,16 +79,26 @@ class agregarSnippet(QtGui.QMainWindow):
             self.__normalizarTags(
                 self.__toUnicode(self.eTags.text())))
     
+    def destroyed(self):
+        ''' Hace volar la ventana. '''
+        #TODO: hacer que cierre todas las ventanas
+        sys.exit(0)
 ########################
 ## Metodos Auxiliares ##
 ########################
-    
+
+    def __cargarLenguajesEnCombo(self):
+        u""" Carga los lenguajes disponibles, en la lista desplegable."""
+        
+        lenguajes = self.widgetcodigo.getLanguages()
+        for lenguaje in lenguajes:
+            self.cbLenguajes.addItem(lenguaje)
     def __centerOnScreen(self):
         u"""Centers the window on the screen."""
         resolution = QtGui.QDesktopWidget().screenGeometry()
         self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
                   (resolution.height() / 2) - (self.frameSize().height() / 2))
-
+        
     def __guardarSnippet(self):
         """ """
         #FIXME: frutea el tema de la codificacion, ver q onda.
@@ -109,22 +118,6 @@ class agregarSnippet(QtGui.QMainWindow):
                 QtGui.QMessageBox.critical(self, "Agregar snippet",
                 "Se ha producido un error.\n\nMensaje del error: " + mensaje)
 
-    def __showFileDialog(self):
-        u""" Muestra un cuadro de dialogo desde donde seleccionar un archivo. """
-        
-        filename = QtGui.QFileDialog.getOpenFileName(self, 'Abrir desde archivo')
-        fname = open(filename)
-        data = fname.read()
-        #devuelve los datos leidos desde el archivo
-        return data
-
-    def __cargarLenguajesEnCombo(self):
-        u""" Carga los lenguajes disponibles, en la lista desplegable."""
-        
-        lenguajes = self.widgetcodigo.getLanguages()
-        for lenguaje in lenguajes:
-            self.cbLenguajes.addItem(lenguaje)
-
     def __leerDatosDeLosCampos(self):
         u""" Recupera la informacion cargada en los campos de la interfaz. """
 
@@ -137,17 +130,17 @@ class agregarSnippet(QtGui.QMainWindow):
                         self.cbLenguajes.itemText(
                             self.cbLenguajes.currentIndex())),
         'tags' : self.__toUnicode(self.eTags.text()),
-        'contens' : self.__toUnicode(self.widgetcodigo.getCode()),
-        'description' : unicode(self.eDescripcion.toPlainText()),
+        'contens' : self.widgetcodigo.getCode(),
+        'description' : self.__toUnicode(self.eDescripcion.toPlainText()),
         'reference' : self.__toUnicode(self.eReferencias.text()),
-        'creation' : datetime.today().strftime('%d/%m/%Y %H:%M:%S'),
+        'creation' : unicode(datetime.today().strftime('%d/%m/%Y %H:%M:%S')),
         'modified' : None,
         'uploader' : self.__toUnicode(self.eAutor.text()),
-        'starred' : self.chkFavorito.isChecked()
+        'starred' : str(self.chkFavorito.isChecked())
         }
 
         return snippet
-
+        
     def __limpiarCampos(self):
         u""" Limpia los valores de los campos."""
         
@@ -159,24 +152,11 @@ class agregarSnippet(QtGui.QMainWindow):
         self.eAutor.setText("")
         self.chkFavorito.setChecked(False)
         
-    def __toUnicode(self,myQstring):
-        u""" Convierte a UTF8 el objeto QString recibido. """
-        return str(myQstring.toUtf8())
-
-    def __validarCampos(self):
-        u""" Verifica que los campos obligatorios no estén vacíos. """
-        valido = False
-        #TODO: acortar esta condicion
-        if self.__toUnicode(self.eTitulo.text()) != '' and self.__toUnicode(self.cbLenguajes.itemText(self.cbLenguajes.currentIndex())) != '' and self.__toUnicode(self.widgetcodigo.getCode()) != '':
-            valido = True
-        else:
-            mensaje = """Alguno de estos campos no pueden estar en blanco:
-
-            - Titulo
-            - Lenguaje
-            - Codigo"""
-            QtGui.QMessageBox.warning(self, "Agregar snippet",mensaje)
-        return valido
+    def __loadAppShortcuts(self):
+        u""" Load shortcuts used in the application. """
+        #Add Snippet Shortcut
+        QtGui.QShortcut(QtGui.QKeySequence("F10"), self, self.on_btGuardar_clicked)
+        QtGui.QShortcut(QtGui.QKeySequence("Esc"), self, self.destroyed)
 
     def __normalizarTags(self, tags):
         u""" 
@@ -194,7 +174,37 @@ class agregarSnippet(QtGui.QMainWindow):
         tags = tags.strip(",")
         #vuelve a unir todas las palabras
         return tags
-            
+    
+    def __showFileDialog(self):
+        u""" Muestra un cuadro de dialogo desde donde seleccionar un archivo. """
+        
+        filename = QtGui.QFileDialog.getOpenFileName(self, 'Abrir desde archivo')
+        fname = open(filename)
+        data = fname.read()
+        #devuelve los datos leidos desde el archivo
+        return data
+        
+    def __toUnicode(self,myQstring):
+        u""" Convierte a UTF8 el objeto QString recibido. """
+        print myQstring
+        return unicode(myQstring.toUtf8(),'utf-8')
+
+    def __validarCampos(self):
+        u""" Verifica que los campos obligatorios no estén vacíos. """
+        valido = False
+        if self.__toUnicode(self.eTitulo.text()) != '' and \
+           self.__toUnicode(self.cbLenguajes.itemText(self.cbLenguajes.currentIndex())) != '' and \
+           self.widgetcodigo.getCode() != '':
+            valido = True
+        else:
+            mensaje = """Alguno de estos campos no pueden estar en blanco:
+
+            - Titulo
+            - Lenguaje
+            - Codigo"""
+            QtGui.QMessageBox.warning(self, "Agregar snippet",mensaje)
+        return valido
+
 def main():
     app = QtGui.QApplication(sys.argv)
     m = agregarSnippet()

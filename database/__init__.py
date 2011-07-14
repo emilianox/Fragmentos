@@ -79,7 +79,6 @@ class Database:
 
     def realizarConsulta(self,consulta):
         ''' Realiza una consulta a la base de datos. '''
-        #TODO:evitar los self
         #~ print consulta
         cursor_temp = self.__cursor.execute(consulta)
         lista = []
@@ -103,11 +102,18 @@ class Database:
         sp = str('('+'?,'*len(datosSnippet))[:-1] + ')'
         #genera un string con los nombre de los campos
         campos = '('+','.join(datosSnippet.keys())+')'
+        #se convierten los campos a unicode/utf8
+        valores = []
+        print campos
+        for valor in datosSnippet.values():
+            #~ print valor,'\n',type(valor)
+            valores.append(valor)#.encode('ascii','utf-8'))
+        #~ print valores
         try:
-            self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, datosSnippet.values())
+            self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, valores)
             self.__connection.commit()
             return True, None
-        #~ except sqlite3.OperationalException,msg:
+        #except sqlite3.OperationalException,msg:
         except Exception, msg:
             print 'agregarSnippet >> ',msg
             return False, str(msg)

@@ -31,7 +31,7 @@ class Fragmentos :
         self.SM = None #SnippetManager()
         self.GUI = GUI(self)
 
-    def newSnippetManager(self,pathDB, BDU = None):
+    def newSnippetManager(self, pathDB):
         ''' Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado.'''
         #recrea la instancia de SM
@@ -40,7 +40,6 @@ class Fragmentos :
         
 def main():
     fragmentos = Fragmentos()
-
 
 if __name__ == '__main__':
     main()

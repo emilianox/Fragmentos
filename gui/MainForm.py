@@ -14,9 +14,9 @@ from QTTips.QcolorTextEdit import QcolorTextEdit
 
 class Main(QtGui.QMainWindow):
     """La ventana principal de la aplicación."""
-    def __init__(self,parent):
 
-    #Cargar archivo ui
+    def __init__(self,parent):
+        """Ventana Principal debe recibir una instancia de GUI """
         FILENAME = 'MainForm.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
@@ -37,7 +37,7 @@ class Main(QtGui.QMainWindow):
         self.colorBusqueda = QcolorTextEdit(self.eBusqueda)
     #Boludeces de instancias
         self.Padre = parent
-        self.SM = self.Padre.newSnippetManager(None, self.Padre.BDU)
+        self.SM = self.Padre.newSnippetManager(None)
 
         self.lbEstado.setText('Se encontraron '+
                                 self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
@@ -47,7 +47,6 @@ class Main(QtGui.QMainWindow):
         self.PasePorAca = False
         bds = self.SM.getBDNames()
         for item in bds:
-            print item
             self.cbBD.addItem(item)
         
     #icon
@@ -73,7 +72,7 @@ class Main(QtGui.QMainWindow):
         #obtiene la ruta de la bd segun el indice
         rutaNueva = self.SM.getPathDB(indice)
         #le pide a GUI que vuelva a crear la instancia
-        self.SM = self.Padre.newSnippetManager(rutaNueva, self.Padre.BDU)
+        self.SM = self.Padre.newSnippetManager(rutaNueva)
         #carga los snippets en el arbol
         self.lbEstado.setText('Se encontraron '+
                             self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
@@ -138,7 +137,6 @@ class Main(QtGui.QMainWindow):
             self.mytreeview.model.clear()
 
     def on_tvLenguajes_selectedItem(self,indice,b):
-        #~ print indice.row()
         if indice.parent().row() != -1:
             lenguaje =  indice.parent().data().toString().toUtf8()#.encode('ascii','utf-8')
             titulo =  unicode(indice.data().toString().toUtf8(),'utf-8')
