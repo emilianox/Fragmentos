@@ -122,6 +122,11 @@ class agregarSnippet(QtGui.QMainWindow):
         u""" Recupera la informacion cargada en los campos de la interfaz. """
 
         from datetime import datetime
+        #convierte a 0 o 1 segun el estado del check
+        favorito = None
+        if self.chkFavorito.isChecked(): 
+            favorito = "1" 
+        else: favorito = "0"
         #carga los datos de lso campos en un diccionario,
         #convirtiendo a utf8 el texto
         snippet = {
@@ -134,9 +139,9 @@ class agregarSnippet(QtGui.QMainWindow):
         'description' : self.__toUnicode(self.eDescripcion.toPlainText()),
         'reference' : self.__toUnicode(self.eReferencias.text()),
         'creation' : unicode(datetime.today().strftime('%d/%m/%Y %H:%M:%S')),
-        'modified' : None,
+        'modified' : "",
         'uploader' : self.__toUnicode(self.eAutor.text()),
-        'starred' : str(self.chkFavorito.isChecked())
+        'starred' : favorito)
         }
 
         return snippet

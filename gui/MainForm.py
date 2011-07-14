@@ -39,9 +39,9 @@ class Main(QtGui.QMainWindow):
         self.Padre = parent
         self.SM = self.Padre.newSnippetManager(None)
 
-        self.lbEstado.setText('Se encontraron '+
-                                self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
-                                ' snippets')
+        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
+        self.lbEstado.setText(
+            'Se encontraron ' + str(self.SM.getSnippetsCount()) + ' snippets')
     
     #carga las bds en el combo
         self.PasePorAca = False
@@ -62,12 +62,20 @@ class Main(QtGui.QMainWindow):
         snippet = self.SM.getSnippet(lenguaje,titulo)
         #con lo anterior busca en SM el codigo
         self.widgetcodigo.setFullCode(snippet.codigo,snippet.lenguaje)
+        #carga en los campos los datos del snippet
         self.leTags.setText(snippet.tags)
         self.leTitulo.setText(snippet.titulo)
         self.leLenguaje.setText(snippet.lenguaje)
         self.txtDescripcion.setText('Descripcion: '+snippet.descripcion)
         self.lbFechaCreacion.setText('Creado: '+snippet.fechaCreacion)
-        self.lbFechaModificacion.setText('Modificado: '+str(snippet.fechaModificacion))
+        if not snippet.fechaModificacion is None:
+            #si existe una fecha de modificado
+            self.lbFechaModificacion.setVisible(True)
+            self.lbFechaModificacion.setText('Modificado: '+str(snippet.fechaModificacion))
+        else:
+            #oculta el label
+            self.lbFechaModificacion.setVisible(False)
+        #TODO: si es favorito, cambia el estado del boton
         
 
     def __convertir_a_unicode(self,myQstring):
@@ -81,9 +89,9 @@ class Main(QtGui.QMainWindow):
         #le pide a GUI que vuelva a crear la instancia
         self.SM = self.Padre.newSnippetManager(rutaNueva)
         #carga los snippets en el arbol
-        self.lbEstado.setText('Se encontraron '+
-                            self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())+
-                            ' snippets')
+        self.lbEstado.setText(
+            'Se encontraron ' + str(self.SM.getSnippetsCount()) + ' snippets')
+                            
     def __centerOnScreen (self):
         '''Centers the window on the screen.'''
         resolution = QtGui.QDesktopWidget().screenGeometry()
@@ -132,12 +140,13 @@ class Main(QtGui.QMainWindow):
 
     def on_eBusqueda_textChanged(self,cadena):
         #campo de pruebas en la busqueda
-        datos = self.SM.getLengsAndTitles(str(self.__convertir_a_unicode(cadena)))
+        datos = self.SM.getLengsAndTitles(
+            str(self.__convertir_a_unicode(cadena)),
+                self.btBuscarEnFavoritos.isChecked())
         if datos:
             self.colorBusqueda.set_color_busqueda()
-            self.lbEstado.setText('Se encontraron '+
-                                self.mytreeview.insertarEnArbol(datos)+
-                                ' snippets')
+            numero = self.mytreeview.insertarEnArbol(datos)
+            self.lbEstado.setText('Se encontraron '+ len(datos),' snippets')
             self.tvLenguajes.expandAll()
         else:
             self.colorBusqueda.set_color_busqueda(False)
@@ -165,7 +174,19 @@ class Main(QtGui.QMainWindow):
             self.__cargarBDSeleccionada(self.cbBD.currentIndex())
         else:
             self.PasePorAca = True
-
+    
+    @QtCore.pyqtSlot()
+    def on_btBuscarEnFavoritos_clicked(self):
+        #carga en el arbol los snippets favoritos
+        
+        if self.btBuscarEnFavoritos.isChecked():
+            #obtiene solo los favoritos
+            datos = self.SM.getLengsAndTitles("s=1",True)
+        else:
+            datos = self.SM.getLengsAndTitles()
+        #carga los snippets en el arbol
+        self.mytreeview.insertarEnArbol(datos)
+        
     def __toogleFullScreen(self):
         if not self.fullScreen :
             self.showFullScreen()

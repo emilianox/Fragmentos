@@ -124,9 +124,9 @@ class SnippetManager:
         #dict(), convierte la tupla de tuplas a diccionario
         return dict(todos_los_snippets)
 
-    def getLengsAndTitles(self,consulta=None):
+    def getLengsAndTitles(self,consulta=None, favorito = None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
-        return self.__BD.getLengAndTitles(consulta)
+        return self.__BD.getLengAndTitles(consulta, favorito)
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''

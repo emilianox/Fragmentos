@@ -35,13 +35,13 @@ class Busqueda :
         'u=':'uploader',
         's=':'starred'
         }
-
-    def generarConsulta (self, labusqueda) :
+        
+    def generarConsulta (self, labusqueda, enfavoritos) :
         """ recibe la busqueda completa y genera un sql para realizar la busqueda """
         listadecriteriosseparados = self.__separarPorCampos(labusqueda)
         if listadecriteriosseparados:
-            sql = self.__generarSQL(listadecriteriosseparados)
-            print 'hice una consulta: ',len(sql)
+            sql = self.__generarSQL(listadecriteriosseparados, enfavoritos)
+            #~ print 'hice una consulta: ',len(sql)
         else :
             sql = ' '
         return sql
@@ -114,8 +114,9 @@ class Busqueda :
             sql += self.__generarConsultaSimple(campocomplejo[:2]+criterio) + operador
         return sql[:-len(operador)] + ')'
 
-    def __generarSQL (self, listadecampos) :
-        """ recibe una lista de campos y genera un sql para realizar la busqueda """
+    def __generarSQL (self, listadecampos, favorito) :
+        """ recibe una lista de campos y genera un sql para realizar la busqueda 
+        Si favorito = 1, busca en los favoritos."""
 
         consulta_sql = "SELECT language,title \nFROM snippet \nWHERE "
         for campo in listadecampos:
@@ -124,9 +125,12 @@ class Busqueda :
                 else:
                     consulta_sql += self.__generarConsultaCompleja(campo)
                 consulta_sql += " \nAND "
-        consulta_sql = consulta_sql[:-4] + "ORDER BY language,title"
+        if favorito == 1:
+            consulta_sql = consulta_sql[:-4] + "AND starred = '1' \nORDER BY language,title"
+        else:
+            consulta_sql = consulta_sql[:-4] + "ORDER BY language,title"
         return consulta_sql
 
 if __name__ == '__main__':
     b = Busqueda()
-    print b.generarConsulta('t=gtk and button,l=python')
+    print b.generarConsulta('t=gtk and button,l=python', 0)

@@ -26,7 +26,7 @@ from busqueda import Busqueda
 class Database:
 
     def __init__(self,rutaBD):
-        ''' Costructor de la clase. '''
+        u''' Costructor de la clase. '''
         #~ print 'my path es: ',rutaBD
         self.__pathBD = rutaBD
         #conecta a la base de datos
@@ -41,25 +41,35 @@ class Database:
 ###############
 
     def getPathBD(self):
-        ''' Obtiene la ruta de la base de datos en uso. '''
+        u''' Obtiene la ruta de la base de datos en uso. '''
         return self.__pathBD
 
     def getLenguajes(self):
-        ''' Obtiene los lenguajes para la actual BD. '''
+        u''' Obtiene los lenguajes para la actual BD. '''
         resultado = self.realizarConsulta('SELECT DISTINCT language FROM snippet ORDER BY language')
         return resultado
 
-    def getLengAndTitles(self,consulta=None):
-        ''' Obtiene los snippets por lenguajes de la actual BD.'''
-        if not consulta:
-            resultado = self.realizarConsulta('SELECT language,title FROM snippet ORDER BY language,title')
+    def getLengAndTitles(self, consulta=None, favorito = None):
+        u''' Obtiene los snippets por lenguajes de la actual BD.'''
+        
+        #por defecto busca los que no son favoritos
+        if not consulta and not favorito:
+            resultado = self.realizarConsulta('''SELECT language,title 
+                                                FROM snippet  
+                                                ORDER BY language,title ''')
         else:
-            consulta = self.__Busqueda.generarConsulta(consulta)
+            print 'entre en consulta-...'
+            #si no se pasa este parametro
+            if favorito is None: 
+                favorito = 0
+            #genera un sql con la busqueda segun la consulta recibida
+            consulta = self.__Busqueda.generarConsulta(consulta, int(favorito))
+            #obtiene los resultados de la consulta
             resultado = self.realizarConsulta(consulta)
         return resultado
 
     def getAllSnippets(self):
-        ''' Obtiene todos los snippets de la base de datos. '''
+        u''' Obtiene todos los snippets de la base de datos. '''
         resultado = self.realizarConsulta('''SELECT title,language,tags,contens,
                                                     description,creation,reference,
                                                     modified,uploader,starred
@@ -68,17 +78,17 @@ class Database:
         return resultado
 
     def getSnippet(self, lenguaje, titulo):
-        ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
+        u''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
         return self.__convertirASnippet(resultado)
 
     def getSnippetsCount(self):
-        ''' Obtiene la cantidad de snippets cargados en la actual bd. '''
+        u''' Obtiene la cantidad de snippets cargados en la actual bd. '''
         cantidad = self.realizarConsulta('SELECT count(*) FROM snippet')
         return int(cantidad[0][0])
 
     def realizarConsulta(self,consulta):
-        ''' Realiza una consulta a la base de datos. '''
+        u''' Realiza una consulta a la base de datos. '''
         #~ print consulta
         cursor_temp = self.__cursor.execute(consulta)
         lista = []
@@ -92,7 +102,7 @@ class Database:
 ################################
 
     def agregarSnippet(self, datosSnippet):
-        ''' Agrega un nuevo Snippet a la base de datos. '''
+        u''' Agrega un nuevo Snippet a la base de datos. '''
 
         # TODO: agregar los try-catch para contemplar:
         # º snippet repetido
@@ -119,7 +129,7 @@ class Database:
             return False, str(msg)
 
     def eliminarSnippet(self,titulo,lenguaje):
-        ''' Elimina un Snippet de la bd.'''
+        u''' Elimina un Snippet de la bd.'''
 
         sql = u'DELETE FROM snippet ' + \
         'WHERE title = "{0}" AND language = "{1}"'.format(titulo,lenguaje)
@@ -139,7 +149,7 @@ class Database:
 
 
     def __convertirASnippet(self,datos):
-        ''' Obtiene los datos de un snippet desde la BD, y los
+        u''' Obtiene los datos de un snippet desde la BD, y los
         carga en un diccionario, para luego convertirse en una
         instancia de Snippet. '''
 
