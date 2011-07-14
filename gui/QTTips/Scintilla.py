@@ -27,7 +27,7 @@ class Scintilla:
     def __init__(self):
 
         editor = QsciScintilla()
-        editor.setSizePolicy(QtGui.QSizePolicy.Ignored,QtGui.QSizePolicy.Ignored)
+        editor.setSizePolicy(QtGui.QSizePolicy.Expanding,QtGui.QSizePolicy.Expanding)
 
         ## define the font to use
         font = QtGui.QFont()

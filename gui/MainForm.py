@@ -29,8 +29,8 @@ class Main(QtGui.QMainWindow):
     #Detalles de armado interfaz
         #Widget codigo
         self.widgetcodigo = Scintilla()
-        self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
         self.wgtDetalles.setVisible(False)
+        self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
         #Reordenamiento  y expancion
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
         #colores x defecto
@@ -62,6 +62,13 @@ class Main(QtGui.QMainWindow):
         snippet = self.SM.getSnippet(lenguaje,titulo)
         #con lo anterior busca en SM el codigo
         self.widgetcodigo.setFullCode(snippet.codigo,snippet.lenguaje)
+        self.leTags.setText(snippet.tags)
+        self.leTitulo.setText(snippet.titulo)
+        self.leLenguaje.setText(snippet.lenguaje)
+        self.txtDescripcion.setText('Descripcion: '+snippet.descripcion)
+        self.lbFechaCreacion.setText('Creado: '+snippet.fechaCreacion)
+        self.lbFechaModificacion.setText('Modificado: '+str(snippet.fechaModificacion))
+        
 
     def __convertir_a_unicode(self,myQstring):
         return str(myQstring.toUtf8())
