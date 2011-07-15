@@ -141,7 +141,7 @@ class agregarSnippet(QtGui.QMainWindow):
         'creation' : unicode(datetime.today().strftime('%d/%m/%Y %H:%M:%S')),
         'modified' : "",
         'uploader' : self.__toUnicode(self.eAutor.text()),
-        'starred' : favorito)
+        'starred' : favorito
         }
 
         return snippet
