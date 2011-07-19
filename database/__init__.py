@@ -22,7 +22,7 @@
 import sqlite3
 from busqueda import Busqueda
 
-#~
+
 class Database:
 
     def __init__(self,rutaBD):
@@ -58,7 +58,6 @@ class Database:
                                                 FROM snippet  
                                                 ORDER BY language,title ''')
         else:
-            print 'entre en consulta-...'
             #si no se pasa este parametro
             if favorito is None: 
                 favorito = 0
@@ -102,7 +101,8 @@ class Database:
 ################################
 
     def agregarSnippet(self, datosSnippet):
-        u''' Agrega un nuevo Snippet a la base de datos. '''
+        u''' Agrega un nuevo Snippet a la base de datos. 
+        datosSnippet = diccionario con los datos del snippet a agregar.'''
 
         # TODO: agregar los try-catch para contemplar:
         # º snippet repetido
@@ -114,18 +114,16 @@ class Database:
         campos = '('+','.join(datosSnippet.keys())+')'
         #se convierten los campos a unicode/utf8
         valores = []
-        print campos
         for valor in datosSnippet.values():
             #~ print valor,'\n',type(valor)
-            valores.append(valor)#.encode('ascii','utf-8'))
-        #~ print valores
+            valores.append(valor)#.encode('ascii','utf-8'))        
         try:
             self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, valores)
             self.__connection.commit()
             return True, None
         #except sqlite3.OperationalException,msg:
         except Exception, msg:
-            print 'agregarSnippet >> ',msg
+            print 'agregarSnippet >> ',str(msg)
             return False, str(msg)
 
     def eliminarSnippet(self,titulo,lenguaje):
@@ -133,7 +131,7 @@ class Database:
 
         sql = u'DELETE FROM snippet ' + \
         'WHERE title = "{0}" AND language = "{1}"'.format(titulo,lenguaje)
-        print sql
+        #~ print sql
         try:
             self.__cursor.execute(sql)
             self.__connection.commit()

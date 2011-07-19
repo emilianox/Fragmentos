@@ -24,6 +24,7 @@ from dbutils import DBUtils
 from snippetmanager import SnippetManager
 from gui import GUI
 
+
 class Fragmentos :
 
     def __init__(self) :

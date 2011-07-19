@@ -133,4 +133,4 @@ class Busqueda :
 
 if __name__ == '__main__':
     b = Busqueda()
-    print b.generarConsulta('t=gtk and button,l=python', 0)
+    print b.generarConsulta('t=ale or mike,l=python,c=if', 0)

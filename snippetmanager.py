@@ -22,6 +22,7 @@
 from database import Database
 from snippet import Snippet
 
+
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase Fragmentos'''

@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#~ import sys
-#~ from PyQt4 import QtGui, QtCore
-#~ from gui import TrayIcon
-#~ 
-#~ app = QtGui.QApplication(sys.argv)
-#~ 
-#~ w = QtGui.QWidget()
-#~ trayIcon = TrayIcon.SystemTrayIcon(QtGui.QIcon("gui/star.png"), w)
-#~ 
-#~ trayIcon.show()
-#~ sys.exit(app.exec_())
-#~ 
 
 
-#~ a = f if f is 0. else y
-#~ print a 
-a = 'hola vithe %s jamaicaaaa '
-a = a % "1"
-d = False
-print int(d)
+def normalizarTitulo(titulo):
+    
+    #quita mas de un espacio entre palabras
+    while titulo.find("  ") != -1:
+            titulo = titulo.replace("  "," ")
+    #quita espacios al comienzo y final
+    titulo = titulo.strip()
+    #pone la primer letra a Mayuscula
+    titulo = titulo.capitalize()
+    
+    return titulo
+    
+
+titulo = "      probando  norm tags     "
+
+h = normalizarTitulo(titulo)
+print h+"-"

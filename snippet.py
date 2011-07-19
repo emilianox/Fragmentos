@@ -19,7 +19,10 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-class Snippet :
+import sqlite3
+
+
+class Snippet (object):
 
     def __init__(self,datosSnippet=None,dbReference=None):
         u""" Constructor de la clase. donde:
@@ -78,7 +81,8 @@ class Snippet :
 #################
 
     def __setTitulo(self,titulo):
-       self.__actualizarCampo('title',titulo)
+        print 'entrando a actualiuzar titulo...'
+        self.__actualizarCampo('title',titulo)
 
 
     def __setLenguaje(self,lenguaje):
@@ -114,16 +118,15 @@ class Snippet :
     def __actualizarCampo(self,campo,valorNuevo):
         ''' Recibe el campo y valor nuevo y edita ese campo en la
         base de datos, correspondiente a este Snippet. '''
-
-        sql_update = 'UPDATE snippet SET ' + campo + ' = ' + valorNuevo + ' \
-        WHERE title = ' + self.titulo + ' AND language = ' + self.lenguaje
+        
+        sql_update = "UPDATE snippet SET %s = ? WHERE title = ? AND language = ?"
         try:
             connection = sqlite3.connect(self.__DB.getPathBD())
-            cursor = connection.cursor(sql_update)
-            cursor.execute()
+            cursor = connection.cursor()
+            cursor.execute(sql_update % (campo),(valorNuevo,self.titulo,self.lenguaje))
             connection.commit()
-        except sqlite3.OperationalException, msg:
-            print 'actualizarCampo: ',msg
+        except Exception, msg:
+            print 'actualizarCampo: ',str(msg)
 
 
 ################

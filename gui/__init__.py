@@ -39,13 +39,13 @@ class GUI():
         icon = QtGui.QIcon('gui/star.png')
         self.__trayIcon = TrayIcon.SystemTrayIcon(icon,mainforminstance)
         self.__trayIcon.show()
-        print 'por aca'
+        #~ print 'por aca'
 
     def newSnippetManager(self, pathDB):
         u""" Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado."""
         self.SM = self.fragmentos.newSnippetManager(pathDB)
-        print 'nueva instancia de SM creada desde -GUI-'
+        #~ print 'nueva instancia de SM creada desde -GUI-'
         return self.SM
 
 
@@ -58,6 +58,7 @@ class GUI():
         from agregarSnippet import agregarSnippet
 
         self.agregar = agregarSnippet(self,"Agregar Snippet")
+        self.agregar.operacion = "agregar"
         self.agregar.show()
 
     def showModificarSnippet(self, unSnippet):
@@ -65,6 +66,7 @@ class GUI():
         from agregarSnippet import agregarSnippet
         #instancia de agregarSnippet
         self.modificar = agregarSnippet(self, "Modificar Snippet")
+        self.modificar.operacion = "modificar"
         #carga los valores del snippet en los campos
         self.modificar.eTitulo.setText(unSnippet.titulo)
         self.modificar.eDescripcion.setText(unSnippet.descripcion)
@@ -79,6 +81,9 @@ class GUI():
         self.modificar.show()
         
 
+    def refrescarArbol(self):
+        pass
+        
 def main():
     G = GUI()
 
