@@ -95,7 +95,7 @@ class Snippet (object):
         self.__actualizarCampo('tags',tags)
 
     def __setDescripcion(self,descripcion):
-        self.__actualizarCampo('descripction',descripcion)
+        self.__actualizarCampo('description',descripcion)
 
     def __setFechaCreacion(self,fcreacion):
         self.__actualizarCampo('creation',fcreacion)

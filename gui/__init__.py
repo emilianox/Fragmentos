@@ -36,7 +36,7 @@ class GUI():
         sys.exit(app.exec_())
 
     def settrayIcon(self,mainforminstance):
-        icon = QtGui.QIcon('gui/star.png')
+        icon = QtGui.QIcon('gui/images/app.png')
         self.__trayIcon = TrayIcon.SystemTrayIcon(icon,mainforminstance)
         self.__trayIcon.show()
         #~ print 'por aca'
@@ -59,25 +59,32 @@ class GUI():
 
         self.agregar = agregarSnippet(self,"Agregar Snippet")
         self.agregar.operacion = "agregar"
+        # lee desde el cfg y carga el nombre del usuario actual
+        self.agregar.eAutor.setText(self.fragmentos.ConfigsApp.userUploader)
         self.agregar.show()
 
     def showModificarSnippet(self, unSnippet):
         u""" """
         from agregarSnippet import agregarSnippet
-        #instancia de agregarSnippet
+        
+        # instancia de agregarSnippet
         self.modificar = agregarSnippet(self, "Modificar Snippet")
         self.modificar.operacion = "modificar"
-        #carga los valores del snippet en los campos
+        
+        # carga los valores del snippet en los campos
         self.modificar.eTitulo.setText(unSnippet.titulo)
         self.modificar.eDescripcion.setText(unSnippet.descripcion)
         self.modificar.eAutor.setText(unSnippet.uploader)
         self.modificar.eTags.setText(unSnippet.tags)
-        if unSnippet.referencias == None: unSnippet.referencias = ""
+        #~ print 'holaaa: ',type(unSnippet.referencias),unSnippet.referencias
+        if unSnippet.referencias == None: 
+            unSnippet.referencias = ''
+            
         self.modificar.eReferencias.setText(unSnippet.referencias)
         self.modificar.widgetcodigo.setCode(unSnippet.codigo)
         self.modificar.cbLenguajes.setCurrentIndex(
             self.modificar.cbLenguajes.findText(unSnippet.lenguaje))
-        print '>>>>>>>',unSnippet.favorito
+        self.modificar.chkFavorito.setChecked(bool(unSnippet.favorito))
         self.modificar.show()
         
 

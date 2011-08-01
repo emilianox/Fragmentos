@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
+import sys
 
 def normalizarTitulo(titulo):
     
@@ -20,3 +20,5 @@ titulo = "      probando  norm tags     "
 
 h = normalizarTitulo(titulo)
 print h+"-"
+
+print sys.getsizeof(titulo)

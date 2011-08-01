@@ -34,20 +34,27 @@ class DBUtils:
 
     def getBDsInDatabasesDir(self):
         ''' Obtiene los path's de las bases de datos ubicadas en el directorio databases.'''
+        
+        # obtiene una lista con los archivos que estan en el directorio databases
         archivos_dbs = os.listdir(self.getPathDatabasesDir())
         bds = []
-        #filtro los archivos devueltos por la extencion .db
+        # filtra los archivos devueltos por la extencion .db
         for archivo in archivos_dbs:
+            # si es un archivo que es alguna de las extenciones permitidas
             if archivo[-3:] == Members.DB_EXTENCIONS:
                 bds.append(self.getPathDatabasesDir()+archivo)
         return bds
 
     def getBDsNames(self):
         ''' Obtiene una lista con los nombres de los archivos bds. '''
+        
+        # obtienes los paths de las bds en /databases
         bd_rutas = self.getBDsInDatabasesDir()
         bd_names = []
         for ruta in bd_rutas:
+            # recupera el nombre del archivo
             nombre_bd = os.path.splitext(os.path.basename(ruta))
+            # lo agrega a la lista
             bd_names.append(nombre_bd[0])
         return bd_names
 
@@ -69,26 +76,33 @@ class DBUtils:
         program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
         return program_folder
 
-    def newDataBase(self,pathNewBD):
+    def newDataBase(self, pathNewBD):
         ''' Crea una nueva base de datos Fragmentos. '''
+        
+        # se fija que la bd ya no exista anteriormente
         if not os.path.exists(pathNewBD):
+            # crea la conexion para el path asignado
             connection = sqlite3.connect(pathNewBD)
             cursor = connection.cursor()
+            # ejecuta la consulta para crear la tabla dentro de la bd
             cursor.execute(Members.SCRIPTSQL_BD_SNIPPET)
+            # persiste la consulta
             connection.commit()
-            print 'BD creada con exito...'
+            print 'BD creada con exito en : ',pathNewBD
         else:
             print 'Ya existe una base de datos con el mismo nombre...'
 
-    def validarBD(self,pathBD = None):
+    def validarBD(self, pathBD):
         ''' Verifica que la estructura de la bd sea una bd tipo Fragmentos.'''
 
-        if pathBD is None:
-            pathBD = self.__pathBD
+        # crea la conexion para el path asignado
         connection = sqlite3.connect(pathBD)
         cursor = connection.cursor()
+        
+        # consulta para obtener las tablas de la bd
         cursor.execute('Select tbl_name From MAIN.[sqlite_master] where type = "table"')
         existe = False
+        # recorre las tablas devueltas para verificar que exista la tabla 'snippet'
         for fila in cursor:
             if fila[0] == 'snippet':
                 existe = True

@@ -23,12 +23,13 @@
 from dbutils import DBUtils
 from snippetmanager import SnippetManager
 from gui import GUI
-
+from configurations import Configurations
 
 class Fragmentos :
 
     def __init__(self) :
         self.BDU = DBUtils()
+        self.ConfigsApp = Configurations()
         self.SM = None #SnippetManager()
         self.GUI = GUI(self)
 

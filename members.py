@@ -19,15 +19,16 @@
 #       MA 02110-1301, USA.
 
 class Members:
+    
         ''' Clase que contiene todos los miembros constantes 
         usados en el programa. '''
         
         CFG_FILE = 'settings.cfg'
         DATABASES_DIR = 'databases'
-        HISTORY_DIR = 'config'
+        HISTORY_DIR = 'data'
         HISTORY_FILE = 'history.fht'
         TABLENAME_SNIPPET = 'snippet'
-        CONFIG_DIR = 'config'
+        CONFIG_DIR = 'data'
         SCRIPTSQL_BD_SNIPPET = ''' CREATE TABLE [snippet] (
                                     [title] TEXT  NOT NULL,
                                     [language] TEXT  NOT NULL,

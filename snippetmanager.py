@@ -29,16 +29,20 @@ class SnippetManager:
 
     def __init__(self, pathBD = False, DBUtils = None):
         self.__DBUtils = DBUtils
-        #lista con las rutas de las base de datos
+        # lista con las rutas de las base de datos
         self.__AllPathDBs = self.setAllPathDBs()
         if not pathBD:
             pathBD = self.__AllPathDBs[0]
         #~ print pathBD
         self.__BD = Database(pathBD)
-        #diccionario con todas las instancia de objeto Snippet
+        # diccionario con todas las instancia de objeto Snippet
         self.__Snippets = self.getAllSnippets()
-        #objeto snippet mostrado actualmente en GUI
+        # objeto snippet mostrado actualmente en GUI
         self.__SnippetActual = None # Snippet
+        import asizeof
+        #~ print 'todos los spts pesan: ',(asizeof.asizeof(self.__Snippets)/1024)
+        #~ print 'todos los spts pesan: ',(asizeof.asizeof(self.__BD)/1024)
+        
 
 ##########################
 ## Metodos de instancia ##
@@ -48,26 +52,36 @@ class SnippetManager:
         ''' Recibe un dicionario de los datos de lo que sera un nuevo
         snippet y lo agrega a la BD.'''
         
+        # llama al metodo de bd para agregar un snippet, devolviendo
+        # el resultado de la operacion como boolean y en caso de error, 
+        # el mensaje del error.
         resultado, mensaje = self.__BD.agregarSnippet(datosSnippet)
         if resultado:
-            #crea una instancia del nuevo snippet
+            # crea una instancia del nuevo snippet
             newSnippet = Snippet(datosSnippet, self.__BD)
             #~ print '\n valores snippet : ',datosSnippet
-            #lo agrega a los snippets ya existentes
+            # agrega el nuevo snippet a los ya existentes
             self.__addNewSnippetToCollection(newSnippet)
+            # retorna que la operacion fue exitosa, 
+            #  y ningun mensaje de error
             return True, None
         else:
+            # retorna que la operacion no fue exitosa, y 
+            # el mensaje de error devuelto por bd
             return False,mensaje
 
     def eliminarSnippet(self, unSnippet):
         ''' Manda a eliminarSnippet de la Bd que
         borre el snippet segun su titulo y lenguaje.'''
+        
+        # llama al metodo de bd para eliminar un snippet
+        # y devuelve un booleano con el resultado de la operacion.
         if self.__BD.eliminarSnippet(
             unSnippet.titulo, unSnippet.lenguaje):
-                #quita del diccionario el snippet
+                # quita del diccionario el snippet
                 self.__Snippets.pop((unSnippet.lenguaje,
                                         unSnippet.titulo))
-                #establece como actual snippet a None
+                # establece como actual snippet a None
                 self.__SnippetActual = None
                 return True
         else:
@@ -75,6 +89,9 @@ class SnippetManager:
 
     def newSnippet(self,tuplaSnippet):
         ''' Crea una instancia de snippet. '''
+        
+        # a partir de los valores que vienen en la tupla, 
+        # se crea una instancia de snippet con dichos valores.
         nuevoSnippet = Snippet({
             'title':tuplaSnippet[0],
             'language':tuplaSnippet[1],
@@ -87,7 +104,10 @@ class SnippetManager:
             'uploader':tuplaSnippet[8],
             'starred':tuplaSnippet[9]},
             self.__BD)
+            
+        # tupla que sera de clave en el diccionario de los snippets
         clave = (tuplaSnippet[1],tuplaSnippet[0])
+        
         elemento_diccionario = (clave,nuevoSnippet)
 
         return elemento_diccionario
@@ -103,8 +123,11 @@ class SnippetManager:
 
     def getAllLenguajes(self):
         ''' Obtiene una lista de los lenguajes desde la bd.'''
+        
+        # obtiene desde la actual instancia de bd los lenguajes existentes 
         all_lenguajes = self.__BD.getLenguajes()
         lenguajes = []
+        # saca de la tupla y carga en la lista los lenguajes obtenidos
         for lenguaje in all_lenguajes:
             lenguajes.append(lenguaje[0])
         return lenguajes
@@ -116,13 +139,19 @@ class SnippetManager:
     def getAllSnippets(self):
         ''' Obtiene los snippets desde la bd y carga en un diccionario
         los snippets en formato objeto Snippet().'''
-        #orden en que vienen los campos
-        #1-title,2-language,3-tags,4-contens,5-description
-        #6-creation,7-reference,8-modified,9-uploader,10-starred
+        
+        # obtiene desde la bd todos los snippets,
+        # orden en que vienen los campos
+        # 1-title,2-language,3-tags,4-contens,5-description
+        # 6-creation,7-reference,8-modified,9-uploader,10-starred
         all_snippets = self.__BD.getAllSnippets()
-        #devuelve tuplas de: (claveSnippet : instanciaSnippet)
+        
+        # se aplica map para crear por cada tupla obtenida desde la bd
+        # una tupla de tuplas donde el formato resultante es:
+        # (claveSnippet : instanciaSnippet)
         todos_los_snippets = map(self.newSnippet,all_snippets)
-        #dict(), convierte la tupla de tuplas a diccionario
+        
+        # dict(), convierte la tupla de tuplas a diccionario
         return dict(todos_los_snippets)
 
     def getLengsAndTitles(self,consulta=None, favorito = None):
@@ -132,10 +161,15 @@ class SnippetManager:
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
         try:
+            # del diccionario donde estan todas las instancias de snippet,
+            # a partir de la clave tupla, recupera la instancia
+            # con lenguaje y titulo indicado 
             snippet = self.__Snippets[(lenguaje,titulo)]
+            
+            # establece como instancia actual en uso, la instancia obtenida
             self.setSnippetActual(snippet)
         except Exception:
-            #si el snippet no esta en el diccionario, devuelve None
+            # si el snippet no esta en el diccionario, devuelve None
             snippet = None
             self.setSnippetActual(snippet)
         return snippet
@@ -149,6 +183,7 @@ class SnippetManager:
         return self.__SnippetActual
 
     def getAllPathDBs(self):
+        # devuelve la lista con las rutas de las bd actuales
         return self.__AllPathDBs
 
     def getPathDB(self,index):

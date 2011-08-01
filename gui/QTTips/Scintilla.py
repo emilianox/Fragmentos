@@ -45,7 +45,7 @@ class Scintilla:
 
         ## Line numbers
         # conventionnaly, margin 0 is for line numbers
-        editor.setMarginWidth(0, fm.width( "000" ))
+        editor.setMarginWidth(0, fm.width( "00000" ))
         editor.setMarginLineNumbers(0, True)
 
         ## Edge Mode shows a red vetical bar at 80 chars
@@ -54,7 +54,7 @@ class Scintilla:
         #~ editor.setEdgeColor(QtGui.QColor("#FF0000"))
 
         ## Folding visual : we will use boxes
-        #~ editor.setFolding(QsciScintilla.BoxedTreeFoldStyle)
+        editor.setFolding(QsciScintilla.BoxedTreeFoldStyle)
 
         ## Braces matching
         editor.setBraceMatching(QsciScintilla.SloppyBraceMatch)
@@ -69,7 +69,9 @@ class Scintilla:
         editor.setMarginsForegroundColor(QtGui.QColor("#1A1A1A"))
 
         # folding margin colors (foreground,background)
-        editor.setFoldMarginColors(QtGui.QColor("#99CC66"),QtGui.QColor("#333300"))
+        #~ editor.setFoldMarginColors(QtGui.QColor("#99CC66"),QtGui.QColor("#333300"))
+        editor.setFoldMarginColors(QtGui.QColor("#FFFFFF"),QtGui.QColor("#E5E5E5"))
+        
 
         self.__editor = editor
         self.__font = font
@@ -146,5 +148,5 @@ class Scintilla:
         pass
 
     def clearCode(self):
-        pass
+        self.__editor.setText("")
         

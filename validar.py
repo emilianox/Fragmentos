@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       sin título.py
-#
+#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
 #       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -19,29 +18,74 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
+
+import os, os.path
+
+from members import Members
+from dbutils import DBUtils
+
 class Validator :
+    
     def __init__(self) :
-        pass
+        self.dbu = DBUtils()
+        
+        
     def checkFolders (self) :
-        """ Verifica que existan los directorios de la aplicacación """
-        # returns
-        pass
+        """ Verifica que existan los directorios de la aplicación """
+        
+        # obtiene la ruta del directorio /databases
+        databases_dir = self.dbu.convertPath(
+                            self.dbu.getPathDatabasesDir())
+        
+        # si no existe el directorio, lo crea
+        if not os.path.exists(databases_dir) :
+            print 'El directorio /databases no existia, ha sido creado nuevamente.'
+            os.mkdir(databases_dir)
+            
+        # obtiene la ruta del directorio /data
+        data_dir = self.dbu.convertPath(
+                        self.dbu.getPathProgramFolder() + \
+                                Members.CONFIG_DIR )
+        
+        # si no existe el directorio, lo crea
+        if not os.path.exists(data_dir) :
+            print 'El directorio /data no existia, ha sido creado nuevamente.'
+            os.mkdir(data_dir)
+        
     def checkExistCfg (self) :
         """ Verifica la existencia del archivo de configuracion """
-        # returns
-        pass
+        
+        existe = False
+        path_cfg = self.dbu.convertPath(
+                        self.dbu.getPathProgramFolder() + \
+                        Members.CONFIG_DIR + '/' + Members.CFG_FILE)
+        if os.path.exists(path_cfg):
+            existe = True
+        return existe
+        
     def checkIntegrityCfg (self) :
         """ Verifica la integridad del archivo de configuracion """
         # returns
         pass
+        
     def check (self) :
-        # returns
-        pass
+        
+        # verifica la existencia de los directorios
+        self.checkFolders()
+        
+        # verifica la existencia del archivo de configuracion 
+        self.checkExistCfg()
+        
+        # verifica la integridad del archivo de configuracion 
+        self.checkIntegrityCfg()
+        
 
 
 def main():
 
-    return 0
+    v = Validator()
+    #~ v.checkFolders()
+    
 
 if __name__ == '__main__':
     main()

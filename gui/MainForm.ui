@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Fragmentos</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>images/app.png</normaloff>images/app.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_5">
     <property name="spacing">
@@ -56,7 +60,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
+         <iconset>
           <normaloff>:/icons/snippet-new.png</normaloff>:/icons/snippet-new.png</iconset>
         </property>
         <property name="iconSize">
@@ -114,7 +118,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
+           <iconset>
             <normaloff>:/icons/back.png</normaloff>:/icons/back.png</iconset>
           </property>
           <property name="iconSize">
@@ -161,7 +165,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
+           <iconset>
             <normaloff>:/icons/forward.png</normaloff>:/icons/forward.png</iconset>
           </property>
           <property name="iconSize">
@@ -218,7 +222,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
+           <iconset>
             <normaloff>:/icons/fav.png</normaloff>:/icons/fav.png</iconset>
           </property>
           <property name="iconSize">
@@ -251,6 +255,19 @@
             <pointsize>10</pointsize>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Claves de búsqueda:
+
+t=título
+l=lenguaje
+g=tags
+c=contenido
+d=descripcion
+r=referencias
+n=fecha creacion
+m=fecha modificado
+u=autor</string>
+          </property>
           <property name="inputMethodHints">
            <set>Qt::ImhLowercaseOnly</set>
           </property>
@@ -273,7 +290,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
+         <iconset>
           <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
         </property>
         <property name="iconSize">
@@ -314,7 +331,7 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
+         <iconset>
           <normaloff>:/icons/settings2.png</normaloff>:/icons/settings2.png</iconset>
         </property>
         <property name="iconSize">
@@ -531,7 +548,7 @@
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="fragmentos.qrc">
+                  <iconset>
                    <normaloff>:/icons/fav.png</normaloff>:/icons/fav.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -685,28 +702,6 @@ p, li { white-space: pre-wrap; }
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Detalles</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoDefault">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="lbEstado">
         <property name="font">
          <font>
@@ -731,6 +726,28 @@ p, li { white-space: pre-wrap; }
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Detalles</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btCerrar">

@@ -27,7 +27,7 @@ class Busqueda :
         't=' : 'title',
         'l=':'language',
         'g=':'tags',
-        'c=':'contents',
+        'c=':'contens',
         'd=':'description',
         'r=':'references',
         'n=':'creation',

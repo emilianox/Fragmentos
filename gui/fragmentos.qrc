@@ -12,5 +12,6 @@
     <file>star.png</file>
     <file>add.png</file>
     <file>save.png</file>
+    <file>app.png</file>
   </qresource>
 </RCC>

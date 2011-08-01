@@ -21,38 +21,40 @@ class Main(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
+        # establece el icono de la ventana
+        #~ self.setWindowIcon(QtGui.QIcon(":/app.png"))
         self.__centerOnScreen()
-    #conectar salir
+    # conectar salir
         self.connect(self, QtCore.SIGNAL('destroyed()'), self.destroyed)
-    #Treeview agregado
+    # Treeview agregado
         self.mytreeview = TreeView(self.tvLenguajes,self.on_tvLenguajes_selectedItem,self.connect)
-    #Detalles de armado interfaz
-        #Widget codigo
+    # Detalles de armado interfaz
+        # Widget codigo
         self.widgetcodigo = Scintilla()
         self.wgtDetalles.setVisible(False)
         self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
-        #Reordenamiento  y expancion
+        # Reordenamiento  y expancion
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
         #colores x defecto
         self.colorBusqueda = QcolorTextEdit(self.eBusqueda)
-    #Boludeces de instancias
+    # Boludeces de instancias
         self.Padre = parent
         self.SM = self.Padre.newSnippetManager(None)
-
+ 
         self.__refrescarArbol()
         
         self.lbEstado.setText(
             'Se encontraron ' + str(self.SM.getSnippetsCount()) + ' snippets')
 
-    #carga las bds en el combo
+    # carga las bds en el combo
         self.PasePorAca = False
         bds = self.SM.getBDNames()
         for item in bds:
             self.cbBD.addItem(item)
 
-    #icon
-        self.Padre.settrayIcon(self)
-    #ShortCut
+    # icon
+        self.Padre.settrayIcon(self)        
+    # ShortCut
         self.__loadAppShortcuts()
         self.fullScreen = False
 
@@ -81,7 +83,7 @@ class Main(QtGui.QMainWindow):
         print 'mostrando agregar...'
         #~ self.hide()
         self.Padre.showAgregarSnippet()
-        self._refrescarArbol()
+        self.__refrescarArbol()
     
     def __convertir_a_unicode(self,myQstring):
         return str(myQstring.toUtf8())
@@ -164,6 +166,9 @@ class Main(QtGui.QMainWindow):
         #Add Snippet Shortcut
         QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
+        QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
+        QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
 
 
     
