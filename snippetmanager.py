@@ -39,9 +39,6 @@ class SnippetManager:
         self.__Snippets = self.getAllSnippets()
         # objeto snippet mostrado actualmente en GUI
         self.__SnippetActual = None # Snippet
-        import asizeof
-        #~ print 'todos los spts pesan: ',(asizeof.asizeof(self.__Snippets)/1024)
-        #~ print 'todos los spts pesan: ',(asizeof.asizeof(self.__BD)/1024)
         
 
 ##########################
