@@ -7,12 +7,12 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         """ """
         QtGui.QSystemTrayIcon.__init__(self, icon, parent)
         menu = QtGui.QMenu(parent)
-        menu.addAction("Hide/&Show",self.menuShowHide)
+        menu.addAction("&Ocultar/&Mostrar",self.menuShowHide)
         menu.addSeparator()
-        menu.addAction("S&earch",self.menuSearch)
-        menu.addAction("&Add",self.menuAdd)
+        menu.addAction("B&uscar",self.menuSearch)
+        menu.addAction("&Agregar Snippet",self.menuAdd)
         menu.addSeparator()
-        menu.addAction("&Exit",self.menuExit)
+        menu.addAction("&Salir",self.menuExit)
         self.setContextMenu(menu)
         traySignal = "activated(QSystemTrayIcon::ActivationReason)"
         QtCore.QObject.connect(self, QtCore.SIGNAL(traySignal), self.__icon_activated)
@@ -29,22 +29,28 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         else:
             self.__window_parent.show()
             self.__bandera_show = True
-        pass
+        print 'bandera ',self.__bandera_show
 
     def menuSearch(self):
         '''menu show'''
         print 'search'
-        pass
+        # establece el foco en la barra de busqueda
+        self.__window_parent.eBusqueda.setFocus()
+        # si la ventana esta oculta, la muestra
+        if not self.__bandera_show:
+            self.__window_parent.show()
+            self.__bandera_show = True            
 
     def menuAdd(self):
         '''menu show'''
-        print 'add'
-        pass
+        #~ print 'add'
+        # abre la ventana de agregar snippet
+        self.__window_parent.Padre.showAgregarSnippet()
 
     def menuExit(self):
         '''menu show'''
-        print 'exit'
-        pass
+        #~ print 'exit'
+        self.__window_parent.destroyed()
 
     def __icon_activated(self,reason):
         if reason == QtGui.QSystemTrayIcon.Trigger:

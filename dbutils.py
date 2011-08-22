@@ -19,13 +19,16 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import sqlite3,os
-from members import Members
+import sqlite3, os
 from sys import argv
+
+from members import Members
+#~ from configurations import Configurations
 
 class DBUtils:
 
     def __init__(self):
+        #~ self.configs = Configurations()
         pass
         
 ###############

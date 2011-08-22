@@ -31,15 +31,31 @@ class GUI():
         self.SM = parent.SM
 
         app = QtGui.QApplication(sys.argv)
+        
+        ## Look and feel changed to CleanLooks
+        QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
+        #~ QtGui.QApplication.setStyle("plastique")
+        app.setPalette(QtGui.QApplication.style().standardPalette())
+    
         self.window = MainForm.Main(self)
         self.window.show()
         sys.exit(app.exec_())
 
-    def settrayIcon(self,mainforminstance):
-        icon = QtGui.QIcon('gui/images/app.png')
+    def __convertPath(self,path):
+        """Convierte el path a el específico de la plataforma (separador)"""
+        import os
+        if os.name == 'posix':
+            return "/"+apply( os.path.join, tuple(path.split('/')))
+        elif os.name == 'nt':
+            return apply( os.path.join, tuple(path.split('/')))
+            
+    def refrescarArbolMainWindow(self):
+        self.window.refrescarArbol()
+        
+    def setTrayIcon(self,mainforminstance):
+        icon = QtGui.QIcon(self.__convertPath('gui/images/save.png'))
         self.__trayIcon = TrayIcon.SystemTrayIcon(icon,mainforminstance)
         self.__trayIcon.show()
-        #~ print 'por aca'
 
     def newSnippetManager(self, pathDB):
         u""" Recrea una instancia de SnippetManager 
@@ -86,10 +102,6 @@ class GUI():
             self.modificar.cbLenguajes.findText(unSnippet.lenguaje))
         self.modificar.chkFavorito.setChecked(bool(unSnippet.favorito))
         self.modificar.show()
-        
-
-    def refrescarArbol(self):
-        pass
         
 def main():
     G = GUI()

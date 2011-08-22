@@ -23,11 +23,15 @@ from fragmentos import Fragmentos
 class Main :
 
     def __init__(self) :
+        self.validar()
         self.Fragmentos = Fragmentos()
         
     def validar (self) :
-        # returns
-        pass
+        from validar import Validator
+        v = Validator()
+        # ejecuta los metodos para chequear el estado
+        # de la aplicacion
+        v.check()
 
 
 def main():
@@ -39,7 +43,7 @@ def main():
         try:
             fcntl.lockf(fp, fcntl.LOCK_EX | fcntl.LOCK_NB)
             ventana = Main()
-            gtk.main()
+            #~ gtk.main()
             exit(0)
 
         except IOError:
@@ -47,8 +51,8 @@ def main():
             print 'Ya hay otra instancia corriendo. Ciao'
             exit(0)
     elif os.name == 'nt':
-        ventana = VentanaPrincipal()
-        gtk.main()
+        ventana = Main()
+        #~ gtk.main()
         exit(0)
 
 if __name__ == '__main__':

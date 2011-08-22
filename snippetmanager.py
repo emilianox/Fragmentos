@@ -153,7 +153,9 @@ class SnippetManager:
 
     def getLengsAndTitles(self,consulta=None, favorito = None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
-        return self.__BD.getLengAndTitles(consulta, favorito)
+        #~ tagsPresicion = bool(self.__DBUtils.configs.searchPresitionTags)
+        tagsPresicion = False
+        return self.__BD.getLengAndTitles(consulta, favorito, tagsPresicion)
 
     def getSnippet(self,lenguaje,titulo):
         ''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''

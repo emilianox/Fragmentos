@@ -36,11 +36,11 @@ class Busqueda :
         's=':'starred'
         }
         
-    def generarConsulta (self, labusqueda, enfavoritos) :
+    def generarConsulta (self, labusqueda, enfavoritos, tagsPresicion) :
         """ recibe la busqueda completa y genera un sql para realizar la busqueda """
         listadecriteriosseparados = self.__separarPorCampos(labusqueda)
         if listadecriteriosseparados:
-            sql = self.__generarSQL(listadecriteriosseparados, enfavoritos)
+            sql = self.__generarSQL(listadecriteriosseparados, enfavoritos, tagsPresicion)
             #~ print 'hice una consulta: ',len(sql)
         else :
             sql = ' '
@@ -73,7 +73,7 @@ class Busqueda :
 
         return listadecriterios
 
-    def __generarConsultaSimple (self, campo) :
+    def __generarConsultaSimple (self, campo, tagsPresicion) :
         """ devuelve el sql del campo simple buscado """
         #esto es para __generarSQL
         #preconsulta = 'SELECT language,title FROM snippet ORDER BY language,title where '
@@ -81,10 +81,16 @@ class Busqueda :
 
         #~ campo = 'g=agua'
         if campo[:2] == 'g=':#%,atr,%-%,atr-atr,%-atr
-            sql = "((" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
-            " or (" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
-            " or (" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
-            " or (" + self.diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
+            if tagsPresicion :
+                print 'buscando tags con presicion...'
+                sql = "((" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
+                " or (" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
+                " or (" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
+                " or (" + self.diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
+            else:
+                print 'buscando tags sin presicion...'
+                sql = "(" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
+                
         elif campo[:2] == 'l=':#atr%
             sql = "(" + self.diccampos[campo[:2]] + " LIKE '"+campo[2:]+"%')"
         elif campo[:2] == 's=':#atr
@@ -114,14 +120,14 @@ class Busqueda :
             sql += self.__generarConsultaSimple(campocomplejo[:2]+criterio) + operador
         return sql[:-len(operador)] + ')'
 
-    def __generarSQL (self, listadecampos, favorito) :
+    def __generarSQL (self, listadecampos, favorito, tagsPresicion) :
         """ recibe una lista de campos y genera un sql para realizar la busqueda 
         Si favorito = 1, busca en los favoritos."""
 
         consulta_sql = "SELECT language,title \nFROM snippet \nWHERE "
         for campo in listadecampos:
                 if (campo.find(' and ') == -1) and (campo.find(' or ') == -1):
-                    consulta_sql += self.__generarConsultaSimple(campo)
+                    consulta_sql += self.__generarConsultaSimple(campo, tagsPresicion)
                 else:
                     consulta_sql += self.__generarConsultaCompleja(campo)
                 consulta_sql += " \nAND "
@@ -133,4 +139,4 @@ class Busqueda :
 
 if __name__ == '__main__':
     b = Busqueda()
-    print b.generarConsulta('t=ale or mike,l=python,c=if', 0)
+    print b.generarConsulta('g=archivo,l=pascal', 0)

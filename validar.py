@@ -23,11 +23,13 @@ import os, os.path
 
 from members import Members
 from dbutils import DBUtils
+from configurations import Configurations
 
 class Validator :
     
     def __init__(self) :
         self.dbu = DBUtils()
+        self.config = Configurations()
         
         
     def checkFolders (self) :
@@ -59,7 +61,8 @@ class Validator :
         path_cfg = self.dbu.convertPath(
                         self.dbu.getPathProgramFolder() + \
                         Members.CONFIG_DIR + '/' + Members.CFG_FILE)
-        if os.path.exists(path_cfg):
+        if not os.path.exists(path_cfg):
+            self.config.regenerateNewCFG()
             existe = True
         return existe
         

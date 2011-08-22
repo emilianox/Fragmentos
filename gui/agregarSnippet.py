@@ -58,6 +58,7 @@ class agregarSnippet(QtGui.QMainWindow):
         
         # instancia de SnippetManager desde GUI
         self.SM = parent.SM
+        self.Padre = parent # GUI
         
         # variable usada para saber si se trata de una operacion de
         # agregar o modicar. Se usa como string.
@@ -83,6 +84,10 @@ class agregarSnippet(QtGui.QMainWindow):
             self.__guardarSnippet()
         if self.operacion == "modificar":
             self.__modificarSnippet()
+            self.close()
+        # hace que refresque el arbol de la interfaz principal
+        self.Padre.refrescarArbolMainWindow()
+        
 
     @QtCore.pyqtSlot()
     def on_btLimpiarCampos_clicked(self):

@@ -36,7 +36,7 @@ class Fragmentos :
     def newSnippetManager(self, pathDB):
         ''' Recrea una instancia de SnippetManager 
         a partir de la pathDB indicado.'''
-        #recrea la instancia de SM
+        # recrea la instancia de SM
         self.SM = SnippetManager(pathDB, self.BDU)
         return self.SM
         

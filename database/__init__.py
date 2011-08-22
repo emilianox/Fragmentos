@@ -49,7 +49,7 @@ class Database:
         resultado = self.realizarConsulta('SELECT DISTINCT language FROM snippet ORDER BY language')
         return resultado
 
-    def getLengAndTitles(self, consulta=None, favorito = None):
+    def getLengAndTitles(self, consulta=None, favorito = None, tagsPresicion = None):
         u''' Obtiene los snippets por lenguajes de la actual BD.'''
         
         #por defecto busca los que no son favoritos
@@ -61,8 +61,10 @@ class Database:
             #si no se pasa este parametro
             if favorito is None: 
                 favorito = 0
+            if tagsPresicion is None:
+                tagsPresicion = False
             #genera un sql con la busqueda segun la consulta recibida
-            consulta = self.__Busqueda.generarConsulta(consulta, int(favorito))
+            consulta = self.__Busqueda.generarConsulta(consulta, int(favorito), tagsPresicion)
             #obtiene los resultados de la consulta
             resultado = self.realizarConsulta(consulta)
         return resultado
