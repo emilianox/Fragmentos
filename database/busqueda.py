@@ -108,7 +108,6 @@ class Busqueda :
         #~ print 'generando consulta compleja... ',campocomplejo
         #solo soportado para operadores del mismo tipo,
         #ej: aaa and bbb; cc or ddd or fff
-        criterios = []
 
         if campocomplejo.find(' and ') != -1:
             operador = ' AND ' #en caso de una busqueda con and's

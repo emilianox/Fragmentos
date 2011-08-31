@@ -19,8 +19,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import os, os.path
-
+import os
 from members import Members
 from dbutils import DBUtils
 from configurations import Configurations
@@ -87,7 +86,7 @@ class Validator :
 def main():
 
     v = Validator()
-    #~ v.checkFolders()
+    v.checkFolders()
     
 
 if __name__ == '__main__':

@@ -20,9 +20,9 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import MainForm
-from QTTips import TrayIcon
 from PyQt4 import QtGui
+from QTTips import TrayIcon
+import MainForm
 import sys
 
 class GUI():
@@ -41,20 +41,20 @@ class GUI():
         self.window.show()
         sys.exit(app.exec_())
 
-    def __convertPath(self,path):
+    def __convertPath(self, path):
         """Convierte el path a el específico de la plataforma (separador)"""
         import os
         if os.name == 'posix':
-            return "/"+apply( os.path.join, tuple(path.split('/')))
+            return "/" + apply(os.path.join, tuple(path.split('/')))
         elif os.name == 'nt':
-            return apply( os.path.join, tuple(path.split('/')))
+            return apply(os.path.join, tuple(path.split('/')))
             
     def refrescarArbolMainWindow(self):
         self.window.refrescarArbol()
         
-    def setTrayIcon(self,mainforminstance):
+    def setTrayIcon(self, mainforminstance):
         icon = QtGui.QIcon(self.__convertPath('gui/images/save.png'))
-        self.__trayIcon = TrayIcon.SystemTrayIcon(icon,mainforminstance)
+        self.__trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
         self.__trayIcon.show()
 
     def newSnippetManager(self, pathDB):
@@ -73,7 +73,7 @@ class GUI():
         u""" """
         from agregarSnippet import agregarSnippet
 
-        self.agregar = agregarSnippet(self,"Agregar Snippet")
+        self.agregar = agregarSnippet(self, "Agregar Snippet")
         self.agregar.operacion = "agregar"
         # lee desde el cfg y carga el nombre del usuario actual
         self.agregar.eAutor.setText(self.fragmentos.ConfigsApp.userUploader)
@@ -104,9 +104,8 @@ class GUI():
         self.modificar.show()
         
 def main():
-    G = GUI()
+    GUI()
 
 
 if __name__ == '__main__':
     main()
-

@@ -42,7 +42,7 @@ def main():
         fp = open(pid_file, 'w')
         try:
             fcntl.lockf(fp, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            ventana = Main()
+            Main()
             #~ gtk.main()
             exit(0)
 
@@ -51,7 +51,7 @@ def main():
             print 'Ya hay otra instancia corriendo. Ciao'
             exit(0)
     elif os.name == 'nt':
-        ventana = Main()
+        Main()
         #~ gtk.main()
         exit(0)
 

@@ -74,8 +74,8 @@ class DBUtils:
 
     def getPathProgramFolder(self):
         ''' Obtiene la ruta de la carpeta del programa. '''
-        import os
-        from sys import argv
+        #import os
+        #from sys import argv
         program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
         return program_folder
 
@@ -113,7 +113,7 @@ class DBUtils:
 
     def convertPath(self,path):
         """Convierte el path a el específico de la plataforma (separador)"""
-        import os
+        #import os
         if os.name == 'posix':
             return "/"+apply( os.path.join, tuple(path.split('/')))
         elif os.name == 'nt':

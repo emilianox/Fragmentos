@@ -34,10 +34,10 @@ class TreeView:
 
 
     def __getModel(self):
-       return self.__model
+        return self.__model
 
     def __setModel(self, model = None):
-       self.__model = model
+        self.__model = model
 
     def __crearmodelo(self):
         model = QtGui.QStandardItemModel()

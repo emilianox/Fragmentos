@@ -20,7 +20,9 @@
 #       MA 02110-1301, USA.
 
 from PyQt4 import QtGui
-from PyQt4.Qsci import *
+#el import a lo bruto se salva por la cantidad de lexers
+from PyQt4.Qsci import * #@UnusedWildImport
+
 
 class Scintilla:
     
@@ -119,6 +121,7 @@ class Scintilla:
 
         if 'QsciLexer'+lenguaje in langs:
             ## Choose a lexer
+            print globals()
             lexer = globals()['QsciLexer'+lenguaje]()#cargador magico de clases
             #~ lexer.setDefaultFont(self.__font)
             self.__editor.setLexer(lexer)

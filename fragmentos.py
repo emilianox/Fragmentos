@@ -41,7 +41,7 @@ class Fragmentos :
         return self.SM
         
 def main():
-    fragmentos = Fragmentos()
+    Fragmentos()
 
 if __name__ == '__main__':
     main()
