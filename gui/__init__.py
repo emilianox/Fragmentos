@@ -20,12 +20,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from PyQt4 import QtGui
-from QTTips import TrayIcon
 import MainForm
+from QTTips import TrayIcon
+from PyQt4 import QtGui, QtCore
 import sys
 
 class GUI():
+    
     def __init__(self, parent):
         self.fragmentos = parent
         self.SM = parent.SM
@@ -38,6 +39,14 @@ class GUI():
         app.setPalette(QtGui.QApplication.style().standardPalette())
     
         self.window = MainForm.Main(self)
+        # segun el estado de estado del valor <windowStateStartup>
+        # se maximiza o no la ventana
+        
+        if int(self.fragmentos.ConfigsApp.windowStateStartup) : # si es = 0
+            from PyQt4 import QtCore
+            self.window.setWindowState(QtCore.Qt.WindowMaximized)
+            
+        # muestra la ventana
         self.window.show()
         sys.exit(app.exec_())
 
@@ -63,7 +72,6 @@ class GUI():
         self.SM = self.fragmentos.newSnippetManager(pathDB)
         #~ print 'nueva instancia de SM creada desde -GUI-'
         return self.SM
-
 
     def setSMInstance(self, newSM):
         u""" Establece la referencia de la nueva instancia creada. """
@@ -103,9 +111,21 @@ class GUI():
         self.modificar.chkFavorito.setChecked(bool(unSnippet.favorito))
         self.modificar.show()
         
+    def showOpciones(self):
+        """ """     
+        from opciones import Opciones
+        self.opciones = Opciones(self.fragmentos.ConfigsApp ,self.fragmentos.BDU)
+        self.opciones.show()
+        
+    def showAcercaDe(self):
+        from acercade import AcercaDe
+        acerca = AcercaDe()
+        acerca.show()
+        
 def main():
-    GUI()
+    G = GUI()
 
 
 if __name__ == '__main__':
     main()
+

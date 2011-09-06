@@ -89,12 +89,12 @@ class Main(QtGui.QMainWindow):
             self.eBusqueda.setCursorPosition(self.__convertir_a_unicode(self.eBusqueda.text).find(cadena)+2)
         else:
             self.eBusqueda.setCursorPosition(ubicacion.find(cadena)+2)
-
+    
     def __agregarSnippet(self):
         print 'mostrando agregar...'
         #~ self.hide()
-        self.Padre.showAgregarSnippet()
-
+        self.Padre.showAgregarSnippet()        
+    
     def __convertir_a_unicode(self,myQstring):
         return str(myQstring.toUtf8())
 
@@ -107,12 +107,12 @@ class Main(QtGui.QMainWindow):
         self.SM = self.Padre.newSnippetManager(rutaNueva)
         #carga los snippets en el arbol
         self.refrescarArbol()
-
+                
     def cargarBDsEnCombo(self):
         bds = self.SM.getBDNames()
         for item in bds:
             self.cbBD.addItem(item)
-
+            
     def __centerOnScreen (self):
         """Centers the window on the screen."""
         resolution = QtGui.QDesktopWidget().screenGeometry()
@@ -176,7 +176,7 @@ class Main(QtGui.QMainWindow):
                     QtGui.QMessageBox.critical(self, "Eliminar snippet",
                     "Se produjo un error al intentar eliminar este snippet.")
 
-
+        
     def __loadAppShortcuts(self):
         u""" Load shortcuts used in the application. """
         #Add Snippet Shortcut
@@ -184,6 +184,7 @@ class Main(QtGui.QMainWindow):
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
         QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+O"), self, self.__mostrarOpciones)
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
 
     def __limpiarCampos(self) :
@@ -227,9 +228,9 @@ class Main(QtGui.QMainWindow):
             self.btPonerComoFavorito.setChecked(False)
         elif snippet.favorito == "1":
             self.btPonerComoFavorito.setChecked(True)
-
+        
     def __ponerComoFavorito(self):
-
+        
         #obtiene la instancia actual del snippet
         snippetActual = self.SM.getSnippetActual()
         #establece el nuevo valor
@@ -259,7 +260,91 @@ class Main(QtGui.QMainWindow):
         else:
             self.showNormal()
         self.fullScreen = not self.fullScreen
+    
+    ################################################################
+    #   Metodos usados en el menu de la aplicacion
+    ################################################################
+    
+    def __createMenu(self):
+        """Crea el main menu"""
+        menu = QtGui.QMenu(self.btMenu)
+        snippet = menu.addAction("Snippet")
+        database= menu.addAction("Database")
+        busqueda = menu.addAction("Buscar")
+        menu.addSeparator()
+        menu.addAction("Opciones", self.__mostrarOpciones,QtGui.QKeySequence("Ctrl+O"))
+        menu.addAction("Ayuda")
+        menu.addSeparator()
+        menu.addAction("Acerca de", self.__mostrarAcercaDe)
 
+
+        menusnippet = QtGui.QMenu()
+        menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
+        menusnippet.addAction("Modificar",self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
+        menusnippet.addAction("Eliminar", self.__eliminarSnippet,QtGui.QKeySequence("Supr"))
+        snippet.setMenu(menusnippet)
+        
+        menudatabase = QtGui.QMenu()
+        menudatabase.addAction("Nueva...",self.__nuevaBDFragmentos)
+        menudatabase.addAction("Eliminar")
+        database.setMenu(menudatabase)
+
+        menubusqueda = QtGui.QMenu()
+        menubusqueda.addAction("'t=' Por Titulo")
+        menubusqueda.addAction("'l=' Por Lenguaje")
+        menubusqueda.addAction("'g=' Por Tags")
+        menubusqueda.addAction("'c=' Por Codigo")
+        menubusqueda.addAction("'d=' Por Descripcion")
+        menubusqueda.addAction("'r=' Por Referencias")
+        menubusqueda.addAction("'n=' Por Fecha creacion")
+        menubusqueda.addAction("'m=' Por Fecha modificacion")
+        menubusqueda.addAction("'u=' Por Autor")
+        
+        busqueda.setMenu(menubusqueda)
+        
+        self.btMenu.setMenu(menu)
+        #        .showMenu (self)
+        
+    def __mostrarOpciones(self):
+        ''' '''
+        self.Padre.showOpciones()
+        
+    def __mostrarAyuda(self) : 
+        ''' '''
+        QtGui.QMessageBox.information(self, "Ayuda",
+                "Opcion todavia no disponible es esta version.")
+    
+    def __mostrarAcercaDe(self):
+        ''' '''
+        self.Padre.showAcercaDe()
+        
+    def __nuevaBDFragmentos(self) :
+        ''' Abre un dialogo de archivos, para guardar el 
+        archivo de la bd creada.'''
+        
+        dialog = QtGui.QFileDialog(self, 'Nueva base de datos')
+        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
+        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen | QtGui.QFileDialog.AcceptSave)
+        dialog.setDefaultSuffix("db")
+        dialog.setNameFilter('Fragmentos Databases (*.db)')
+        if dialog.exec_():
+            filename = self.__convertir_a_unicode(
+                            dialog.selectedFiles()[0])
+            print filename, type(filename)
+            
+            # llamamos al metodo que crea la bd
+            estado = self.Padre.fragmentos.BDU.newDataBase(filename)
+            if estado :
+                QtGui.QMessageBox.information(self, "Nueva base de datos",
+                "Base de datos creada con exito en : \n\n" + filename)
+            else:
+                QtGui.QMessageBox.critical(self, "Nueva base de datos",
+                "Se ha producido un error al intentar crear la base de datos.")
+        
+
+                
+                
+                
 ############
 ## Events ##
 ############
@@ -274,9 +359,8 @@ class Main(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btCopiarAlPortapapeles_clicked(self):
-        #~ self.__eliminarSnippet()
-        self.__modificarSnippet()
-
+        pass
+        
     @QtCore.pyqtSlot()
     def on_btBuscarEnFavoritos_clicked(self):
         #carga en el arbol los snippets favoritos
@@ -310,7 +394,7 @@ class Main(QtGui.QMainWindow):
             # muestra en la interfaz el snippet
             self.__mostrar_snippet(valores[0],valores[1])
 
-            print "quitado de anteriores: ", valores,len(self.snippetsAnteriores)
+            #~ print "quitado de anteriores: ", valores,len(self.snippetsAnteriores) 
         else:
             self.__limpiarCampos()
 
@@ -324,27 +408,29 @@ class Main(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btSptSiguiente_clicked(self):
+        pass
         # si la cantidad es > a 0
-        if len(self.snippetsSiguientes) > 0 :
+        #~ if len(self.snippetsSiguientes) > 0 :
             # obtiene el anterior snippet mostrado
-            valores = self.snippetsSiguientes.pop()
-
-            if not valores is None :
+            #~ valores = self.snippetsSiguientes.pop()
+            
+            #~ if not valores is None :
             # muestra en la interfaz el snippet
-                self.__mostrar_snippet(valores[0],valores[1])
+                #~ self.__mostrar_snippet(valores[0],valores[1])
 
-            print "quitado de siguientes: ", valores
-
+            #~ print "quitado de siguientes: ", valores
+            
         # estado de los botones
-        if len(self.snippetsSiguientes) > 2 :
-            self.btSptSiguiente.setEnabled(True)
-        else:
-            self.btSptSiguiente.setEnabled(False)
-
+        #~ if len(self.snippetsSiguientes) > 2 :
+            #~ self.btSptSiguiente.setEnabled(True)
+        #~ else:
+            #~ self.btSptSiguiente.setEnabled(False)
+        
+        
     ###############
     ### ENTRYES ###
     ###############
-
+    
     def on_eBusqueda_textChanged(self,cadena):
         # campo de pruebas en la busqueda
         datos = self.SM.getLengsAndTitles(
@@ -366,7 +452,7 @@ class Main(QtGui.QMainWindow):
     ################
     ### TREEVIEW ###
     ################
-
+    
     def on_tvLenguajes_selectedItem(self,indice,b):
         if indice.parent().row() != -1:
             lenguaje =  unicode(
@@ -374,45 +460,45 @@ class Main(QtGui.QMainWindow):
                             'utf-8')
             titulo =  unicode(
                             indice.data().toString().toUtf8(),
-                            'utf-8')
-
-            sptAnterior = self.SM.getSnippetActual()
+                            'utf-8')            
+            
+            #~ sptAnterior = self.SM.getSnippetActual()
             self.__mostrar_snippet(lenguaje,titulo)
             #~ self.sprMostrado = self.SM.getSnippetActual()
-
-            if sptAnterior is not None:
-                self.snippetsAnteriores.append([
-                                    sptAnterior.lenguaje,
-                                    sptAnterior.titulo])
+            
+            #~ if sptAnterior is not None:
+                #~ self.snippetsAnteriores.append([
+                                    #~ sptAnterior.lenguaje,
+                                    #~ sptAnterior.titulo])
             #~ self.snippetsSiguientes.append([
                                     #~ self.sprMostrado.lenguaje,
                                     #~ self.sprMostrado.titulo])
-                print "agregado a anteriores: ",[lenguaje,titulo],len(self.snippetsAnteriores)
-            else :
-                self.__limpiarCampos()
-
+                #~ print "agregado a anteriores: ",[lenguaje,titulo],len(self.snippetsAnteriores) 
+            #~ else :
+                #~ self.__limpiarCampos()
+            
             #~ if len(self.snippetsAnteriores) > 2 :
                 #~ self.btSptAnterior.setEnabled(True)
             #~ else:
                 #~ self.btSptAnterior.setEnabled(False)
-
+                
             #~ if len(self.snippetsSiguientes) > 2 :
                 #~ self.btSptSiguiente.setEnabled(True)
             #~ else:
                 #~ self.btSptSiguiente.setEnabled(False)
             #~ self.btSptSuiguiente.setEnabled(False)
-
+            
     ################
     ### COMBOBOX ###
     ################
-
+    
     @QtCore.pyqtSlot(int)
     def on_cbBD_currentIndexChanged(self,index):
         if self.PasePorAca:
             self.__cargarBDSeleccionada(self.cbBD.currentIndex())
         else:
             self.PasePorAca = True
-
+        
 def main():
     pass
 

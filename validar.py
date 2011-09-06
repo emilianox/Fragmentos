@@ -21,13 +21,13 @@
 
 import os
 from members import Members
-from dbutils import DBUtils
+from pathtools import PathTools
 from configurations import Configurations
 
 class Validator :
     
     def __init__(self) :
-        self.dbu = DBUtils()
+        self.pt = PathTools()
         self.config = Configurations()
         
         
@@ -35,8 +35,7 @@ class Validator :
         """ Verifica que existan los directorios de la aplicación """
         
         # obtiene la ruta del directorio /databases
-        databases_dir = self.dbu.convertPath(
-                            self.dbu.getPathDatabasesDir())
+        databases_dir = self.pt.getPathDatabasesDir()
         
         # si no existe el directorio, lo crea
         if not os.path.exists(databases_dir) :
@@ -44,9 +43,7 @@ class Validator :
             os.mkdir(databases_dir)
             
         # obtiene la ruta del directorio /data
-        data_dir = self.dbu.convertPath(
-                        self.dbu.getPathProgramFolder() + \
-                                Members.CONFIG_DIR )
+        data_dir = self.pt.getPathDataDir()
         
         # si no existe el directorio, lo crea
         if not os.path.exists(data_dir) :
@@ -57,9 +54,8 @@ class Validator :
         """ Verifica la existencia del archivo de configuracion """
         
         existe = False
-        path_cfg = self.dbu.convertPath(
-                        self.dbu.getPathProgramFolder() + \
-                        Members.CONFIG_DIR + '/' + Members.CFG_FILE)
+        path_cfg = self.pt.getPathCFGFile()
+        
         if not os.path.exists(path_cfg):
             self.config.regenerateNewCFG()
             existe = True

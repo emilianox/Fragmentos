@@ -21,22 +21,30 @@
 
 from database import Database
 from snippet import Snippet
+from pathtools import PathTools
 
 
 class SnippetManager:
     ''' Clase que hace de wrapper entre las clases
     de la logica del programa, con la clase Fragmentos'''
 
-    def __init__(self, pathBD = False, DBUtils = None):
+    def __init__(self, pathBD = False, DBUtils = None, Configs = None):
+        
+        # instancias de clase
         self.__DBUtils = DBUtils
+        self.__PT = PathTools()
+        self.__Configs = Configs
+        
         # lista con las rutas de las base de datos
-        self.__AllPathDBs = self.setAllPathDBs()
-        if not pathBD:
+        self.__AllPathDBs = self.loadAllPathDBs()
+        if not pathBD :
             pathBD = self.__AllPathDBs[0]
-        #~ print pathBD
+                 
         self.__BD = Database(pathBD)
+        
         # diccionario con todas las instancia de objeto Snippet
         self.__Snippets = self.getAllSnippets()
+        
         # objeto snippet mostrado actualmente en GUI
         self.__SnippetActual = None # Snippet
         
@@ -131,8 +139,10 @@ class SnippetManager:
 
     def getBDNames(self):
         ''' Obtiene una lista con los nombres de los archivos bds.'''
-        return self.__DBUtils.getBDsNames()
-
+        databases_dir = self.__DBUtils.getBDsNamesDatabasesDir()
+        cfg_file = self.__Configs.getDBsNamesCFGReferences()
+        return databases_dir + cfg_file
+        
     def getAllSnippets(self):
         ''' Obtiene los snippets desde la bd y carga en un diccionario
         los snippets en formato objeto Snippet().'''
@@ -201,7 +211,7 @@ class SnippetManager:
         ''' Establece los datos del Snippet usado actualmente.'''
         self.__SnippetActual = unSnippet
 
-    def setAllPathDBs(self):
+    def loadAllPathDBs(self):
         ''' Obtiene todsa las rutas de las bds incluidas en
         el dir databases y el CFG '''
         

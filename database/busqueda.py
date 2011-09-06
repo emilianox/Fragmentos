@@ -82,13 +82,13 @@ class Busqueda :
         #~ campo = 'g=agua'
         if campo[:2] == 'g=':#%,atr,%-%,atr-atr,%-atr
             if tagsPresicion :
-                print 'buscando tags con presicion...'
+                #~ print 'buscando tags con presicion...'
                 sql = "((" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
                 " or (" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
                 " or (" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
                 " or (" + self.diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
             else:
-                print 'buscando tags sin presicion...'
+                #~ print 'buscando tags sin presicion...'
                 sql = "(" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
                 
         elif campo[:2] == 'l=':#atr%

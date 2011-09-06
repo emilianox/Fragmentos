@@ -23,12 +23,13 @@ import sqlite3, os
 from sys import argv
 
 from members import Members
-#~ from configurations import Configurations
+from pathtools import PathTools
+
 
 class DBUtils:
 
     def __init__(self):
-        #~ self.configs = Configurations()
+        self.__PT = PathTools()
         pass
         
 ###############
@@ -39,17 +40,18 @@ class DBUtils:
         ''' Obtiene los path's de las bases de datos ubicadas en el directorio databases.'''
         
         # obtiene una lista con los archivos que estan en el directorio databases
-        archivos_dbs = os.listdir(self.getPathDatabasesDir())
+        archivos_dbs = os.listdir(self.__PT.getPathDatabasesDir())
         bds = []
         # filtra los archivos devueltos por la extencion .db
         for archivo in archivos_dbs:
             # si es un archivo que es alguna de las extenciones permitidas
             if archivo[-3:] == Members.DB_EXTENCIONS:
-                bds.append(self.getPathDatabasesDir()+archivo)
+                bds.append(self.__PT.getPathDatabasesDir()+archivo)
         return bds
 
-    def getBDsNames(self):
-        ''' Obtiene una lista con los nombres de los archivos bds. '''
+    def getBDsNamesDatabasesDir(self):
+        ''' Obtiene una lista con los nombres de los archivos bds,
+        del directorio databases.  '''
         
         # obtienes los paths de las bds en /databases
         bd_rutas = self.getBDsInDatabasesDir()
@@ -66,18 +68,18 @@ class DBUtils:
         bds = self.getBDsInDatabasesDir()
         return len(bds)
 
-    def getPathDatabasesDir(self):
-        ''' Obtiene la ruta del directorio databases segun el so. '''
-        program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        bd_folder = self.convertPath(os.path.dirname(program_folder[:-1])+'/'+Members.DATABASES_DIR +'/')
-        return bd_folder
+    #~ def getPathDatabasesDir(self):
+        #~ ''' Obtiene la ruta del directorio databases segun el so. '''
+        #~ program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
+        #~ bd_folder = self.convertPath(os.path.dirname(program_folder[:-1])+'/'+Members.DATABASES_DIR +'/')
+        #~ return bd_folder
 
-    def getPathProgramFolder(self):
-        ''' Obtiene la ruta de la carpeta del programa. '''
-        #import os
-        #from sys import argv
-        program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
-        return program_folder
+    #~ def getPathProgramFolder(self):
+        #~ ''' Obtiene la ruta de la carpeta del programa. '''
+        #~ import os
+        #~ from sys import argv
+        #~ program_folder = self.convertPath(os.path.abspath(os.path.dirname(argv[0])) + "/")
+        #~ return program_folder
 
     def newDataBase(self, pathNewBD):
         ''' Crea una nueva base de datos Fragmentos. '''
@@ -92,8 +94,10 @@ class DBUtils:
             # persiste la consulta
             connection.commit()
             print 'BD creada con exito en : ',pathNewBD
+            return True
         else:
             print 'Ya existe una base de datos con el mismo nombre...'
+            return False
 
     def validarBD(self, pathBD):
         ''' Verifica que la estructura de la bd sea una bd tipo Fragmentos.'''
@@ -111,13 +115,13 @@ class DBUtils:
                 existe = True
         return existe
 
-    def convertPath(self,path):
-        """Convierte el path a el específico de la plataforma (separador)"""
-        #import os
-        if os.name == 'posix':
-            return "/"+apply( os.path.join, tuple(path.split('/')))
-        elif os.name == 'nt':
-            return apply( os.path.join, tuple(path.split('/')))
+    #~ def convertPath(self,path):
+        #~ """Convierte el path a el específico de la plataforma (separador)"""
+        #~ import os
+        #~ if os.name == 'posix':
+            #~ return "/"+apply( os.path.join, tuple(path.split('/')))
+        #~ elif os.name == 'nt':
+            #~ return apply( os.path.join, tuple(path.split('/')))
 
 
 if __name__ == '__main__':

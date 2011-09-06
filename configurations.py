@@ -21,9 +21,10 @@
 
 import ConfigParser
 
-
-from dbutils import DBUtils 
+import os
+from pathtools import PathTools
 from members import Members
+
 
 class MyProperty(object):
     
@@ -81,15 +82,15 @@ class MyProperty(object):
         
 class Configurations (object) : 
 
-    DBU = DBUtils()
+    PT = PathTools()
     # ruta del archivo de configuracion
-    cfgFile = DBU.convertPath(DBU.getPathProgramFolder() + Members.CONFIG_DIR + '/' + Members.CFG_FILE)
+    cfgFile = PT.getPathCFGFile()
     # 
     config = ConfigParser.ConfigParser()
     
     # valores dentro de la seccion configurations
     configurations_values = {
-    "serchPresitionTags" : 0,
+    "searchPresitionTags" : 0,
     "windowStateStartup" : 0,
     "userUploader" : ''
     }
@@ -109,7 +110,32 @@ class Configurations (object) :
     todo = {'cfg' : cfgFile, 'config' : config, 'sections' : sections}
     
     def __init__(self):
-        pass
+        
+        PT = PathTools()
+        # ubicacion del archivo de configuracion
+        self.cfgFile = PT.getPathCFGFile()
+        
+        # instancia de configparser
+        self.config = ConfigParser.ConfigParser()
+        
+        # valores dentro de la seccion configurations
+        configurations_values = {
+        "searchPresitionTags" : 0,
+        "windowStateStartup" : 0,
+        "userUploader" : ''
+        }
+        
+        # valores dentro de la seccion database
+        database_values = {
+        "defaulBdName" : '',
+        "referencesToBds" : ''
+        }
+        
+        # diccionario con las secciones
+        self.sections = {
+        'configurations' : configurations_values,
+        'database' : database_values 
+        }
 
         
 ######################
@@ -127,40 +153,10 @@ class Configurations (object) :
 #########################
 
     def regenerateNewCFG(self) : 
-        """ Regenera el archivo cfg. """
+        """ Regenera el archivo cfg. """            
         
-        DBU = DBUtils()
-        # ubicacion del archivo de configuracion
-        self.cfgFile = DBU.convertPath(
-                            DBU.getPathProgramFolder() + \
-                            Members.CONFIG_DIR + '/' + Members.CFG_FILE)
-        # instancia de configparser
-        self.config = ConfigParser.ConfigParser()
         # lee el archivo cfg
         self.config.read(self.cfgFile)
-        
-        # TODO : ver como sacar los diccionarios de este metodo
-        
-        # valores dentro de la seccion configurations
-        configurations_values = {
-        "serchPresitionTags" : 0,
-        "windowStateStartup" : 0,
-        "userUploader" : ''
-        }
-        
-        # valores dentro de la seccion database
-        database_values = {
-        "defaulBdName" : '',
-        "referencesToBds" : ''
-        }
-        
-        # diccionario con las secciones
-        sections = {
-        'configurations' : configurations_values,
-        'database' : database_values 
-        }
-        
-        self.sections = sections
         
         # agrega las secciones
         for section in self.sections.keys() :
@@ -173,12 +169,43 @@ class Configurations (object) :
                 print '>',atributo,self.sections[section][atributo]
             
         self.config.write(open(self.cfgFile, 'w'))
-        print 'regenerateNewCFG ok!!!'
-    
+        print 'CFG regenerado con exito!!!'
+        
+    def getDBsInCFGReferences(self):
+        ''' Obtiene los path's de las bases de datos ubicadas 
+        en el archivo de configuracion.'''
+        #~ 
+        paths_cfg = self.referencesToBds.strip()
+        if paths_cfg :
+            #~ separa las rutas obtenidas
+            a_comprobar = paths_cfg.split(',')
+
+            #~ comprueba que existan estos archivos, retornando
+            #~ solo aquellas rutas que sean validas
+            rutas_validas = filter(os.path.exists,a_comprobar)
+            
+            return rutas_validas
+        else:
+            return []
+            
+        
+    def getDBsNamesCFGReferences(self):
+        '''Obtiene una lista con los nombres de los archivos bds en el CFG.'''
+        
+        rutas = self.getDBsInCFGReferences()
+        bd_names = []
+        for ruta in rutas:
+            # recupera el nombre del archivo
+            nombre_bd = os.path.splitext(os.path.basename(ruta))
+            # lo agrega a la lista
+            bd_names.append(nombre_bd[0])
+        return bd_names
+        
 def main():
 
     c = Configurations()
-    print c.regenerateNewCFG()
+    print c.getDBsNamesCFGReferences()
+    #~ print c.getDBsInCFGReferences()
     #~ print c.defaulBdName
     #~ c.defaulBdName = "SourceCode"
     #~ c.windowStateStartup = "999"
