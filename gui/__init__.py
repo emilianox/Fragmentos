@@ -24,6 +24,7 @@ import MainForm
 from QTTips import TrayIcon
 from PyQt4 import QtGui, QtCore
 import sys
+from pathtools import PathTools
 
 class GUI():
     
@@ -34,7 +35,7 @@ class GUI():
         app = QtGui.QApplication(sys.argv)
         
         ## Look and feel changed to CleanLooks
-        QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
+        #QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
         #~ QtGui.QApplication.setStyle("plastique")
         app.setPalette(QtGui.QApplication.style().standardPalette())
     
@@ -43,7 +44,6 @@ class GUI():
         # se maximiza o no la ventana
         
         if int(self.fragmentos.ConfigsApp.windowStateStartup) : # si es = 0
-            from PyQt4 import QtCore
             self.window.setWindowState(QtCore.Qt.WindowMaximized)
             
         # muestra la ventana
@@ -62,7 +62,8 @@ class GUI():
         self.window.refrescarArbol()
         
     def setTrayIcon(self, mainforminstance):
-        icon = QtGui.QIcon(self.__convertPath('gui/images/save.png'))
+        pt = PathTools()
+        icon = QtGui.QIcon(self.__convertPath(pt.getPathProgramFolder()+'gui/logo.png'))
         self.__trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
         self.__trayIcon.show()
 
@@ -123,7 +124,7 @@ class GUI():
         acerca.show()
         
 def main():
-    G = GUI()
+    GUI()
 
 
 if __name__ == '__main__':

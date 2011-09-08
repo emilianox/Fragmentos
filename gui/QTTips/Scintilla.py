@@ -121,7 +121,7 @@ class Scintilla:
 
         if 'QsciLexer'+lenguaje in langs:
             ## Choose a lexer
-            print globals()
+            #print globals()
             lexer = globals()['QsciLexer'+lenguaje]()#cargador magico de clases
             #~ lexer.setDefaultFont(self.__font)
             self.__editor.setLexer(lexer)

@@ -20,7 +20,6 @@
 #       MA 02110-1301, USA.
 
 import sqlite3, os
-from sys import argv
 
 from members import Members
 from pathtools import PathTools

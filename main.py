@@ -20,6 +20,7 @@
 
 from fragmentos import Fragmentos
 
+
 class Main :
 
     def __init__(self) :

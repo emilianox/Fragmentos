@@ -77,7 +77,7 @@ class Main(QtGui.QMainWindow):
 ######################
 
     def __addKeytoBusqueda(self,cadena):
-        u"""Soporte de atajos generico.Manipula los atajos
+        """Soporte de atajos generico.Manipula los atajos
         en la barra de busqueda"""
         ubicacion = self.__convertir_a_unicode(self.eBusqueda.text)
         self.eBusqueda.setFocus()
@@ -156,6 +156,7 @@ class Main(QtGui.QMainWindow):
         ''' Hace volar la ventana. '''
         #TODO: hacer que cierre todas las ventanas
         sys.exit(0)
+    
     def __eliminarSnippet(self):
         """Ejecuta las instrucciones para eliminar el snippet actual."""
         actual = self.SM.getSnippetActual()
@@ -176,11 +177,10 @@ class Main(QtGui.QMainWindow):
                     QtGui.QMessageBox.critical(self, "Eliminar snippet",
                     "Se produjo un error al intentar eliminar este snippet.")
 
-        
     def __loadAppShortcuts(self):
         u""" Load shortcuts used in the application. """
         #Add Snippet Shortcut
-        QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
+        #QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
         QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
@@ -194,7 +194,6 @@ class Main(QtGui.QMainWindow):
         self.leLenguaje.setText("")
         self.leTitulo.setText("")
         self.leTags.setText("")
-
 
     def __modificarSnippet(self):
         """ Ejecuta las instrucciones para modificar el snippet actual. """
@@ -263,48 +262,8 @@ class Main(QtGui.QMainWindow):
     
     ################################################################
     #   Metodos usados en el menu de la aplicacion
-    ################################################################
+    ###############################################################        
     
-    def __createMenu(self):
-        """Crea el main menu"""
-        menu = QtGui.QMenu(self.btMenu)
-        snippet = menu.addAction("Snippet")
-        database= menu.addAction("Database")
-        busqueda = menu.addAction("Buscar")
-        menu.addSeparator()
-        menu.addAction("Opciones", self.__mostrarOpciones,QtGui.QKeySequence("Ctrl+O"))
-        menu.addAction("Ayuda")
-        menu.addSeparator()
-        menu.addAction("Acerca de", self.__mostrarAcercaDe)
-
-
-        menusnippet = QtGui.QMenu()
-        menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
-        menusnippet.addAction("Modificar",self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
-        menusnippet.addAction("Eliminar", self.__eliminarSnippet,QtGui.QKeySequence("Supr"))
-        snippet.setMenu(menusnippet)
-        
-        menudatabase = QtGui.QMenu()
-        menudatabase.addAction("Nueva...",self.__nuevaBDFragmentos)
-        menudatabase.addAction("Eliminar")
-        database.setMenu(menudatabase)
-
-        menubusqueda = QtGui.QMenu()
-        menubusqueda.addAction("'t=' Por Titulo")
-        menubusqueda.addAction("'l=' Por Lenguaje")
-        menubusqueda.addAction("'g=' Por Tags")
-        menubusqueda.addAction("'c=' Por Codigo")
-        menubusqueda.addAction("'d=' Por Descripcion")
-        menubusqueda.addAction("'r=' Por Referencias")
-        menubusqueda.addAction("'n=' Por Fecha creacion")
-        menubusqueda.addAction("'m=' Por Fecha modificacion")
-        menubusqueda.addAction("'u=' Por Autor")
-        
-        busqueda.setMenu(menubusqueda)
-        
-        self.btMenu.setMenu(menu)
-        #        .showMenu (self)
-        
     def __mostrarOpciones(self):
         ''' '''
         self.Padre.showOpciones()

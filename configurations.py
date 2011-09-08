@@ -23,7 +23,6 @@ import ConfigParser
 
 import os
 from pathtools import PathTools
-from members import Members
 
 
 class MyProperty(object):

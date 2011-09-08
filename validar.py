@@ -20,7 +20,6 @@
 #       MA 02110-1301, USA.
 
 import os
-from members import Members
 from pathtools import PathTools
 from configurations import Configurations
 
