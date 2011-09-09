@@ -74,7 +74,7 @@ class Validator :
         self.checkExistCfg()
         
         # verifica la integridad del archivo de configuracion 
-        self.checkIntegrityCfg()
+        #self.checkIntegrityCfg()
         
 
 

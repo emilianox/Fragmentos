@@ -159,13 +159,13 @@ class Configurations (object) :
         
         # agrega las secciones
         for section in self.sections.keys() :
-            print section
+            #print section
             # crea la seccion
             self.config.add_section(section)
             for atributo in self.sections[section].keys():
                 # agrega el atributo para la seccion actual
                 self.config.set(section, atributo,self.sections[section][atributo])
-                print '>',atributo,self.sections[section][atributo]
+                # print '>',atributo,self.sections[section][atributo]
             
         self.config.write(open(self.cfgFile, 'w'))
         print 'CFG regenerado con exito!!!'
@@ -174,16 +174,17 @@ class Configurations (object) :
         ''' Obtiene los path's de las bases de datos ubicadas 
         en el archivo de configuracion.'''
         #~ 
-        paths_cfg = self.referencesToBds.strip()
-        if paths_cfg :
-            #~ separa las rutas obtenidas
-            a_comprobar = paths_cfg.split(',')
-
-            #~ comprueba que existan estos archivos, retornando
-            #~ solo aquellas rutas que sean validas
-            rutas_validas = filter(os.path.exists,a_comprobar)
-            
-            return rutas_validas
+        if self.referencesToBds != None :
+            paths_cfg = self.referencesToBds.strip()
+            if paths_cfg :
+                #~ separa las rutas obtenidas
+                a_comprobar = paths_cfg.split(',')
+    
+                #~ comprueba que existan estos archivos, retornando
+                #~ solo aquellas rutas que sean validas
+                rutas_validas = filter(os.path.exists,a_comprobar)
+                
+                return rutas_validas
         else:
             return []
             
@@ -193,11 +194,12 @@ class Configurations (object) :
         
         rutas = self.getDBsInCFGReferences()
         bd_names = []
-        for ruta in rutas:
-            # recupera el nombre del archivo
-            nombre_bd = os.path.splitext(os.path.basename(ruta))
-            # lo agrega a la lista
-            bd_names.append(nombre_bd[0])
+        if rutas : 
+            for ruta in rutas:
+                # recupera el nombre del archivo
+                nombre_bd = os.path.splitext(os.path.basename(ruta))
+                # lo agrega a la lista
+                bd_names.append(nombre_bd[0])
         return bd_names
         
 def main():

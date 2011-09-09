@@ -26,14 +26,13 @@ class Main :
     def __init__(self) :
         self.validar()
         self.Fragmentos = Fragmentos()
-        
+     
     def validar (self) :
         from validar import Validator
         v = Validator()
         # ejecuta los metodos para chequear el estado
         # de la aplicacion
-        v.check()
-
+        v.check()        
 
 def main():
     import os
@@ -44,7 +43,6 @@ def main():
         try:
             fcntl.lockf(fp, fcntl.LOCK_EX | fcntl.LOCK_NB)
             Main()
-            #~ gtk.main()
             exit(0)
 
         except IOError:
@@ -53,7 +51,6 @@ def main():
             exit(0)
     elif os.name == 'nt':
         Main()
-        #~ gtk.main()
         exit(0)
 
 if __name__ == '__main__':

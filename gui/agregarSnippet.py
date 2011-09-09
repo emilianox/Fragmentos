@@ -44,11 +44,12 @@ class agregarSnippet(QtGui.QMainWindow):
         self.setWindowTitle(titulo)
         
         # crear el widget de codigo
-        self.widgetcodigo = Scintilla()
+        self.widgetcodigo = Scintilla()        
         
         # agregar el widget de codigo a este layout
-        self.verticalLayout_6.addWidget(self.widgetcodigo.getEditor())
-        self.widgetcodigo.setFocus()
+        
+        self.verticalLayout_7.addWidget(self.widgetcodigo.getEditor())
+        self.widgetcodigo.setFocus() 
         
         # cargar lenguajes en combo
         self.__cargarLenguajesEnCombo()
@@ -75,7 +76,8 @@ class agregarSnippet(QtGui.QMainWindow):
         contenido = self.__showFileDialog()
         
         # se muestra el contenido en el widget de codigo
-        self.widgetcodigo.setCode(contenido)
+        if contenido:
+            self.widgetcodigo.setCode(contenido)
 
     @QtCore.pyqtSlot()
     def on_btGuardar_clicked(self):
@@ -288,10 +290,13 @@ class agregarSnippet(QtGui.QMainWindow):
         u""" Muestra un cuadro de dialogo desde donde seleccionar un archivo. """
         
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Abrir desde archivo')
-        fname = open(filename)
-        data = fname.read()
-        #devuelve los datos leidos desde el archivo
-        return data
+        if filename: 
+            fname = open(filename)
+            data = fname.read()
+            #devuelve los datos leidos desde el archivo
+            return data
+        else:
+            return ''
         
     def __toUnicode(self,myQstring):
         u""" Convierte a UTF8 el objeto QString recibido. """
