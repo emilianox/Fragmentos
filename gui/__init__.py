@@ -44,8 +44,8 @@ class GUI():
         # se maximiza o no la ventana
         
         windowStateCFG = self.fragmentos.ConfigsApp.windowStateStartup        
-        if not windowStateCFG is None or \
-            int(windowStateCFG) == 0: # si es = 0
+        if not windowStateCFG is None and \
+            int(windowStateCFG) == 1: # si es = 1
             self.window.setWindowState(QtCore.Qt.WindowMaximized)
             
         # muestra la ventana

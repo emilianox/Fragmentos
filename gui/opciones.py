@@ -169,8 +169,9 @@ class Opciones(QtGui.QMainWindow):
     def __cargarBDsDesdeCFG(self):
         ''' '''
         bds = self.__Config.getDBsInCFGReferences()
-        for bd in bds:
-            self.lstBdsReferences.addItem(bd)
+        if bds :
+            for bd in bds:
+                self.lstBdsReferences.addItem(bd)
         
     def __cargarComboBDsDefault(self):
         ''' '''

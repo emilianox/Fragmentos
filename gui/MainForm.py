@@ -126,7 +126,7 @@ class Main(QtGui.QMainWindow):
         database= menu.addAction("Database")
         busqueda = menu.addAction("Busqueda")
         menu.addSeparator()
-        menu.addAction("Opciones")
+        menu.addAction("Opciones", self.__mostrarOpciones, QtGui.QKeySequence("Ctrl+O"))
         menu.addAction("Ayuda")
         menu.addSeparator()
         menu.addAction("Acerca de..")
@@ -248,8 +248,12 @@ class Main(QtGui.QMainWindow):
         """ A partir de la instancia actual de SM,
         refresca el arbol cargando nuevamente los snippets. """
 
-        self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
-
+        #~ self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
+        
+        lengs_and_titles = self.SM.getLengsAndTitles()
+        treeview = TreeViewThread(self, lengs_and_titles)
+        treeview.start()
+        
         self.lbEstado.setText(
             str(self.SM.getSnippetsCount()) + ' snippet(s) cargados.')
 
@@ -299,11 +303,7 @@ class Main(QtGui.QMainWindow):
             else:
                 QtGui.QMessageBox.critical(self, "Nueva base de datos",
                 "Se ha producido un error al intentar crear la base de datos.")
-        
 
-                
-                
-                
 ############
 ## Events ##
 ############
@@ -457,6 +457,20 @@ class Main(QtGui.QMainWindow):
             self.__cargarBDSeleccionada(self.cbBD.currentIndex())
         else:
             self.PasePorAca = True
+        
+class TreeViewThread(QtCore.QThread):
+    ''' Este hilo se encarga de cargar los snippets en 
+    el arbol y visualizarlos.'''
+    
+    def __init__(self, parent, lengs_and_titles):
+        QtCore.QThread.__init__(self, parent)
+        self.Padre = parent
+        # lengs_and_titles, viene desde MainForm y es el resultado 
+        # de SM.getLengsAndTitles()
+        self.datos = lengs_and_titles
+        
+    def run(self):        
+        self.Padre.mytreeview.insertarEnArbol(self.datos)
         
 def main():
     pass
