@@ -21,7 +21,6 @@
 
 import os
 from PyQt4 import QtCore, QtGui, uic
- 
 from pathtools import PathTools
 
 class Opciones(QtGui.QMainWindow):

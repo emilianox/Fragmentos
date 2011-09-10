@@ -280,7 +280,7 @@ class Main(QtGui.QMainWindow):
     def __mostrarAyuda(self) : 
         ''' '''
         QtGui.QMessageBox.information(self, "Ayuda",
-                "Opcion todavia no disponible es esta version.")
+                "Opcion todavia no disponible en esta version.")
     
     def __mostrarAcercaDe(self):
         ''' '''

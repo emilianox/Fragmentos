@@ -121,9 +121,10 @@ class GUI():
         self.opciones.show()
         
     def showAcercaDe(self):
+        """ """
         from acercade import AcercaDe
-        acerca = AcercaDe()
-        acerca.show()
+        self.acerca = AcercaDe()
+        self.acerca.show()
         
 def main():
     GUI()

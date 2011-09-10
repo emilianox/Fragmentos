@@ -19,10 +19,10 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import os,sys
+import os
 
 from PyQt4 import QtGui, uic
-import fragmentos_rc 
+import fragmentos_rc #@UnusedImport
 
 class AcercaDe(QtGui.QMainWindow):
     
@@ -31,10 +31,7 @@ class AcercaDe(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
     #cargamos la interfaz desde el archivo .ui
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
-        uic.loadUi(uifile, self)
-        
-        self.lbLogo.setPixmap(QtGui.QPixmap('logo.png'))
-        self.lbLogo.setScaledContents(True)    
+        uic.loadUi(uifile, self)    
         
 #~ def main():
     #~ app = QtGui.QApplication(sys.argv)
