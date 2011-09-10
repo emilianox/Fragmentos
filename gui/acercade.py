@@ -22,26 +22,25 @@
 import os,sys
 
 from PyQt4 import QtGui, uic
+import fragmentos_rc 
 
-
-class AcercaDe(QtGui.QDialog):
+class AcercaDe(QtGui.QMainWindow):
     
     def __init__(self):
         FILENAME = 'wAcercaDe.ui'
-        QtGui.QDialog.__init__(self)
+        QtGui.QMainWindow.__init__(self)
     #cargamos la interfaz desde el archivo .ui
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         uic.loadUi(uifile, self)
         
         self.lbLogo.setPixmap(QtGui.QPixmap('logo.png'))
-        self.lbLogo.setScaledContents(True)
+        self.lbLogo.setScaledContents(True)    
+        
+#~ def main():
+    #~ app = QtGui.QApplication(sys.argv)
+    #~ window = AcercaDe()
+    #~ window.show()
+    #~ sys.exit(app.exec_())
 
-    
-def main():
-    app = QtGui.QApplication(sys.argv)
-    window = AcercaDe()
-    window.show()
-    sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()
+#~ if __name__ == "__main__":
+    #~ main()

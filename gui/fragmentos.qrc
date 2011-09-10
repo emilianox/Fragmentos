@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>logo.png</file>
     <file>settings2.png</file>
     <file>Settings.png</file>
     <file>paste.png</file>

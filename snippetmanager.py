@@ -37,16 +37,17 @@ class SnippetManager:
         
         # lista con las rutas de las base de datos
         self.__AllPathDBs = self.loadAllPathDBs()
-        if not pathBD :
+        if not pathBD and len(self.__AllPathDBs) > 0:
+            print 'entre.....'
             pathBD = self.__AllPathDBs[0]
                  
-        self.__BD = Database(pathBD)
-        
-        # diccionario con todas las instancia de objeto Snippet
-        self.__Snippets = self.getAllSnippets()
-        
-        # objeto snippet mostrado actualmente en GUI
-        self.__SnippetActual = None # Snippet
+            self.__BD = Database(pathBD)
+            
+            # diccionario con todas las instancia de objeto Snippet
+            self.__Snippets = self.getAllSnippets()
+            
+            # objeto snippet mostrado actualmente en GUI
+            self.__SnippetActual = None # Snippet
         
 
 ##########################
