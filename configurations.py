@@ -96,7 +96,7 @@ class Configurations (object) :
     
     # valores dentro de la seccion database
     database_values = {
-    "defaulBdName" : '',
+    "defaultBdName" : '',
     "referencesToBds" : ''
     }
     
@@ -126,7 +126,7 @@ class Configurations (object) :
         
         # valores dentro de la seccion database
         database_values = {
-        "defaulBdName" : '',
+        "defaultBdName" : '',
         "referencesToBds" : ''
         }
         
@@ -141,7 +141,7 @@ class Configurations (object) :
 ## Metodos PROPERTY ##
 ######################
     
-    defaulBdName = MyProperty(todo, 'defaulBdName')
+    defaultBdName = MyProperty(todo, 'defaultBdName')
     searchPresitionTags = MyProperty(todo, 'searchPresitionTags')
     windowStateStartup = MyProperty(todo, 'windowStateStartup')
     referencesToBds = MyProperty(todo, 'referencesToBds')

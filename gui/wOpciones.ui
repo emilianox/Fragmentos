@@ -139,11 +139,11 @@
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Bases de datos</string>
+        <string>Catálogos</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_9">
+       <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <layout class="QVBoxLayout" name="verticalLayout_9">
           <item>
            <widget class="QLabel" name="label">
             <property name="font">
@@ -180,7 +180,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Al iniciar el progrma, se cargarán automaticamente las bases de datos de este directorio.</string>
+             <string>Al iniciar el progrma, se cargarán automaticamente los catálogos de este directorio.</string>
             </property>
             <property name="textFormat">
              <enum>Qt::AutoText</enum>
@@ -218,7 +218,48 @@
            </layout>
           </item>
           <item>
-           <widget class="QListWidget" name="lstBdsDefault"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QListWidget" name="lstBdsDefault"/>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QPushButton" name="btAgregarBDDefault">
+                <property name="toolTip">
+                 <string>Agregar catálogo al directorio por defecto.</string>
+                </property>
+                <property name="text">
+                 <string>Agregar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btQuitarBDDefault">
+                <property name="toolTip">
+                 <string>Elimina físicamente el catálogo seleccionado.</string>
+                </property>
+                <property name="text">
+                 <string>Quitar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -260,7 +301,7 @@
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>Agregue aqui las referencia a bases de datos fuera del directorio por defecto.</string>
+             <string>Agregue aqui las referencia a catálogos fuera del directorio por defecto.</string>
             </property>
             <property name="textFormat">
              <enum>Qt::AutoText</enum>
@@ -283,7 +324,7 @@
               <item>
                <widget class="QPushButton" name="btAgregarBDReferencia">
                 <property name="toolTip">
-                 <string>Agregar referencia a base de datos.</string>
+                 <string>Agregar referencia a catálogo</string>
                 </property>
                 <property name="text">
                  <string>Agregar</string>
@@ -292,6 +333,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="btQuitarBDReferencia">
+                <property name="toolTip">
+                 <string>Quitar la referencia del catálogo seleccionado.</string>
+                </property>
                 <property name="text">
                  <string>Quitar</string>
                 </property>
@@ -356,7 +400,7 @@
                <string notr="true"/>
               </property>
               <property name="text">
-               <string>Elija que base de datos desee que se cargue al inicio.</string>
+               <string>Elija que catálogo desee que se cargue al inicio.</string>
               </property>
               <property name="textFormat">
                <enum>Qt::AutoText</enum>
@@ -382,6 +426,48 @@
        <attribute name="title">
         <string>Visor de código</string>
        </attribute>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>170</y>
+          <width>301</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <stylestrategy>PreferDefault</stylestrategy>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::ActionsContextMenu</enum>
+        </property>
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Todavia no hay nada... Pero lo habrá :)</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -401,16 +487,9 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="btAceptar">
-        <property name="text">
-         <string>Aceptar</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btCancelar">
         <property name="text">
-         <string>Cancelar</string>
+         <string>Cerrar</string>
         </property>
        </widget>
       </item>

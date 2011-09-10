@@ -24,8 +24,8 @@ from PyQt4 import QtCore, QtGui, uic
 from pathtools import PathTools
 
 class Opciones(QtGui.QMainWindow):
-
-    """Ventana agregar Snippet."""
+    """Clase que maneja las interacciones entre la interfaz grafica y
+    la logica de las configuraciones del programa."""
 
     def __init__(self, configs, dbutils):
         # carga la interfaz desded el archivo ui
@@ -57,17 +57,8 @@ class Opciones(QtGui.QMainWindow):
     
     @QtCore.pyqtSlot()
     def on_btAgregarBDReferencia_clicked(self):
-        dialog = QtGui.QFileDialog(self, 'Agregar referencia a base de datos')
-        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
-        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-        dialog.setDefaultSuffix("db")
-        dialog.setNameFilter('Fragmentos Databases (*.db)')
-        if dialog.exec_():
-            filename = dialog.selectedFiles()[0]
-            print filename
-        pass
+        self.__agregarBDReferencia()            
         
-
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
         pass
@@ -76,18 +67,23 @@ class Opciones(QtGui.QMainWindow):
     def on_btAceptar_clicked(self):
         pass
         
-
+    @QtCore.pyqtSlot()
+    def on_btAgregarBDDefault_clicked(self):
+        pass
+    
+    @QtCore.pyqtSlot()
+    def on_btQuitarBDDefault_clicked(self):
+        pass
+    
     #~ 
     #~ TAB: GENERALES
     #~ 
     
     @QtCore.pyqtSlot(bool)
-    def on_cbxBuscarTags_clicked(self, valor):
-        
+    def on_cbxBuscarTags_clicked(self, valor):        
         # refleja el cambio en el CFG
         self.__Config.searchPresitionTags = int(valor)
-        
-    
+            
     @QtCore.pyqtSlot(bool)   
     def on_cbxMaximizado_clicked(self, valor):
         
@@ -155,9 +151,34 @@ class Opciones(QtGui.QMainWindow):
             int(self.__Config.windowStateStartup))
             
     #~ 
-    #~ TAB: BASES DE DATOS
+    #~ TAB: CATALOGOS
     #~ 
     
+    def __agregarBDReferencia(self):
+        dialog = QtGui.QFileDialog(self, 'Agregar referencia a catálogo')
+        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
+        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
+        dialog.setDefaultSuffix("db")
+        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
+        if dialog.exec_():
+            filename = dialog.selectedFiles()[0] # convierte a unicode el string
+            filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
+            self.__agregarBDReferenciaInCFG(filename) # refresca la gui
+            self.__cargarBDsDesdeCFG()
+            
+    def __agregarBDReferenciaInCFG(self, pathCatalogo):
+        ''' Agrega el nuevo catalogo seleccionado a en el archivo CFG'''
+
+        # recupera el string guardado en el cfg
+        referencias = self.__Config.referencesToBds
+        # separa los paths
+        referencias = referencias.split(',')
+        # agrega el nuevo path a los existentes
+        referencias.append(pathCatalogo)
+        # vuelve a juntar los path en un solo string
+        # y lo guarda nuevamente en el cfg
+        self.__Config.referencesToBds = ','.join(referencias)
+                
     def __cargarBDsDesdeDatabases(self):
         ''' Carga en la lista las bds existentes en el directorio 
         establecido por defecto. '''
@@ -167,11 +188,13 @@ class Opciones(QtGui.QMainWindow):
         
     def __cargarBDsDesdeCFG(self):
         ''' '''
+        
+        self.lstBdsReferences.clear()
         bds = self.__Config.getDBsInCFGReferences()
         if bds :
             for bd in bds:
                 self.lstBdsReferences.addItem(bd)
-        
+                
     def __cargarComboBDsDefault(self):
         ''' '''
         databases_dir = self.__DBU.getBDsNamesDatabasesDir()

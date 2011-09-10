@@ -24,7 +24,7 @@ class Members:
         usados en el programa. '''
         
         CFG_FILE = 'settings.cfg'
-        DATABASES_DIR = 'databases'
+        DATABASES_DIR = 'catalogs'
         HISTORY_DIR = 'data'
         HISTORY_FILE = 'history.fht'
         TABLENAME_SNIPPET = 'snippet'

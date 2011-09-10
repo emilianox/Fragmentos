@@ -22,6 +22,7 @@
 import os
 
 from PyQt4 import QtGui, uic
+
 import fragmentos_rc #@UnusedImport
 
 class AcercaDe(QtGui.QMainWindow):

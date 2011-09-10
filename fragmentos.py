@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       sin título.py
-#
 #       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -26,7 +24,8 @@ from gui import GUI
 from configurations import Configurations
 
 class Fragmentos :
-
+    ''' '''
+    
     def __init__(self) :
         self.BDU = DBUtils()
         self.ConfigsApp = Configurations()

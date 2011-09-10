@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       sin título.py
-#
 #       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -20,13 +18,15 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import sys
 import MainForm
 from QTTips import TrayIcon
 from PyQt4 import QtGui, QtCore
-import sys
 from pathtools import PathTools
 
 class GUI():
+    ''' Clase encargada de administrar y gestionar todas las ventanas
+    y operaciones, entre la interfaz gráfica y la lógica de la aplicación.'''
     
     def __init__(self, parent):
         self.fragmentos = parent
@@ -61,7 +61,7 @@ class GUI():
             return apply(os.path.join, tuple(path.split('/')))
             
     def refrescarArbolMainWindow(self):
-        self.window.refrescarArbol()
+        self.window.refreshTree()
         
     def setTrayIcon(self, mainforminstance):
         pt = PathTools()

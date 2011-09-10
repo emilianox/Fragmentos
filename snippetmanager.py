@@ -30,17 +30,18 @@ class SnippetManager:
 
     def __init__(self, pathBD = False, DBUtils = None, Configs = None):
         
-        # instancias de clase
+        # class instances
         self.__DBUtils = DBUtils
         self.__PT = PathTools()
         self.__Configs = Configs
         
         # lista con las rutas de las base de datos
+        # tanto las del pathdefault como del cfg file
         self.__AllPathDBs = self.loadAllPathDBs()
-        if not pathBD and len(self.__AllPathDBs) > 0:
-            print 'entre.....'
-            pathBD = self.__AllPathDBs[0]
-                 
+        if pathBD :
+            print 'entre.....', pathBD
+            
+            # instance of current selected catalog
             self.__BD = Database(pathBD)
             
             # diccionario con todas las instancia de objeto Snippet
@@ -48,7 +49,9 @@ class SnippetManager:
             
             # objeto snippet mostrado actualmente en GUI
             self.__SnippetActual = None # Snippet
-        
+        else:
+            self.__BD = None
+            self.__Snippets = None
 
 ##########################
 ## Metodos de instancia ##
@@ -144,6 +147,9 @@ class SnippetManager:
         cfg_file = self.__Configs.getDBsNamesCFGReferences()
         return databases_dir + cfg_file
         
+    def getDB(self):
+        return self.__BD
+    
     def getAllSnippets(self):
         ''' Obtiene los snippets desde la bd y carga en un diccionario
         los snippets en formato objeto Snippet().'''
@@ -162,6 +168,14 @@ class SnippetManager:
         # dict(), convierte la tupla de tuplas a diccionario
         return dict(todos_los_snippets)
 
+    
+    def getIndexBdName(self, bdName):
+        ''' Busca en la lista de bds la ocurrencia de la primer bd que 
+        coincida con el nombre del parametro <bdName>, devolviendo la 
+        posicion en que se encuentra. 
+        Devuelve -1 si no se encuentra. '''
+        pass
+        
     def getLengsAndTitles(self,consulta=None, favorito = None):
         ''' Obtiene los snippets por lenguajes desde la bd.'''
         #~ tagsPresicion = bool(self.__DBUtils.configs.searchPresitionTags)
@@ -214,11 +228,12 @@ class SnippetManager:
 
     def loadAllPathDBs(self):
         ''' Obtiene todsa las rutas de las bds incluidas en
-        el dir databases y el CFG '''
-        
-        #TODO: llevar estas instrucciones a BDUTILS.
+        el dir databases y el CFG '''        
         
         databases_dir = self.__DBUtils.getBDsInDatabasesDir()
         #TODO: implementar estooo
-        databases_cfg = []
-        return databases_dir + databases_cfg
+        databases_cfg = self.__Configs.getDBsInCFGReferences()
+        if databases_cfg :
+            return databases_dir + databases_cfg
+        else:
+            return databases_dir

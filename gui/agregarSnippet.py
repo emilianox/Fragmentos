@@ -93,7 +93,7 @@ class agregarSnippet(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btLimpiarCampos_clicked(self):
-        self.__limpiarCampos()
+        self.__cleanFields()
         
     @QtCore.pyqtSlot(int)
     def on_cbLenguajes_currentIndexChanged(self):
@@ -155,7 +155,7 @@ class agregarSnippet(QtGui.QMainWindow):
             resultado, mensaje = self.SM.agregarSnippet(datosSnippet)
             if resultado:
                 # limpia el contenido en los campos
-                self.__limpiarCampos()
+                self.__cleanFields()
                 # muestra un mensaje con la confirmacion de la operacion
                 QtGui.QMessageBox.information(self, "Agregar snippet","Snippet agregado correctamente.")
                 
@@ -199,7 +199,7 @@ class agregarSnippet(QtGui.QMainWindow):
         
         return snippet
         
-    def __limpiarCampos(self):
+    def __cleanFields(self):
         u""" Limpia los valores de los campos."""
         
         self.eTitulo.setText("")
@@ -217,7 +217,7 @@ class agregarSnippet(QtGui.QMainWindow):
         # atajo : cerrar/salir
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
         # atajo : limpiar los campos
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+L"), self, self.__limpiarCampos)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+L"), self, self.__cleanFields)
 
     def __normalizarTitulo(self, titulo):
         u""" """
@@ -282,7 +282,7 @@ class agregarSnippet(QtGui.QMainWindow):
             fecha_Modificacion = unicode(datetime.today().strftime('%d/%m/%Y %H:%M:%S'))
             snippetActual.fechaModificacion = fecha_Modificacion
             
-            self.__limpiarCampos()
+            self.__cleanFields()
             QtGui.QMessageBox.information(self, "Modificar snippet","Snippet modificado correctamente.")
 
 

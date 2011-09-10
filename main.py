@@ -22,7 +22,8 @@ from fragmentos import Fragmentos
 
 
 class Main :
-
+    ''' Clase que hace correr la aplicación.''' 
+    
     def __init__(self) :
         self.validar()
         self.Fragmentos = Fragmentos()

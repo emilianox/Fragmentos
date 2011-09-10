@@ -15,15 +15,13 @@ from QTTips.QcolorTextEdit import QcolorTextEdit
 
 class Main(QtGui.QMainWindow):
     """La ventana principal de la aplicación."""
-
+    
     def __init__(self,parent):
         """ Ventana Principal debe recibir una instancia de GUI """
         FILENAME = 'MainForm.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-        # establece el icono de la ventana
-        #~ self.setWindowIcon(QtGui.QIcon(":/app.png"))
 
         # centra la ventana en la pantalla
         self.__centerOnScreen()
@@ -39,7 +37,7 @@ class Main(QtGui.QMainWindow):
         self.wgtDetalles.setVisible(False)
         self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
 
-        # Reordenamiento  y expancion
+        # Reordenamiento y expancion del separador tree-widgetcodigo
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
 
         # colores x defecto
@@ -56,11 +54,10 @@ class Main(QtGui.QMainWindow):
         # establece el trayicon
         self.Padre.setTrayIcon(self)        
         
-        if self.SM.getAllPathDBs() :
-            self.refrescarArbol()
+        self.__loadSnippetsFromCatalog()
 
         # carga las bds en el combo
-        self.cargarBDsEnCombo()
+        self.___loadBDsInCombo()
 
         # carga los ShortCuts de la app
         self.__loadAppShortcuts()
@@ -80,6 +77,7 @@ class Main(QtGui.QMainWindow):
     def __addKeytoBusqueda(self,cadena):
         """Soporte de atajos generico.Manipula los atajos
         en la barra de busqueda"""
+        
         ubicacion = self.__convertir_a_unicode(self.eBusqueda.text)
         self.eBusqueda.setFocus()
         if ubicacion.find(cadena) == -1:
@@ -92,7 +90,7 @@ class Main(QtGui.QMainWindow):
             self.eBusqueda.setCursorPosition(ubicacion.find(cadena)+2)
     
     def __agregarSnippet(self):        
-        if self.SM.getAllPathDBs():
+        if self.SM.getDB():
             self.Padre.showAgregarSnippet()
         else:
             QtGui.QMessageBox.warning(self, "Fragmentos",
@@ -104,15 +102,20 @@ class Main(QtGui.QMainWindow):
     def __cargarBDSeleccionada(self,indice):
         """ Al seleccionar otra base de datos desde el combo,
         reflejar los cambios en la interfaz. """
+        
         #obtiene la ruta de la bd segun el indice
         rutaNueva = self.SM.getPathDB(indice)
+        
         #le pide a GUI que vuelva a crear la instancia
         self.SM = self.Padre.newSnippetManager(rutaNueva)
+        
         #carga los snippets en el arbol
-        self.refrescarArbol()
+        self.refreshTree()
                 
-    def cargarBDsEnCombo(self):
-        if self.SM :
+    def ___loadBDsInCombo(self):
+        ''' ''' 
+        
+        if self.SM.getDB() :
             bds = self.SM.getBDNames()
             if bds :
                 for item in bds:
@@ -126,16 +129,16 @@ class Main(QtGui.QMainWindow):
 
     def __createMenu(self):
         """Crea el main menu"""
+        
         menu = QtGui.QMenu(self.btMenu)
         snippet = menu.addAction("Snippet")
-        database= menu.addAction("Database")
+        database= menu.addAction("Catalogo")
         busqueda = menu.addAction("Busqueda")
         menu.addSeparator()
-        menu.addAction("Opciones", self.__mostrarOpciones, QtGui.QKeySequence("Ctrl+O"))
+        menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
         menu.addAction("Ayuda")
         menu.addSeparator()
         menu.addAction("Acerca de..", self.__mostrarAcercaDe)
-
 
         menusnippet = QtGui.QMenu()
         menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
@@ -144,7 +147,7 @@ class Main(QtGui.QMainWindow):
         snippet.setMenu(menusnippet)
 
         menudatabase = QtGui.QMenu()
-        menudatabase.addAction("Nueva... ", self.__nuevaBDFragmentos)
+        menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
         #~ menudatabase.addAction("Eliminar")
         database.setMenu(menudatabase)
 
@@ -157,14 +160,16 @@ class Main(QtGui.QMainWindow):
         self.btMenu.setMenu(menu)
         #        .showMenu (self)
 
-    def destroyed(self):
+    def __destroyed(self):
         ''' Hace volar la ventana. '''
         #TODO: hacer que cierre todas las ventanas
         sys.exit(0)
     
     def __eliminarSnippet(self):
         """Ejecuta las instrucciones para eliminar el snippet actual."""
+        
         actual = self.SM.getSnippetActual()
+        
         if actual is None:
             QtGui.QMessageBox.warning(self, "Eliminar snippet",
         "Debes seleccionar un snippet para eliminarlo.")
@@ -184,15 +189,28 @@ class Main(QtGui.QMainWindow):
 
     def __loadAppShortcuts(self):
         u""" Load shortcuts used in the application. """
-        #Add Snippet Shortcut
+                
         QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
         QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+O"), self, self.__mostrarOpciones)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+O"), self, self.__showOptions)
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
 
-    def __limpiarCampos(self) :
+    def __loadSnippetsFromCatalog(self):
+        ''' '''
+    
+        # si hay alguna bd establecida para cargarce por defecto se carga esta        	
+        if self.Padre.fragmentos.ConfigsApp.defaultBdName :			
+        	pass
+        else:
+        	# sino, se carga primer bd encontrada en la lista de bds
+        	#
+            # sugerir crear un catalogo nuevo o alguna FRUTA            
+            pass
+            
+    def __cleanFields(self) :
+        
         self.widgetcodigo.clearCode()
         self.txtDescripcion.setText("")
         self.btPonerComoFavorito.setChecked(False)
@@ -202,6 +220,7 @@ class Main(QtGui.QMainWindow):
 
     def __modificarSnippet(self):
         """ Ejecuta las instrucciones para modificar el snippet actual. """
+        
         actual = self.SM.getSnippetActual()
         if actual is None:
             QtGui.QMessageBox.warning(self, "Modificar snippet",
@@ -209,11 +228,14 @@ class Main(QtGui.QMainWindow):
         else:
             self.Padre.showModificarSnippet(actual)
 
-    def __mostrar_snippet(self, lenguaje, titulo):
+    def __showSnippet(self, lenguaje, titulo):
+        
         # obtiene el snippet segun titulo y lenguaje
         snippet = self.SM.getSnippet(lenguaje,titulo)
+        
         # muestra el codigo en el visor de codigo
         self.widgetcodigo.setFullCode(snippet.codigo,snippet.lenguaje)
+        
         # carga en los campos los datos del snippet
         self.leTags.setText(snippet.tags)
         self.leTitulo.setText(snippet.titulo)
@@ -227,42 +249,45 @@ class Main(QtGui.QMainWindow):
         else:
             #oculta el label
             self.lbFechaModificacion.setVisible(False)
+            
         # si es favorito, cambia el estado del boton
         if snippet.favorito == "0":
             self.btPonerComoFavorito.setChecked(False)
         elif snippet.favorito == "1":
             self.btPonerComoFavorito.setChecked(True)
         
-    def __ponerComoFavorito(self):
+    def __setAsFavorite(self):
         
         #obtiene la instancia actual del snippet
         snippetActual = self.SM.getSnippetActual()
+        
         #establece el nuevo valor
         if not snippetActual is None:
             #~ print str(int(self.btPonerComoFavorito.isChecked()))
-            #refleja este cambio en los datos del snippet
+            # refleja este cambio en los datos del snippet
             snippetActual.favorito = str(int(self.btPonerComoFavorito.isChecked()))
-            #establece el nuevo estado del snippet
+            
+            # establece el nuevo estado del snippet
             self.SM.setSnippetActual(snippetActual)
             self.lbEstado.setText("Establecido como favorito.")
         else:
-            #no permite que el boton sea chequeado
+            # permite que el boton no sea chequeado
             self.btPonerComoFavorito.setChecked(False)
 
-    def refrescarArbol(self):
+    def refreshTree(self):
         """ A partir de la instancia actual de SM,
         refresca el arbol cargando nuevamente los snippets. """
-
-        #~ self.mytreeview.insertarEnArbol(self.SM.getLengsAndTitles())
-        
+                
         lengs_and_titles = self.SM.getLengsAndTitles()
-        treeview = TreeViewThread(self, lengs_and_titles)
+        # intancia el hilo que se encargara de refrescar el arbol 
+        treeview = TreeViewThread(self, lengs_and_titles)        
         treeview.start()
         
         self.lbEstado.setText(
             str(self.SM.getSnippetsCount()) + ' snippet(s) cargados.')
 
     def __toogleFullScreen(self):
+        ''' '''
         if not self.fullScreen :
             self.showFullScreen()
         else:
@@ -273,7 +298,7 @@ class Main(QtGui.QMainWindow):
     #   Metodos usados en el menu de la aplicacion
     ###############################################################        
     
-    def __mostrarOpciones(self):
+    def __showOptions(self):
         ''' '''
         self.Padre.showOpciones()
         
@@ -290,11 +315,11 @@ class Main(QtGui.QMainWindow):
         ''' Abre un dialogo de archivos, para guardar el 
         archivo de la bd creada.'''
         
-        dialog = QtGui.QFileDialog(self, 'Nueva base de datos')
+        dialog = QtGui.QFileDialog(self, 'Nuevo catalogo de Fragmentos')
         dialog.setFileMode(QtGui.QFileDialog.AnyFile)
         dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen | QtGui.QFileDialog.AcceptSave)
         dialog.setDefaultSuffix("db")
-        dialog.setNameFilter('Fragmentos Databases (*.db)')
+        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
         if dialog.exec_():
             filename = self.__convertir_a_unicode(
                             dialog.selectedFiles()[0])
@@ -303,11 +328,11 @@ class Main(QtGui.QMainWindow):
             # llamamos al metodo que crea la bd
             estado = self.Padre.fragmentos.BDU.newDataBase(filename)
             if estado :
-                QtGui.QMessageBox.information(self, "Nueva base de datos",
-                "Base de datos creada con exito en : \n\n" + filename)
+                QtGui.QMessageBox.information(self, "Nuevo catalogo",
+                "Catalogo creado con exito en : \n\n" + filename)
             else:
-                QtGui.QMessageBox.critical(self, "Nueva base de datos",
-                "Se ha producido un error al intentar crear la base de datos.")
+                QtGui.QMessageBox.critical(self, "Nuevo catalogo",
+                "Se ha producido un error al intentar crear el catalogo.")
 
 ############
 ## Events ##
@@ -327,10 +352,10 @@ class Main(QtGui.QMainWindow):
         
     @QtCore.pyqtSlot()
     def on_btBuscarEnFavoritos_clicked(self):
-        #carga en el arbol los snippets favoritos
+        ''' carga en el arbol los snippets favoritos'''
         
         # si esta instancia no esta en blanco  
-        if self.SM.getAllPathDBs() :
+        if self.SM.getDB() :
             if self.btBuscarEnFavoritos.isChecked():
                 #obtiene solo los favoritos
                 datos = self.SM.getLengsAndTitles("s=1",True)
@@ -341,7 +366,7 @@ class Main(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btPonerComoFavorito_clicked(self):
-        self.__ponerComoFavorito()
+        self.__setAsFavorite()
 
     @QtCore.pyqtSlot()
     def on_btSptAnterior_clicked(self):
@@ -358,11 +383,11 @@ class Main(QtGui.QMainWindow):
 
 
             # muestra en la interfaz el snippet
-            self.__mostrar_snippet(valores[0],valores[1])
+            self.__showSnippet(valores[0],valores[1])
 
             #~ print "quitado de anteriores: ", valores,len(self.snippetsAnteriores) 
         else:
-            self.__limpiarCampos()
+            self.__cleanFields()
 
 
         # estado de los botones
@@ -382,7 +407,7 @@ class Main(QtGui.QMainWindow):
             
             #~ if not valores is None :
             # muestra en la interfaz el snippet
-                #~ self.__mostrar_snippet(valores[0],valores[1])
+                #~ self.__showSnippet(valores[0],valores[1])
 
             #~ print "quitado de siguientes: ", valores
             
@@ -402,7 +427,7 @@ class Main(QtGui.QMainWindow):
         
         datos = []
         # si SM no es None
-        if self.SM.getAllPathDBs() :
+        if self.SM.getDB() :
             datos = self.SM.getLengsAndTitles(
                 str(self.__convertir_a_unicode(cadena)),
                     self.btBuscarEnFavoritos.isChecked())
@@ -410,7 +435,6 @@ class Main(QtGui.QMainWindow):
                 # si hubieron resultados en la busqueda
                 self.colorBusqueda.set_color_busqueda()
                 self.mytreeview.insertarEnArbol(datos)
-                #~ self.tvLenguajes.expandAll()
         else:
             self.colorBusqueda.set_color_busqueda(False)
             self.mytreeview.model.clear()
@@ -433,7 +457,7 @@ class Main(QtGui.QMainWindow):
                             'utf-8')            
             
             #~ sptAnterior = self.SM.getSnippetActual()
-            self.__mostrar_snippet(lenguaje,titulo)
+            self.__showSnippet(lenguaje,titulo)
             #~ self.sprMostrado = self.SM.getSnippetActual()
             
             #~ if sptAnterior is not None:
@@ -445,7 +469,7 @@ class Main(QtGui.QMainWindow):
                                     #~ self.sprMostrado.titulo])
                 #~ print "agregado a anteriores: ",[lenguaje,titulo],len(self.snippetsAnteriores) 
             #~ else :
-                #~ self.__limpiarCampos()
+                #~ self.__cleanFields()
             
             #~ if len(self.snippetsAnteriores) > 2 :
                 #~ self.btSptAnterior.setEnabled(True)
@@ -470,8 +494,7 @@ class Main(QtGui.QMainWindow):
             self.PasePorAca = True
         
 class TreeViewThread(QtCore.QThread):
-    ''' Este hilo se encarga de cargar los snippets en 
-    el arbol y visualizarlos.'''
+    ''' Este hilo se encarga de cargar los snippets en el arbol de la interfaz.'''
     
     def __init__(self, parent, lengs_and_titles):
         QtCore.QThread.__init__(self, parent)
