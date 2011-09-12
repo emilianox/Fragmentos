@@ -18,18 +18,18 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         QtCore.QObject.connect(self, QtCore.SIGNAL(traySignal), self.__icon_activated)
 
         self.__window_parent = parent
-        self.__bandera_show = True
+        self.bandera_show = True
 
 
     def menuShowHide(self):
         '''menu show'''
-        if self.__bandera_show:
+        if self.bandera_show:
             self.__window_parent.hide()
-            self.__bandera_show = False
+            self.bandera_show = False
         else:
             self.__window_parent.show()
-            self.__bandera_show = True
-        print 'bandera ',self.__bandera_show
+            self.bandera_show = True
+        print 'bandera ',self.bandera_show
 
     def menuSearch(self):
         '''menu show'''
@@ -37,9 +37,9 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
         # establece el foco en la barra de busqueda
         self.__window_parent.eBusqueda.setFocus()
         # si la ventana esta oculta, la muestra
-        if not self.__bandera_show:
+        if not self.bandera_show:
             self.__window_parent.show()
-            self.__bandera_show = True            
+            self.bandera_show = True            
 
     def menuAdd(self):
         '''menu show'''
@@ -50,7 +50,7 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
     def menuExit(self):
         '''menu show'''
         #~ print 'exit'
-        self.__window_parent.destroyed()
+        sys.exit(0)
 
     def __icon_activated(self,reason):
         if reason == QtGui.QSystemTrayIcon.Trigger:

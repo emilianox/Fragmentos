@@ -397,7 +397,7 @@ class Main(QtGui.QMainWindow):
     def on_eBusqueda_textChanged(self,cadena):
         # campo de pruebas en la busqueda
         
-        datos = []
+        datos = [] #@UnusedVariable
         datos = self.SM.getLengsAndTitles(
             str(self.__convertir_a_unicode(cadena)),
                 self.btBuscarEnFavoritos.isChecked())
@@ -441,6 +441,11 @@ class Main(QtGui.QMainWindow):
             self.__cargarBDSeleccionada(self.cbBD.currentIndex())
         else:
             self.PasePorAca = True
+            
+    def closeEvent(self, event):
+        event.ignore()
+        self.Padre.trayIcon.bandera_show = False
+        self.hide()
         
 class TreeViewThread(QtCore.QThread):
     ''' Este hilo se encarga de cargar los snippets en el arbol de la interfaz.'''

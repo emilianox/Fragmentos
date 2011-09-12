@@ -116,11 +116,17 @@ class agregarSnippet(QtGui.QMainWindow):
         self.eTitulo.setText(
             self.__normalizarTitulo(
                 self.__toUnicode(self.eTitulo.text())))
+        
+    def closeEvent(self, event):
+            event.ignore()
+            self.hide()
                 
     def destroyed(self):
         ''' Hace volar la ventana. '''
         #TODO: hacer que cierre todas las ventanas
-        sys.exit(0)
+        #sys.exit(0)
+        self.close()
+        pass
         
 ########################
 ## Metodos Auxiliares ##

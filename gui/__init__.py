@@ -23,14 +23,18 @@ import MainForm
 from QTTips import TrayIcon
 from PyQt4 import QtGui, QtCore
 from pathtools import PathTools
+import dbus
+import dbus.service
+from dbus.mainloop.qt import DBusQtMainLoop #@UnresolvedImport
 
-class GUI():
+class GUI(dbus.service.Object):
     ''' Clase encargada de administrar y gestionar todas las ventanas
     y operaciones, entre la interfaz gráfica y la lógica de la aplicación.'''
     
     def __init__(self, parent):
         self.fragmentos = parent
         self.SM = parent.SM
+        self.trayIcon = None
 
         app = QtGui.QApplication(sys.argv)
         
@@ -38,8 +42,13 @@ class GUI():
         #QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
         #~ QtGui.QApplication.setStyle("plastique")
         app.setPalette(QtGui.QApplication.style().standardPalette())
-    
+ 
+        mainloop = DBusQtMainLoop(set_as_default=True) #@UnusedVariable
+        bus_name = dbus.service.BusName('ar.fragmentos.service', bus=dbus.SessionBus())
+        dbus.service.Object.__init__(self,bus_name, '/ar/fragmentos/service')   
         self.window = MainForm.Main(self)
+       
+
         # segun el estado de estado del valor <windowStateStartup>
         # se maximiza o no la ventana
         
@@ -58,9 +67,10 @@ class GUI():
     def setTrayIcon(self, mainforminstance):
         pt = PathTools()
         icon = QtGui.QIcon(pt.convertPath(pt.getPathProgramFolder()+'gui/logo.png'))
-        self.__trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
-        self.__trayIcon.show()
+        self.trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
+        self.trayIcon.show()
 
+    @dbus.service.method('ar.fragmentos.service')
     def showAgregarSnippet(self):
         u""" """
         from agregarSnippet import agregarSnippet
