@@ -48,8 +48,7 @@ class Main(QtGui.QMainWindow):
         self.SM = parent.SM # esto es GUI.SM
         self.PasePorAca = False
         self.fullScreen = False
-        self.snippetsAnteriores = [None]
-        self.snippetsSiguientes = [None]
+        self.historialSnippets = [[],0]
 
         # establece el trayicon
         self.Padre.setTrayIcon(self)        
@@ -192,11 +191,8 @@ class Main(QtGui.QMainWindow):
     def __loadAppShortcuts(self):
         u""" Load shortcuts used in the application. """
                 
-        QtGui.QShortcut(QtGui.QKeySequence("F9"), self, self.on_btAgregarSnippet_clicked)
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+O"), self, self.__showOptions)
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
             
     def __cleanFields(self) :
@@ -263,6 +259,29 @@ class Main(QtGui.QMainWindow):
         else:
             # permite que el boton no sea chequeado
             self.btPonerComoFavorito.setChecked(False)
+
+    def __historial(self,tipo,tLengTit=None):
+        historial = self.historialSnippets[0]
+        indice = self.historialSnippets[1]
+        if tipo == 'add':
+            historial = historial[:indice+1]
+            historial.append(tLengTit)
+            indice = len(historial)-1    
+        
+        elif tipo == 'forw':
+            if (len(historial)-1) > indice:
+                lenguaje,titulo = historial[indice+1]
+                indice += 1
+                self.__showSnippet(lenguaje,titulo)
+
+        elif tipo == 'back':
+            if indice:
+                lenguaje,titulo = historial[indice-1]
+                indice += -1
+                self.__showSnippet(lenguaje,titulo)
+        else:
+            print "opcion incorrecta"
+        self.historialSnippets = [historial,indice]
 
     def refreshTree(self):
         """ A partir de la instancia actual de SM,
@@ -358,53 +377,18 @@ class Main(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btSptAnterior_clicked(self):
-
-        # si la cantidad es > a 0
-        if len(self.snippetsAnteriores) >= 1 :
-            # obtiene el anterior snippet mostrado
-            valores = self.snippetsAnteriores.pop()
-
-            # agrega este snippet a los siguientes
-            #~ self.snippetsSiguientes.append(valores)
-
-            #~ print "agregado de lista de siguientes: ", valores
-
-
-            # muestra en la interfaz el snippet
-            self.__showSnippet(valores[0],valores[1])
-
-            #~ print "quitado de anteriores: ", valores,len(self.snippetsAnteriores) 
-        else:
-            self.__cleanFields()
-
-
-        # estado de los botones
-        #~ if len(self.snippetsAnteriores) > 2 :
-            #~ self.btSptAnterior.setEnabled(True)
-        #~ elif len(self.snippetsAnteriores) == 1 :
-            #~ self.btSptAnterior.setEnabled(False)
+        self.__historial('back')
+        self.btSptSiguiente.setEnabled(True)
+        if not self.historialSnippets[1]:#si no hay cosas para volver
+            self.btSptAnterior.setEnabled(False)
 
 
     @QtCore.pyqtSlot()
     def on_btSptSiguiente_clicked(self):
-        pass
-        # si la cantidad es > a 0
-        #~ if len(self.snippetsSiguientes) > 0 :
-            # obtiene el anterior snippet mostrado
-            #~ valores = self.snippetsSiguientes.pop()
-            
-            #~ if not valores is None :
-            # muestra en la interfaz el snippet
-                #~ self.__showSnippet(valores[0],valores[1])
-
-            #~ print "quitado de siguientes: ", valores
-            
-        # estado de los botones
-        #~ if len(self.snippetsSiguientes) > 2 :
-            #~ self.btSptSiguiente.setEnabled(True)
-        #~ else:
-            #~ self.btSptSiguiente.setEnabled(False)
-        
+        self.__historial('forw')
+        self.btSptAnterior.setEnabled(True)
+        if (len(self.historialSnippets[0])-1)==self.historialSnippets[1]:#si no hay cosas para adelantar
+            self.btSptSiguiente.setEnabled(False)
         
     ###############
     ### ENTRYES ###
@@ -440,33 +424,12 @@ class Main(QtGui.QMainWindow):
                             'utf-8')
             titulo =  unicode(
                             indice.data().toString().toUtf8(),
-                            'utf-8')            
-            
-            #~ sptAnterior = self.SM.getSnippetActual()
+                            'utf-8')
+        #History zone
+            self.btSptAnterior.setEnabled(True)
+            self.btSptSiguiente.setEnabled(False)
+            self.__historial('add', (lenguaje,titulo))
             self.__showSnippet(lenguaje,titulo)
-            #~ self.sprMostrado = self.SM.getSnippetActual()
-            
-            #~ if sptAnterior is not None:
-                #~ self.snippetsAnteriores.append([
-                                    #~ sptAnterior.lenguaje,
-                                    #~ sptAnterior.titulo])
-            #~ self.snippetsSiguientes.append([
-                                    #~ self.sprMostrado.lenguaje,
-                                    #~ self.sprMostrado.titulo])
-                #~ print "agregado a anteriores: ",[lenguaje,titulo],len(self.snippetsAnteriores) 
-            #~ else :
-                #~ self.__cleanFields()
-            
-            #~ if len(self.snippetsAnteriores) > 2 :
-                #~ self.btSptAnterior.setEnabled(True)
-            #~ else:
-                #~ self.btSptAnterior.setEnabled(False)
-                
-            #~ if len(self.snippetsSiguientes) > 2 :
-                #~ self.btSptSiguiente.setEnabled(True)
-            #~ else:
-                #~ self.btSptSiguiente.setEnabled(False)
-            #~ self.btSptSuiguiente.setEnabled(False)
             
     ################
     ### COMBOBOX ###
