@@ -357,7 +357,7 @@ class Main(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def on_btCopiarAlPortapapeles_clicked(self):
-        pass
+        self.Padre.clipboard.setText(self.widgetcodigo.getCode())
         
     @QtCore.pyqtSlot()
     def on_btBuscarEnFavoritos_clicked(self):

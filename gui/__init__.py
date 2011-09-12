@@ -37,6 +37,7 @@ class GUI(dbus.service.Object):
         self.trayIcon = None
 
         app = QtGui.QApplication(sys.argv)
+        self.clipboard = app.clipboard()
         
         ## Look and feel changed to CleanLooks
         #QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
