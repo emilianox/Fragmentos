@@ -218,10 +218,11 @@ class SnippetManager:
             
             # establece como instancia actual en uso, la instancia obtenida
             self.setSnippetActual(snippet)
-        except Exception:
+        except Exception, msg:
             # si el snippet no esta en el diccionario, devuelve None
             snippet = None
             self.setSnippetActual(snippet)
+            print 'getSnippet Error: ',msg
         return snippet
 
     def getSnippetsCount(self):
@@ -247,7 +248,9 @@ class SnippetManager:
     def setDB(self, pathBD):
         '''Crea una instancia de BD'''
         self.__BD = Database(pathBD)
-
+        # se vuelven a reobtener los snippets desde esta nueva bd        
+        self.__Snippets = self.getAllSnippets()
+        
     def setSnippetActual(self, unSnippet):
         ''' Establece los datos del Snippet usado actualmente.'''
         self.__SnippetActual = unSnippet

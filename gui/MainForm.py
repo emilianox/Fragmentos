@@ -22,7 +22,7 @@ class Main(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-
+        self.setWindowIcon(QtGui.QIcon(':/icon.png'))
         # centra la ventana en la pantalla
         self.__centerOnScreen()
 
@@ -222,7 +222,7 @@ class Main(QtGui.QMainWindow):
         
         # obtiene el snippet segun titulo y lenguaje
         snippet = self.SM.getSnippet(lenguaje,titulo)
-        
+
         # muestra el codigo en el visor de codigo
         self.widgetcodigo.setFullCode(snippet.codigo,snippet.lenguaje)
         
