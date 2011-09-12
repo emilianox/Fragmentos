@@ -45,7 +45,7 @@ class Main(QtGui.QMainWindow):
 
         # Instancia y variables usadas
         self.Padre = parent # esto es GUI
-        self.SM = parent.fragmentos.newSnippetManager(None) # esto es GUI.SM
+        self.SM = parent.SM # esto es GUI.SM
         self.PasePorAca = False
         self.fullScreen = False
         self.snippetsAnteriores = [None]
@@ -54,10 +54,10 @@ class Main(QtGui.QMainWindow):
         # establece el trayicon
         self.Padre.setTrayIcon(self)        
         
-        self.__loadSnippetsFromCatalog()
+        self.refreshTree()
 
         # carga las bds en el combo
-        self.___loadBDsInCombo()
+        self.__loadBDsInCombo()
 
         # carga los ShortCuts de la app
         self.__loadAppShortcuts()
@@ -106,13 +106,13 @@ class Main(QtGui.QMainWindow):
         #obtiene la ruta de la bd segun el indice
         rutaNueva = self.SM.getPathDB(indice)
         
-        #le pide a GUI que vuelva a crear la instancia
-        self.SM = self.Padre.newSnippetManager(rutaNueva)
+        # vuelva a crear la instancia de bd con la nueva ruta
+        self.SM.setDB(rutaNueva)
         
-        #carga los snippets en el arbol
+        # carga los snippets en el arbol
         self.refreshTree()
                 
-    def ___loadBDsInCombo(self):
+    def __loadBDsInCombo(self):
         ''' ''' 
         
         if self.SM.getDB() :
@@ -152,13 +152,15 @@ class Main(QtGui.QMainWindow):
         database.setMenu(menudatabase)
 
         menubusqueda = QtGui.QMenu()
-        menubusqueda.addAction("'t=' por Titulo")
-        menubusqueda.addAction("'g=' por Tags")
-        menubusqueda.addAction("'l=' por Lenguaje")
+        menubusqueda.addAction("'t=' Por Titulo")
+        menubusqueda.addAction("'g=' Por Tags")
+        menubusqueda.addAction("'l=' Por Lenguaje")
+        menubusqueda.addAction("'n=' Por Fecha creacion")
+        menubusqueda.addAction("'m=' Por Fecha modificacion")
+        menubusqueda.addAction("'a=' Por Autor")
         busqueda.setMenu(menubusqueda)
 
         self.btMenu.setMenu(menu)
-        #        .showMenu (self)
 
     def __destroyed(self):
         ''' Hace volar la ventana. '''
@@ -196,18 +198,6 @@ class Main(QtGui.QMainWindow):
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
         QtGui.QShortcut(QtGui.QKeySequence("Ctrl+O"), self, self.__showOptions)
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
-
-    def __loadSnippetsFromCatalog(self):
-        ''' '''
-    
-        # si hay alguna bd establecida para cargarce por defecto se carga esta        	
-        if self.Padre.fragmentos.ConfigsApp.defaultBdName :			
-        	pass
-        else:
-        	# sino, se carga primer bd encontrada en la lista de bds
-        	#
-            # sugerir crear un catalogo nuevo o alguna FRUTA            
-            pass
             
     def __cleanFields(self) :
         
@@ -354,15 +344,13 @@ class Main(QtGui.QMainWindow):
     def on_btBuscarEnFavoritos_clicked(self):
         ''' carga en el arbol los snippets favoritos'''
         
-        # si esta instancia no esta en blanco  
-        if self.SM.getDB() :
-            if self.btBuscarEnFavoritos.isChecked():
-                #obtiene solo los favoritos
-                datos = self.SM.getLengsAndTitles("s=1",True)
-            else:
-                datos = self.SM.getLengsAndTitles()
-            #carga los snippets en el arbol
-            self.mytreeview.insertarEnArbol(datos)
+        if self.btBuscarEnFavoritos.isChecked():
+            #obtiene solo los favoritos
+            datos = self.SM.getLengsAndTitles("s=1",True)
+        else:
+            datos = self.SM.getLengsAndTitles()
+        #carga los snippets en el arbol
+        self.mytreeview.insertarEnArbol(datos)
 
     @QtCore.pyqtSlot()
     def on_btPonerComoFavorito_clicked(self):
@@ -426,15 +414,13 @@ class Main(QtGui.QMainWindow):
         # campo de pruebas en la busqueda
         
         datos = []
-        # si SM no es None
-        if self.SM.getDB() :
-            datos = self.SM.getLengsAndTitles(
-                str(self.__convertir_a_unicode(cadena)),
-                    self.btBuscarEnFavoritos.isChecked())
-            if datos:
-                # si hubieron resultados en la busqueda
-                self.colorBusqueda.set_color_busqueda()
-                self.mytreeview.insertarEnArbol(datos)
+        datos = self.SM.getLengsAndTitles(
+            str(self.__convertir_a_unicode(cadena)),
+                self.btBuscarEnFavoritos.isChecked())
+        if datos:
+            # si hubieron resultados en la busqueda
+            self.colorBusqueda.set_color_busqueda()
+            self.mytreeview.insertarEnArbol(datos)
         else:
             self.colorBusqueda.set_color_busqueda(False)
             self.mytreeview.model.clear()

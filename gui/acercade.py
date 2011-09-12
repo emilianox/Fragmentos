@@ -33,6 +33,13 @@ class AcercaDe(QtGui.QMainWindow):
     #cargamos la interfaz desde el archivo .ui
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         uic.loadUi(uifile, self)    
+        self.__centerOnScreen()
+        
+    def __centerOnScreen (self):
+        """Centers the window on the screen."""
+        resolution = QtGui.QDesktopWidget().screenGeometry()
+        self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
+                  (resolution.height() / 2) - (self.frameSize().height() / 2))
         
 #~ def main():
     #~ app = QtGui.QApplication(sys.argv)

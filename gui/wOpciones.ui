@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Opciones</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="fragmentos.qrc">
+    <normaloff>:/icons/empty.png</normaloff>:/icons/empty.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -498,7 +502,9 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="fragmentos.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>btCancelar</sender>

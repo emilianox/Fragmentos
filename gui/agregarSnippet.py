@@ -88,7 +88,7 @@ class agregarSnippet(QtGui.QMainWindow):
             self.__modificarSnippet()
             self.close()
         # hace que refresque el arbol de la interfaz principal
-        self.Padre.refrescarArbolMainWindow()
+        self.Padre.refreshTreeMainWindow()
         
 
     @QtCore.pyqtSlot()

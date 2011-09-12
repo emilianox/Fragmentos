@@ -26,7 +26,7 @@ from members import Members
 
 
 class PathTools:
-
+    ''' Clase para el manejo de rutas/paths y ubicacion de carpetas. '''
     def __init__(self):
         pass
         

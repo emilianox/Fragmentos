@@ -20,8 +20,7 @@
 
 class Members:
     
-        ''' Clase que contiene todos los miembros constantes 
-        usados en el programa. '''
+        ''' Clase que contiene todos los miembros constantes usados en el programa. '''
         
         CFG_FILE = 'settings.cfg'
         DATABASES_DIR = 'catalogs'

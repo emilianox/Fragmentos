@@ -19,25 +19,18 @@
 #       MA 02110-1301, USA.
 
 from dbutils import DBUtils
-from snippetmanager import SnippetManager
 from gui import GUI
+from snippetmanager import SnippetManager
 from configurations import Configurations
 
 class Fragmentos :
-    ''' '''
+    ''' Clase que hace de puente entre la logica del programa con las interfaces graficas. '''
     
     def __init__(self) :
         self.BDU = DBUtils()
         self.ConfigsApp = Configurations()
-        self.SM = None #SnippetManager()
+        self.SM = SnippetManager(self.BDU, self.ConfigsApp)
         self.GUI = GUI(self)
-
-    def newSnippetManager(self, pathDB):
-        ''' Recrea una instancia de SnippetManager 
-        a partir de la pathDB indicado.'''
-        # recrea la instancia de SM
-        self.SM = SnippetManager(pathDB, self.BDU, self.ConfigsApp)
-        return self.SM
         
 def main():
     Fragmentos()

@@ -23,7 +23,8 @@ import sqlite3
 
 
 class Snippet (object):
-
+    ''' Clase que representa el molde de un snippet. '''
+    
     def __init__(self,datosSnippet=None,dbReference=None):
         u""" Constructor de la clase. donde:
         datosSnippet, es un objeto de tipo diccionario.

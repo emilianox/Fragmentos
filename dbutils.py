@@ -26,7 +26,8 @@ from pathtools import PathTools
 
 
 class DBUtils:
-
+    ''' Clase para el manejo de utilidades de base de datos. '''
+    
     def __init__(self):
         self.__PT = PathTools()
         pass

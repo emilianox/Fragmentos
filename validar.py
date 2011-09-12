@@ -24,6 +24,7 @@ from pathtools import PathTools
 from configurations import Configurations
 
 class Validator :
+    ''' Clase que valida el estado de distintas partes del programa. '''
     
     def __init__(self) :
         self.pt = PathTools()

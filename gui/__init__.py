@@ -51,34 +51,15 @@ class GUI():
         # muestra la ventana
         self.window.show()
         sys.exit(app.exec_())
-
-    def __convertPath(self, path):
-        """Convierte el path a el específico de la plataforma (separador)"""
-        import os
-        if os.name == 'posix':
-            return "/" + apply(os.path.join, tuple(path.split('/')))
-        elif os.name == 'nt':
-            return apply(os.path.join, tuple(path.split('/')))
             
-    def refrescarArbolMainWindow(self):
+    def refreshTreeMainWindow(self):
         self.window.refreshTree()
         
     def setTrayIcon(self, mainforminstance):
         pt = PathTools()
-        icon = QtGui.QIcon(self.__convertPath(pt.getPathProgramFolder()+'gui/logo.png'))
+        icon = QtGui.QIcon(pt.convertPath(pt.getPathProgramFolder()+'gui/logo.png'))
         self.__trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
         self.__trayIcon.show()
-
-    def newSnippetManager(self, pathDB):
-        u""" Recrea una instancia de SnippetManager 
-        a partir de la pathDB indicado."""
-        self.SM = self.fragmentos.newSnippetManager(pathDB)
-        #~ print 'nueva instancia de SM creada desde -GUI-'
-        return self.SM
-
-    def setSMInstance(self, newSM):
-        u""" Establece la referencia de la nueva instancia creada. """
-        self.SM = newSM
 
     def showAgregarSnippet(self):
         u""" """

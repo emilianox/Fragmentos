@@ -24,7 +24,8 @@ from busqueda import Busqueda
 
 
 class Database:
-
+    ''' Clase manejadora de operaciones con una base de datos/catalogo. '''
+    
     def __init__(self,rutaBD):
         u''' Costructor de la clase. '''
         #~ print 'my path es: ',rutaBD
