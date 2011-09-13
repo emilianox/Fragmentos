@@ -444,7 +444,6 @@ class Main(QtGui.QMainWindow):
             
     def closeEvent(self, event):
         event.ignore()
-        self.Padre.trayIcon.bandera_show = False
         self.hide()
         
 class TreeViewThread(QtCore.QThread):

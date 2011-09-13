@@ -76,7 +76,64 @@ class Validator :
         
         # verifica la integridad del archivo de configuracion 
         #self.checkIntegrityCfg()
+ 
+import gconf #@UnresolvedImport
+import types
+class ValidarShorcuts:
+    """"""
+    def __init__(self):
+        self.search_key = 'F7'
+        self.add_key = 'F9'
+        self.file = self.__validar_file()
+        self.client = gconf.client_get_default()
+        self.__validar_keys()
         
+        
+ 
+    def __check_search_key(self):
+        self.set_key('/desktop/gnome/keybindings/fragmentos-search/binding',self.search_key)
+        self.set_key('/desktop/gnome/keybindings/fragmentos-search/action','python ' + self.file + ' -search')
+        self.set_key('/desktop/gnome/keybindings/fragmentos-search/name','search into fragmentos')
+        pass
+    
+    def __check_add_key(self):
+        self.set_key('/desktop/gnome/keybindings/fragmentos-add/binding',self.add_key)
+        self.set_key('/desktop/gnome/keybindings/fragmentos-add/action','python ' + self.file +' -add')
+        self.set_key('/desktop/gnome/keybindings/fragmentos-add/name','add to fragmentos')
+        pass
+
+    def __validar_keys(self):
+        self.__check_search_key()
+        self.__check_add_key()
+        pass
+
+    def __validar_file(self):
+        p= PathTools()
+        return p.getPathProgramFolder()+'cliente_dbus.py'
+        
+
+    def set_key(self,key,value):
+        casts = {types.BooleanType: gconf.Client.set_bool,
+                 types.IntType:     gconf.Client.set_int,
+                 types.FloatType:   gconf.Client.set_float,
+                 types.StringType:  gconf.Client.set_string}
+        casts[type(value)](self.client,key, value)
+
+    def get_key(self,key):
+        try:
+            casts = {gconf.VALUE_BOOL:   gconf.Value.get_bool,
+                     gconf.VALUE_INT:    gconf.Value.get_int,
+                     gconf.VALUE_FLOAT:  gconf.Value.get_float,
+                     gconf.VALUE_STRING: gconf.Value.get_string}
+            value = self.client.get(key)
+            return casts[value.type](value)
+        except AttributeError:
+            raise ValueError
+ 
+        
+class Vacia:
+    def __init__(self):
+        pass
 
 
 def main():

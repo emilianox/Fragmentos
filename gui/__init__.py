@@ -23,11 +23,16 @@ import MainForm
 from QTTips import TrayIcon
 from PyQt4 import QtGui, QtCore
 from pathtools import PathTools
-import dbus
-import dbus.service
-from dbus.mainloop.qt import DBusQtMainLoop #@UnresolvedImport
+try:
+    import dbus
+    import dbus.service
+    from dbus.mainloop.qt import DBusQtMainLoop 
+    from dbus.service import Object as DObject           
+except ImportError:
+    from validar import Vacia as DObject
 
-class GUI(dbus.service.Object):
+
+class GUI(DObject):
     ''' Clase encargada de administrar y gestionar todas las ventanas
     y operaciones, entre la interfaz gráfica y la lógica de la aplicación.'''
     
@@ -39,25 +44,29 @@ class GUI(dbus.service.Object):
         app = QtGui.QApplication(sys.argv)
         self.clipboard = app.clipboard()
         
-        ## Look and feel changed to CleanLooks
+#------------------ Look and feel changed to CleanLooks-----------------------#
         #QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
         #~ QtGui.QApplication.setStyle("plastique")
         app.setPalette(QtGui.QApplication.style().standardPalette())
- 
-        mainloop = DBusQtMainLoop(set_as_default=True) #@UnusedVariable
-        bus_name = dbus.service.BusName('ar.fragmentos.service', bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self,bus_name, '/ar/fragmentos/service')   
+#--------------------------------------DBus-----------------------------------#
+        try: 
+            mainloop = DBusQtMainLoop(set_as_default=True) #@UnusedVariable
+            bus_name = dbus.service.BusName('ar.fragmentos.service', bus=dbus.SessionBus())
+            dbus.service.Object.__init__(self,bus_name, '/ar/fragmentos/service')
+        except Exception:
+            print "hay un error en dbus!"
+            
+    
+#------------------------------------------------------------------------------
         self.window = MainForm.Main(self)
-       
-
+#-----------------------------------------------------------------------------# 
         # segun el estado de estado del valor <windowStateStartup>
-        # se maximiza o no la ventana
-        
+#----------se maximiza o no la ventana----------------------------------------#
         windowStateCFG = self.fragmentos.ConfigsApp.windowStateStartup        
         if not windowStateCFG is None and \
             int(windowStateCFG) == 1: # si es = 1
             self.window.setWindowState(QtCore.Qt.WindowMaximized)
-            
+#-----------------------------------------------------------------------------# 
         # muestra la ventana
         self.window.show()
         sys.exit(app.exec_())
@@ -81,6 +90,16 @@ class GUI(dbus.service.Object):
         # lee desde el cfg y carga el nombre del usuario actual
         self.agregar.eAutor.setText(self.fragmentos.ConfigsApp.userUploader)
         self.agregar.show()
+
+    @dbus.service.method('ar.fragmentos.service')        
+    def showBuscarSnippet(self):
+        if self.window.isVisible():
+            self.window.hide()
+        else:
+            self.window.show()
+            self.window.eBusqueda.setFocus()
+        
+        
 
     def showModificarSnippet(self, unSnippet):
         u""" """

@@ -29,11 +29,12 @@ class Main :
         self.Fragmentos = Fragmentos()
      
     def validar (self) :
-        from validar import Validator
+        from validar import Validator,ValidarShorcuts
         v = Validator()
         # ejecuta los metodos para chequear el estado
         # de la aplicacion
-        v.check()        
+        v.check()
+        ValidarShorcuts()        
 
 def main():
     import os
