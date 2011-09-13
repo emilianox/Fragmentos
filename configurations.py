@@ -50,7 +50,7 @@ class MyProperty(object):
         section = ''
         # recorre el diccionario buscando la seccion a la que 
         # pertenece el atributo
-        for elemento in self.__sections.keys() : 
+        for elemento in self.__sections : 
             if attribute in self.__sections[elemento].keys():
                 section = elemento
         try:
@@ -67,7 +67,7 @@ class MyProperty(object):
         section = ''
         # recorre el diccionario buscando la seccion a la que 
         # pertenece el atributo
-        for elemento in self.__sections.keys() : 
+        for elemento in self.__sections : 
             if attribute in self.__sections[elemento].keys():
                 section = elemento
         try:
@@ -158,11 +158,11 @@ class Configurations (object) :
         self.config.read(self.cfgFile)
         
         # agrega las secciones
-        for section in self.sections.keys() :
+        for section in self.sections :
             #print section
             # crea la seccion
             self.config.add_section(section)
-            for atributo in self.sections[section].keys():
+            for atributo in self.sections[section]:
                 # agrega el atributo para la seccion actual
                 self.config.set(section, atributo,self.sections[section][atributo])
                 # print '>',atributo,self.sections[section][atributo]
