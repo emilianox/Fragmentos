@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="toolbar">
+    <file>linedpaper32.png</file>
+    <file>bag32.png</file>
+    <file>folder32.png</file>
+    <file>circleleft32.png</file>
+    <file>circleright32.png</file>
+    <file>linedpaperplus32.png</file>
+    <file>star32.png</file>
+    <file>gear32.png</file>
+    <file>paperstar32.png</file>
+    <file>notecheck32.png</file>
+    <file>comment32.png</file>
+    <file>search32.png</file>
+    <file>article32.png</file>
+  </qresource>
+</RCC>

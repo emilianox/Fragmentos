@@ -7,6 +7,7 @@ import os,sys
 from PyQt4 import QtCore, QtGui, uic# Importamos los módulos de Qt
 #Importo los iconos
 import fragmentos_rc  #@UnusedImport
+import icons_rc #@UnusedImport @UnresolvedImport
 
 from QTTips.Scintilla import Scintilla
 from QTTips.TreeView import TreeView
@@ -22,7 +23,8 @@ class Main(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-        self.setWindowIcon(QtGui.QIcon(':/icon.png'))
+        #TODO:
+        self.setWindowIcon(QtGui.QIcon(':/icons/logo.png'))
         # centra la ventana en la pantalla
         self.__centerOnScreen()
 
@@ -30,7 +32,10 @@ class Main(QtGui.QMainWindow):
         self.connect(self, QtCore.SIGNAL('destroyed()'), self.destroyed)
 
         # agrega y crea el Treeview
-        self.mytreeview = TreeView(self.tvLenguajes,self.on_tvLenguajes_selectedItem,self.connect)
+        #TODO:
+        self.mytreeview = TreeView(self.tvLenguajes,self.on_tvLenguajes_selectedItem,
+                                   self.connect,iconSub=QtGui.QIcon(':/toolbar/linedpaper32.png'),
+                                                iconRoot=QtGui.QIcon(':/toolbar/bag32.png'))
 
         # agrega el Widget de codigo
         self.widgetcodigo = Scintilla()
@@ -110,6 +115,7 @@ class Main(QtGui.QMainWindow):
         
         # carga los snippets en el arbol
         self.refreshTree()
+        self.historialSnippets = [[],0]
                 
     def __loadBDsInCombo(self):
         ''' ''' 
@@ -193,7 +199,8 @@ class Main(QtGui.QMainWindow):
                 
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
-        QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.destroyed)
+        # atajo : cerrar/salir
+        QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
             
     def __cleanFields(self) :
         

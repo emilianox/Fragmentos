@@ -97,7 +97,9 @@ class GUI(DObject):
             self.window.hide()
         else:
             self.window.show()
+            self.window.__centerOnScreen()
             self.window.eBusqueda.setFocus()
+            
         
         
 

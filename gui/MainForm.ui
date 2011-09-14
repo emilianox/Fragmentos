@@ -42,6 +42,18 @@
       <property name="spacing">
        <number>0</number>
       </property>
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
       <item>
        <widget class="QPushButton" name="btAgregarSnippet">
         <property name="enabled">
@@ -59,17 +71,20 @@
         <property name="toolTip">
          <string>Agregar Snippet</string>
         </property>
+        <property name="styleSheet">
+         <string notr="true">gridline-color: rgb(255, 0, 0);</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
-          <normaloff>:/icons/snippet-new.png</normaloff>:/icons/snippet-new.png</iconset>
+         <iconset resource="icons.qrc">
+          <normaloff>:/toolbar/linedpaperplus32.png</normaloff>:/toolbar/linedpaperplus32.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>30</width>
-          <height>30</height>
+          <width>27</width>
+          <height>27</height>
          </size>
         </property>
         <property name="checkable">
@@ -124,13 +139,13 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
-            <normaloff>:/icons/back.png</normaloff>:/icons/back.png</iconset>
+           <iconset resource="icons.qrc">
+            <normaloff>:/toolbar/circleleft32.png</normaloff>:/toolbar/circleleft32.png</iconset>
           </property>
           <property name="iconSize">
            <size>
             <width>28</width>
-            <height>20</height>
+            <height>22</height>
            </size>
           </property>
           <property name="checkable">
@@ -174,8 +189,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
-            <normaloff>:/icons/forward.png</normaloff>:/icons/forward.png</iconset>
+           <iconset resource="icons.qrc">
+            <normaloff>:/toolbar/circleright32.png</normaloff>:/toolbar/circleright32.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -234,8 +249,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="fragmentos.qrc">
-            <normaloff>:/icons/fav.png</normaloff>:/icons/fav.png</iconset>
+           <iconset resource="icons.qrc">
+            <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -280,8 +295,41 @@ n=fecha creacion
 m=fecha modificado
 u=autor</string>
           </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+    color: rgb(127, 0, 63);
+    selection-color: white;   
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QLineEdit:focus {
+    color: rgb(127, 0, 63);
+    selection-color: white;   
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QLineEdit:edit-focus {
+    color: rgb(127, 0, 63);
+    selection-color: white;   
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
+          </property>
           <property name="inputMethodHints">
            <set>Qt::ImhLowercaseOnly</set>
+          </property>
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -301,17 +349,20 @@ u=autor</string>
         <property name="toolTip">
          <string>Copiar al portapapeles</string>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
-          <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+         <iconset resource="icons.qrc">
+          <normaloff>:/toolbar/notecheck32.png</normaloff>:/toolbar/notecheck32.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>25</width>
-          <height>25</height>
+          <width>22</width>
+          <height>22</height>
          </size>
         </property>
         <property name="checkable">
@@ -333,6 +384,12 @@ u=autor</string>
       </item>
       <item>
        <widget class="QPushButton" name="btMenu">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="maximumSize">
          <size>
           <width>35</width>
@@ -345,17 +402,26 @@ u=autor</string>
         <property name="toolTip">
          <string>Opciones</string>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton::menu-indicator {
+    subcontrol-origin: padding;
+    subcontrol-position: bottom right;
+}</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="fragmentos.qrc">
-          <normaloff>:/icons/settings2.png</normaloff>:/icons/settings2.png</iconset>
+         <iconset resource="icons.qrc">
+          <normaloff>:/toolbar/gear32.png</normaloff>:/toolbar/gear32.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>25</width>
-          <height>30</height>
+          <width>18</width>
+          <height>18</height>
          </size>
         </property>
         <property name="checkable">
@@ -404,9 +470,6 @@ u=autor</string>
             <height>0</height>
            </size>
           </property>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
@@ -644,8 +707,8 @@ u=autor</string>
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-style:italic;&quot;&gt;Descripcion:&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:600;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;swsagdugsdguugdsugsdgudaysaygdasgua&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;Descripcion:&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; &lt;/span&gt;swsagdugsdguugdsugsdgudaysaygdasgua&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                 </widget>
                </item>
@@ -793,14 +856,21 @@ p, li { white-space: pre-wrap; }
             <bool>false</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QPushButton {   
+    border: 1px groove gray;
+    border-radius: 2px;
+    padding: 3px 3px;
+}
+QPushButton:pressed {
+    border-style: inset;
+}</string>
            </property>
            <property name="text">
             <string>Ver detalles</string>
            </property>
            <property name="icon">
-            <iconset resource="fragmentos.qrc">
-             <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+            <iconset resource="icons.qrc">
+             <normaloff>:/toolbar/article32.png</normaloff>:/toolbar/article32.png</iconset>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -827,6 +897,7 @@ p, li { white-space: pre-wrap; }
  </tabstops>
  <resources>
   <include location="fragmentos.qrc"/>
+  <include location="icons.qrc"/>
  </resources>
  <connections>
   <connection>

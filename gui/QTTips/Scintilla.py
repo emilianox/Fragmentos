@@ -33,9 +33,10 @@ class Scintilla:
 
         ## define the font to use
         font = QtGui.QFont()
+        #font.setStyleHint (QtGui.QFont.Monospace,strategy=QtGui.QFont.PreferDefault)
         #~ font.setFamily("Default")
-        #~ font.setFixedPitch(True)
-        font.setPointSize(8)
+        #font.setFixedPitch(True)
+        #font.setPointSize(10)
         # the font metrics here will help
         # building the margin width later
         fm = QtGui.QFontMetrics(font)
