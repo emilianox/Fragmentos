@@ -35,7 +35,7 @@ class Main(QtGui.QMainWindow):
         #TODO:
         self.mytreeview = TreeView(self.tvLenguajes,self.on_tvLenguajes_selectedItem,
                                    self.connect,iconSub=QtGui.QIcon(':/toolbar/linedpaper32.png'),
-                                                iconRoot=QtGui.QIcon(':/toolbar/bag32.png'))
+                                                iconRoot=QtGui.QIcon(':/toolbar/lang.png'))
 
         # agrega el Widget de codigo
         self.widgetcodigo = Scintilla()
@@ -136,34 +136,29 @@ class Main(QtGui.QMainWindow):
         """Crea el main menu"""
         
         menu = QtGui.QMenu(self.btMenu)
-        snippet = menu.addAction("Snippet")
-        database= menu.addAction("Catalogo")
-        busqueda = menu.addAction("Busqueda")
+        menusnippet = menu.addMenu("Snippet")
+        menudatabase= menu.addMenu("Catalogo")
+        menubusqueda = menu.addMenu("Busqueda")
         menu.addSeparator()
         menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
         menu.addAction("Ayuda")
         menu.addSeparator()
         menu.addAction("Acerca de..", self.__mostrarAcercaDe)
 
-        menusnippet = QtGui.QMenu()
         menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
         menusnippet.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
         menusnippet.addAction("Eliminar", self.__eliminarSnippet)
-        snippet.setMenu(menusnippet)
 
-        menudatabase = QtGui.QMenu()
+
         menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
         #~ menudatabase.addAction("Eliminar")
-        database.setMenu(menudatabase)
 
-        menubusqueda = QtGui.QMenu()
         menubusqueda.addAction("'t=' Por Titulo")
         menubusqueda.addAction("'g=' Por Tags")
         menubusqueda.addAction("'l=' Por Lenguaje")
         menubusqueda.addAction("'n=' Por Fecha creacion")
         menubusqueda.addAction("'m=' Por Fecha modificacion")
         menubusqueda.addAction("'a=' Por Autor")
-        busqueda.setMenu(menubusqueda)
 
         self.btMenu.setMenu(menu)
 
@@ -199,6 +194,7 @@ class Main(QtGui.QMainWindow):
                 
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
         QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         # atajo : cerrar/salir
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
             
