@@ -29,7 +29,7 @@ class Busqueda :
         'g=':'tags',
         'c=':'contens',
         'd=':'description',
-        'r=':'references',
+        'r=':'reference',
         'n=':'creation',
         'm=':'modified',
         'u=':'uploader',
