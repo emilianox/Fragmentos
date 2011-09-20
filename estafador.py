@@ -18,8 +18,27 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+class method(object):
+    """Clase decoradora que falsifica al service de dbus"""
+    def __init__(self,a):
+        print a
 
-def method(aaaa):
-    def ok(*args):
-        return True
-    return ok
+    def __call__(self,*args,**kwargs):
+        def deco(classmother):
+            return funcion(classmother)
+        funcion = args[0]
+        return deco
+
+
+class Vacia:
+    """Esqueleto de clases vacias para herencia falsificada"""
+    def __init__(self):
+        pass
+
+
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()

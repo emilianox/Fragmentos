@@ -132,12 +132,6 @@ class ValidarShorcuts:
         except AttributeError:
             raise ValueError
 
-
-class Vacia:
-    def __init__(self):
-        pass
-
-
 def main():
 
     v = Validator()
