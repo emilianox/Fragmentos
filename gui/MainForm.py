@@ -69,6 +69,7 @@ class Main(QtGui.QMainWindow):
         # crea el MenuPrincipal
         self.__createMenu()
 
+        self.eBusqueda.setFocus()
         #~ self.btSptAnterior.setEnabled(False)
         #~ self.btSptSiguiente.setEnabled(False)
 
@@ -144,6 +145,8 @@ class Main(QtGui.QMainWindow):
         menu.addAction("Ayuda")
         menu.addSeparator()
         menu.addAction("Acerca de..", self.__mostrarAcercaDe)
+        menu.addSeparator()
+        menu.addAction("Salir", self.__destroyed, QtGui.QKeySequence("Ctrl+Q"))
 
         menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
         menusnippet.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))

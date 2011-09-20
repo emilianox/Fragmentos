@@ -22,19 +22,21 @@ from fragmentos import Fragmentos
 
 
 class Main :
-    ''' Clase que hace correr la aplicación.''' 
-    
+    ''' Clase que hace correr la aplicación.'''
+
     def __init__(self) :
         self.validar()
         self.Fragmentos = Fragmentos()
-     
+
     def validar (self) :
         from validar import Validator,ValidarShorcuts
         v = Validator()
         # ejecuta los metodos para chequear el estado
         # de la aplicacion
         v.check()
-        ValidarShorcuts()        
+        import os
+        if os.name == 'posix':
+            ValidarShorcuts()
 
 def main():
     import os

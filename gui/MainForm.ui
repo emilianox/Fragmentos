@@ -68,11 +68,27 @@
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Agregar Snippet</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">gridline-color: rgb(255, 0, 0);</string>
+         <string notr="true">QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+	padding:8px;
+}
+QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}</string>
         </property>
         <property name="text">
          <string/>
@@ -132,8 +148,27 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="toolTip">
            <string>Snippet Anterior</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+	padding:8px;
+}
+QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -182,8 +217,28 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="toolTip">
            <string>Snippet siguiente</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+	padding:8px;
+}
+
+QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -242,8 +297,36 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="toolTip">
            <string>Buscar en favoritos</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}
+
+QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+	padding:8px;
+}
+
+QPushButton:checked{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -346,11 +429,23 @@ QLineEdit:edit-focus {
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Copiar al portapapeles</string>
         </property>
         <property name="autoFillBackground">
          <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}</string>
         </property>
         <property name="text">
          <string/>
@@ -399,6 +494,9 @@ QLineEdit:edit-focus {
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="toolTip">
          <string>Opciones</string>
         </property>
@@ -409,6 +507,29 @@ QLineEdit:edit-focus {
          <string notr="true">QPushButton::menu-indicator {
     subcontrol-origin: padding;
     subcontrol-position: bottom right;
+}
+QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
+}
+
+QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+	padding:8px;
+}
+
+QPushButton:checked{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:8px;
 }</string>
         </property>
         <property name="text">
@@ -416,12 +537,12 @@ QLineEdit:edit-focus {
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
-          <normaloff>:/toolbar/conf.png</normaloff>:/toolbar/conf.png</iconset>
+          <normaloff>:/toolbar/gear32.png</normaloff>:/toolbar/gear32.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>30</width>
-          <height>30</height>
+          <width>22</width>
+          <height>22</height>
          </size>
         </property>
         <property name="checkable">
@@ -473,21 +594,12 @@ QLineEdit:edit-focus {
           <property name="indentation">
            <number>20</number>
           </property>
-          <property name="rootIsDecorated">
-           <bool>false</bool>
-          </property>
           <property name="animated">
            <bool>true</bool>
           </property>
           <property name="expandsOnDoubleClick">
            <bool>true</bool>
           </property>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
          </widget>
         </item>
         <item>
@@ -650,8 +762,8 @@ QLineEdit:edit-focus {
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="fragmentos.qrc">
-                   <normaloff>:/icons/fav.png</normaloff>:/icons/fav.png</iconset>
+                  <iconset resource="icons.qrc">
+                   <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -703,9 +815,6 @@ QLineEdit:edit-focus {
                    <property name="inputMethodHints">
                     <set>Qt::ImhNone</set>
                    </property>
-                   <property name="text">
-                    <string/>
-                   </property>
                    <property name="readOnly">
                     <bool>true</bool>
                    </property>
@@ -722,8 +831,8 @@ QLineEdit:edit-focus {
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-style:italic;&quot;&gt;Descripcion:&lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:600;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;swsagdugsdguugdsugsdgudaysaygdasgua&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;Descripcion:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                 </widget>
                </item>
@@ -867,6 +976,9 @@ p, li { white-space: pre-wrap; }
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
@@ -876,8 +988,25 @@ p, li { white-space: pre-wrap; }
     border-radius: 2px;
     padding: 3px 3px;
 }
-QPushButton:pressed {
-    border-style: inset;
+QPushButton:hover {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+}
+
+QPushButton:pressed{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #000000;
+}
+
+QPushButton:checked{
+background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
 }</string>
            </property>
            <property name="text">
