@@ -24,8 +24,8 @@ class TreeView:
 
     def __init__(self, treeview,metodo,conector,iconSub=QtGui.QIcon(),iconRoot=QtGui.QIcon()):
         '''TODO:Buscar doc de esto'''
-        self.iconSub = iconSub
-        self.iconRoot = iconRoot
+        self.__iconSub = iconSub
+        self.__iconRoot = iconRoot
         self.__model = self.__crearmodelo()
         treeview.setModel(self.__model)
         SelectionModel = QtGui.QItemSelectionModel( self.__model,treeview)
@@ -54,11 +54,11 @@ class TreeView:
             if not (criterios[0] in dicDeRootQitems):#no hay raiz
                 tempRootItem = self.__model.invisibleRootItem()#creo un Root item vacio
                 #se crea un item y la agrega al diccionario local
-                dicDeRootQitems[criterios[0]] = QtGui.QStandardItem(self.iconRoot,QtCore.QString(criterios[0]))
+                dicDeRootQitems[criterios[0]] = QtGui.QStandardItem(self.__iconRoot,QtCore.QString(criterios[0]))
                 dicDeRootQitems[criterios[0]].setEditable(False)
                 #agrego el item al root item(convirtiendolo en root)
                 tempRootItem.appendRow(dicDeRootQitems[criterios[0]])
-            subitem = QtGui.QStandardItem(self.iconSub,QtCore.QString(criterios[1]))
+            subitem = QtGui.QStandardItem(self.__iconSub,QtCore.QString(criterios[1]))
             subitem.setEditable(False)
             #agrega el subitem al root_item correspondiente
             dicDeRootQitems[criterios[0]].appendRow(subitem)
