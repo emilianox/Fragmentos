@@ -29,8 +29,8 @@ try:
     from dbus.mainloop.qt import DBusQtMainLoop
     from dbus.service import Object as DObject
 except ImportError:
-    from validar import Vacia as DObject
-    from dbus_falso import service as servicio
+    from estafador import Vacia as DObject
+    import estafador as servicio
 
 
 class GUI(DObject):
@@ -77,7 +77,7 @@ class GUI(DObject):
 
     def setTrayIcon(self, mainforminstance):
         pt = PathTools()
-        icon = QtGui.QIcon(pt.convertPath(pt.getPathProgramFolder()+'gui/logo.png'))
+        icon = QtGui.QIcon(':/icons/logo.png')
         self.trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
         self.trayIcon.show()
 
