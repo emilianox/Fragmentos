@@ -45,11 +45,11 @@ class Asistente(QtGui.QWizard):
     def on_btExaminar_clicked(self):
         if self.operacion is 'abrir_catalogo':
             self.eUbicacion.setText(
-                self.__showFileDialog(self.titulo_abrir_catalogo))
+                self.__showFileDialog(""))
         
         if self.operacion is 'crear_catalogo':
             self.eUbicacion.setText(
-                self.__showFileDialog(self.titulo_crear_catalogo))
+                self.__showFileDialog(""))
             
     @QtCore.pyqtSlot()
     def on_rbAbrirCatalogo_pressed(self):
@@ -59,7 +59,12 @@ class Asistente(QtGui.QWizard):
     @QtCore.pyqtSlot()
     def on_rbCrearCatalogo_pressed(self):
         self.operacion = 'crear_catalogo'
-        print self.currentId() 
+        print self.operacion
+        
+        from crearcatalogo import crearCatalogo
+        crear = crearCatalogo(self)
+        self.setPage(1,crear)
+        
         
     def __centerOnScreen(self):
         """Centers the window on the screen."""

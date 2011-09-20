@@ -118,14 +118,11 @@ class Main(QtGui.QMainWindow):
         self.refreshTree()
         self.historialSnippets = [[],0]
                 
-    def __loadBDsInCombo(self):
+    def loadBDsInCombo(self):
         ''' ''' 
-        
         if self.SM.getDB() :
             bds = self.SM.getBDNames()
-            if bds :
-                for item in bds:
-                    self.cbBD.addItem(item)
+            if bds : map(self.cbBD.addItem, bds)
             
     def __centerOnScreen (self):
         """Centers the window on the screen."""

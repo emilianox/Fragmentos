@@ -27,7 +27,7 @@ class Opciones(QtGui.QMainWindow):
     """Clase que maneja las interacciones entre la interfaz grafica y
     la logica de las configuraciones del programa."""
 
-    def __init__(self, configs, dbutils):
+    def __init__(self, parent, configs, dbutils):
         # carga la interfaz desded el archivo ui
         FILENAME = 'wOpciones.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
@@ -41,6 +41,7 @@ class Opciones(QtGui.QMainWindow):
         self.__Config = configs
         self.__DBU = dbutils
         self.__PT = PathTools()
+        self.__Padre = parent
         
         # 
         self.__cargarValoresEnGUI()
@@ -63,7 +64,7 @@ class Opciones(QtGui.QMainWindow):
         
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
-        if self.lstBdsReferences.currentRow() != -1 :
+        
             
             pass
         
@@ -211,13 +212,23 @@ class Opciones(QtGui.QMainWindow):
         
         self.lstBdsDefault.clear()
         bds = self.__DBU.getBDsNamesDatabasesDir()
-        if bds : map(self.lstBdsDefault.addItem,bds)
+        if bds : 
+            map(self.lstBdsDefault.addItem,bds)
+            
+            # refresca el combo de la interfaz principal
+            self.__Padre.refreshBdsInComboMainWindow()
         
     def __cargarBDsDesdeCFG(self):
         ''' '''
         self.lstBdsReferences.clear()
         bds = self.__Config.getDBsInCFGReferences()
-        if bds : map(self.lstBdsReferences.addItem,bds)
+        if bds : 
+            map(self.lstBdsReferences.addItem,bds)
+            self.refreshBdsInComboMainWindow()
+            
+            # refresca el combo de la interfaz principal
+            self.__Padre.refreshBdsInComboMainWindow()
+        
                 
     def __cargarComboBDsDefault(self):
         ''' '''
@@ -228,7 +239,14 @@ class Opciones(QtGui.QMainWindow):
         
     def __quitarBDDefault(self):
         ''' '''
-        
+        if self.lstBdsDefault.currentRow() != -1 :
+            pass
+    
+    def __quitarBDReferencia(self):
+        ''' '''
+        if self.lstBdsReferences.currentRow() != -1 :
+            pass
+            
     def __setPathDefaultBDsInGUI(self):
         ''' Obtiene la ruta del directorio por defecto y 
         lo muestra en el campo correspondiente en la interfaz. '''

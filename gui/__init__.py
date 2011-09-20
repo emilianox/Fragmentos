@@ -75,6 +75,9 @@ class GUI(DObject):
     def refreshTreeMainWindow(self):
         self.window.refreshTree()
 
+    def refreshBdsInComboMainWindow(self):
+        self.window.loadBDsInCombo()
+    
     def setTrayIcon(self, mainforminstance):
         pt = PathTools()
         icon = QtGui.QIcon(':/icons/logo.png')
@@ -132,7 +135,7 @@ class GUI(DObject):
         """ """
         from opciones import Opciones
         self.opciones = Opciones(self.fragmentos.ConfigsApp ,self.fragmentos.BDU)
-        self.opciones.show()
+        self.opciones.show(self)
 
     def showAcercaDe(self):
         """ """
