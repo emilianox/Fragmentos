@@ -61,7 +61,7 @@ class Main(QtGui.QMainWindow):
         self.refreshTree()
 
         # carga las bds en el combo
-        self.__loadBDsInCombo()
+        self.loadBDsInCombo()
 
         # carga los ShortCuts de la app
         self.__loadAppShortcuts()
