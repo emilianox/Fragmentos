@@ -46,6 +46,8 @@ class Opciones(QtGui.QMainWindow):
         self.__cargarValoresEnGUI()
 
         self.tabWidget.setCurrentIndex(0)
+        
+        self.cbBDsCargaInicio.setEnabled(False)
                
 ########################
 ## Metodos de Eventos ##
@@ -61,7 +63,9 @@ class Opciones(QtGui.QMainWindow):
         
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
-        pass
+        if self.lstBdsReferences.currentRow() != -1 :
+            
+            pass
         
     @QtCore.pyqtSlot()
     def on_btAceptar_clicked(self):
@@ -69,10 +73,11 @@ class Opciones(QtGui.QMainWindow):
         
     @QtCore.pyqtSlot()
     def on_btAgregarBDDefault_clicked(self):
-        pass
+        self.__agregarBDDefault()        
     
     @QtCore.pyqtSlot()
     def on_btQuitarBDDefault_clicked(self):
+        self.__quitarBDDefault()
         pass
     
     #~ 
@@ -153,9 +158,8 @@ class Opciones(QtGui.QMainWindow):
     #~ 
     #~ TAB: CATALOGOS
     #~ 
-    
-    def __agregarBDReferencia(self):
-        dialog = QtGui.QFileDialog(self, 'Agregar referencia a catálogo')
+    def __agregarBDDefault(self):
+        dialog = QtGui.QFileDialog(self, 'Agregar catalogo')
         dialog.setFileMode(QtGui.QFileDialog.AnyFile)
         dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
         dialog.setDefaultSuffix("db")
@@ -163,8 +167,30 @@ class Opciones(QtGui.QMainWindow):
         if dialog.exec_():
             filename = dialog.selectedFiles()[0] # convierte a unicode el string
             filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
-            self.__agregarBDReferenciaInCFG(filename) # refresca la gui
-            self.__cargarBDsDesdeCFG()
+            
+            if self.__DBU.validarBD(filename):
+                self.__DBU.agregarBDADefault(filename)
+                self.__cargarBDsDesdeDatabases()
+            else:
+                QtGui.QMessageBox.critical(self,"Agregar catalogo",
+                "Este archivo no es un catalogo valido de Fragmentos.")
+        
+    def __agregarBDReferencia(self):
+        dialog = QtGui.QFileDialog(self, 'Agregar referencia a catalogo')
+        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
+        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
+        dialog.setDefaultSuffix("db")
+        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
+        if dialog.exec_():
+            filename = dialog.selectedFiles()[0] # convierte a unicode el string
+            filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
+            
+            if self.__DBU.validarBD(filename):
+                self.__agregarBDReferenciaInCFG(filename) # refresca la gui
+                self.__cargarBDsDesdeCFG()  
+            else:
+                QtGui.QMessageBox.critical(self,"Agregar referencia a catalogo",
+                "Este archivo no es un catalogo valido de Fragmentos.")
             
     def __agregarBDReferenciaInCFG(self, pathCatalogo):
         ''' Agrega el nuevo catalogo seleccionado a en el archivo CFG'''
@@ -182,26 +208,26 @@ class Opciones(QtGui.QMainWindow):
     def __cargarBDsDesdeDatabases(self):
         ''' Carga en la lista las bds existentes en el directorio 
         establecido por defecto. '''
+        
+        self.lstBdsDefault.clear()
         bds = self.__DBU.getBDsNamesDatabasesDir()
-        for bd in bds:
-            self.lstBdsDefault.addItem(bd)
+        if bds : map(self.lstBdsDefault.addItem,bds)
         
     def __cargarBDsDesdeCFG(self):
         ''' '''
-        
         self.lstBdsReferences.clear()
         bds = self.__Config.getDBsInCFGReferences()
-        if bds :
-            for bd in bds:
-                self.lstBdsReferences.addItem(bd)
+        if bds : map(self.lstBdsReferences.addItem,bds)
                 
     def __cargarComboBDsDefault(self):
         ''' '''
         databases_dir = self.__DBU.getBDsNamesDatabasesDir()
         cfg_file = self.__Config.getDBsNamesCFGReferences()
         nombres = databases_dir + cfg_file
-        for nombre in nombres:
-            self.cbBDsCargaInicio.addItem(nombre)
+        map(self.cbBDsCargaInicio.addItem,nombres)
+        
+    def __quitarBDDefault(self):
+        ''' '''
         
     def __setPathDefaultBDsInGUI(self):
         ''' Obtiene la ruta del directorio por defecto y 
