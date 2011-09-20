@@ -49,7 +49,7 @@ class GUI(DObject):
         #QtGui.QApplication.setStyle(QtGui.QStyleFactory.create('Cleanlooks'))
         #~ QtGui.QApplication.setStyle("plastique")
         app.setPalette(QtGui.QApplication.style().standardPalette())
-#--------------------------------------DBus-----------------------------------#
+#------------------ DBus -----------------------#
         try:
             mainloop = DBusQtMainLoop(set_as_default=True) #@UnusedVariable
             bus_name = dbus.service.BusName('ar.fragmentos.service', bus=dbus.SessionBus())
@@ -79,7 +79,6 @@ class GUI(DObject):
         self.window.loadBDsInCombo()
     
     def setTrayIcon(self, mainforminstance):
-        pt = PathTools()
         icon = QtGui.QIcon(':/icons/logo.png')
         self.trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
         self.trayIcon.show()

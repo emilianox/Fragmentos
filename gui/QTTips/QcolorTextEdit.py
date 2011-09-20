@@ -39,16 +39,19 @@ class QcolorTextEdit:
                                         self.__defaultcolorbase[2])
 
     def set_color_busqueda(self,estado=True):
-        if estado:
-            textcolor = self.__defaulttext
-            basecolor = self.__defaultbase
-        else:
-            textcolor = self.__blanco
-            basecolor = self.__rojito
-
-        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,textcolor)
-        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,basecolor)
-        self.__txt.setPalette(self.__palette)
-
         return True
-        #return confirmacion si cambio de color
+
+#    def set_color_busquedaold(self,estado=True):
+#        if estado:
+#            textcolor = self.__defaulttext
+#            basecolor = self.__defaultbase
+#        else:
+#            textcolor = self.__blanco
+#            basecolor = self.__rojito
+#
+#        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text,textcolor)
+#        self.__palette.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base,basecolor)
+#        self.__txt.setPalette(self.__palette)
+#
+#        return True
+#        #return confirmacion si cambio de color

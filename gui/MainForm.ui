@@ -382,24 +382,18 @@ u=autor</string>
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLineEdit {
-    color: rgb(127, 0, 63);
-    selection-color: white;   
+           <string notr="true">QLineEdit { 
     border: 2px groove gray;
     border-radius: 8px;
     padding: 1px 2px;
 }
 QLineEdit:focus {
-    color: rgb(127, 0, 63);
-    selection-color: white;   
-    border: 2px groove gray;
+    border: 1px groove gray;
     border-radius: 8px;
     padding: 1px 2px;
 }
 
 QLineEdit:edit-focus {
-    color: rgb(127, 0, 63);
-    selection-color: white;   
     border: 2px groove gray;
     border-radius: 8px;
     padding: 1px 2px;
@@ -595,6 +589,9 @@ background: #DBDBDB;
            <number>20</number>
           </property>
           <property name="animated">
+           <bool>true</bool>
+          </property>
+          <property name="headerHidden">
            <bool>true</bool>
           </property>
           <property name="expandsOnDoubleClick">
