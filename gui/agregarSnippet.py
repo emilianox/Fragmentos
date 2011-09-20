@@ -84,6 +84,7 @@ class agregarSnippet(QtGui.QMainWindow):
         # segun la operacion, ejecuta el metodo correspondiente 
         if self.operacion == "agregar":
             self.__guardarSnippet()
+            self.close()
         if self.operacion == "modificar":
             self.__modificarSnippet()
             self.close()

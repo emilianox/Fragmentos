@@ -22,6 +22,7 @@ from dbutils import DBUtils
 from gui import GUI
 from snippetmanager import SnippetManager
 from configurations import Configurations
+from pastebin import Pastebin
 
 class Fragmentos :
     ''' Clase que hace de puente entre la logica del programa con las interfaces graficas. '''
@@ -29,6 +30,7 @@ class Fragmentos :
     def __init__(self) :
         self.BDU = DBUtils()
         self.ConfigsApp = Configurations()
+        self.Pastebin = Pastebin()
         self.SM = SnippetManager(self.BDU, self.ConfigsApp)
         self.GUI = GUI(self)
         

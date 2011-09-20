@@ -70,8 +70,8 @@ class Main(QtGui.QMainWindow):
         self.__createMenu()
 
         self.eBusqueda.setFocus()
-        #~ self.btSptAnterior.setEnabled(False)
-        #~ self.btSptSiguiente.setEnabled(False)
+        self.btSptAnterior.setEnabled(False)
+        self.btSptSiguiente.setEnabled(False)
 
 
 
@@ -141,6 +141,8 @@ class Main(QtGui.QMainWindow):
         menudatabase= menu.addMenu("Catalogo")
         menubusqueda = menu.addMenu("Busqueda")
         menu.addSeparator()
+        menucompartir = menu.addMenu("Compartir")
+        menu.addSeparator()
         menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
         menu.addAction("Ayuda")
         menu.addSeparator()
@@ -150,7 +152,7 @@ class Main(QtGui.QMainWindow):
 
         menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
         menusnippet.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
-        menusnippet.addAction("Eliminar", self.__eliminarSnippet)
+        menusnippet.addAction("Eliminar", self.__eliminarSnippet,QtGui.QKeySequence("Del"))
 
 
         menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
@@ -162,6 +164,8 @@ class Main(QtGui.QMainWindow):
         menubusqueda.addAction("'n=' Por Fecha creacion")
         menubusqueda.addAction("'m=' Por Fecha modificacion")
         menubusqueda.addAction("'a=' Por Autor")
+        
+        menucompartir.addAction("Enviar a Pastebin", self.__enviarAPastebin)
 
         self.btMenu.setMenu(menu)
 
@@ -188,6 +192,7 @@ class Main(QtGui.QMainWindow):
                 if self.SM.eliminarSnippet(actual):
                     QtGui.QMessageBox.information(self, "Eliminar snippet",
                     "Snippet eliminado.")
+                    self.refreshTree()
                 else:
                     QtGui.QMessageBox.critical(self, "Eliminar snippet",
                     "Se produjo un error al intentar eliminar este snippet.")
@@ -196,8 +201,6 @@ class Main(QtGui.QMainWindow):
         u""" Load shortcuts used in the application. """
                 
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
-        QtGui.QShortcut(QtGui.QKeySequence("Supr"), self, self.__eliminarSnippet)
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+M"), self, self.__modificarSnippet)
         # atajo : cerrar/salir
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
             
@@ -219,6 +222,7 @@ class Main(QtGui.QMainWindow):
         "Debes seleccionar un snippet para modificarlo.")
         else:
             self.Padre.showModificarSnippet(actual)
+            self.refreshTree()
 
     def __showSnippet(self, lenguaje, titulo):
         
@@ -288,6 +292,20 @@ class Main(QtGui.QMainWindow):
         else:
             print "opcion incorrecta"
         self.historialSnippets = [historial,indice]
+        
+    def __enviarAPastebin(self):
+        actual = self.SM.getSnippetActual()
+        if actual is None:
+            QtGui.QMessageBox.warning(self, "Enviar snippet",
+        "Debes seleccionar un snippet para poder enviarlo.")
+        else:
+            #TODO:configurable
+            url = self.Padre.fragmentos.Pastebin.submit(
+                        paste_code = actual.codigo,
+                        paste_name = actual.titulo,
+                        paste_expire_date = '1D',
+                        paste_format = actual.lenguaje)
+            QtGui.QMessageBox.information(self, "Enviar Snippet","Snippet enviado correctamente.\n"+url)
 
     def refreshTree(self):
         """ A partir de la instancia actual de SM,
