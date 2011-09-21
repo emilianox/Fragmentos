@@ -42,6 +42,13 @@ class GUI(DObject):
         self.SM = parent.SM
         self.trayIcon = None
 
+        # en caso de que no haya ninguna bd para
+        # iniciar el programa, este metodo devolvera False
+        # y donde se creara una bd temporal 
+        # hasta que este terminado el Wizard
+        if not self.SM.getInstanceState() :
+            self.__createBDTemporary()
+            
         app = QtGui.QApplication(sys.argv)
         self.clipboard = app.clipboard()
 
@@ -142,7 +149,16 @@ class GUI(DObject):
         from acercade import AcercaDe
         self.acerca = AcercaDe()
         self.acerca.show()
-
+    def __createBDTemporary(self):
+        ''' '''
+        #~ print '__createBDTemporary'
+        
+        pt = PathTools()
+        ruta = pt.getPathDatabasesDir() + "MySourceCode.db"
+        self.fragmentos.BDU.newDataBase(ruta)
+        
+        self.SM.setDB(ruta)
+        
 def main():
     GUI()
 

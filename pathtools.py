@@ -63,5 +63,5 @@ class PathTools:
 
 if __name__ == '__main__':
     pt = PathTools()
-    print pt.getPathCFGFile()
+    print pt.getPathDatabasesDir()
     pass
