@@ -224,7 +224,6 @@ class Opciones(QtGui.QMainWindow):
         bds = self.__Config.getDBsInCFGReferences()
         if bds : 
             map(self.lstBdsReferences.addItem,bds)
-            self.refreshBdsInComboMainWindow()
             
             # refresca el combo de la interfaz principal
             self.__Padre.refreshBdsInComboMainWindow()
