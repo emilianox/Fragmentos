@@ -302,6 +302,7 @@ class Main(QtGui.QMainWindow):
                         paste_name = actual.titulo,
                         paste_expire_date = '1D',
                         paste_format = actual.lenguaje)
+            self.Padre.clipboard.setText(url)
             QtGui.QMessageBox.information(self, "Enviar Snippet","Snippet enviado correctamente.\n"+url)
 
     def refreshTree(self):

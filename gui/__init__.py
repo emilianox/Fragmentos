@@ -77,7 +77,7 @@ class GUI(DObject):
 
     def refreshBdsInComboMainWindow(self):
         self.window.loadBDsInCombo()
-    
+
     def setTrayIcon(self, mainforminstance):
         icon = QtGui.QIcon(':/icons/logo.png')
         self.trayIcon = TrayIcon.SystemTrayIcon(icon, mainforminstance)
@@ -117,13 +117,14 @@ class GUI(DObject):
         # carga los valores del snippet en los campos
         self.modificar.eTitulo.setText(unSnippet.titulo)
         self.modificar.eDescripcion.setText(unSnippet.descripcion)
-        self.modificar.eAutor.setText(unSnippet.uploader)
+        #TODO:PARCHEEEEEEEEEEEEEEEEEE!!!!!
+        if unSnippet.uploader != None:
+            self.modificar.eAutor.setText(unSnippet.uploader)
         self.modificar.eTags.setText(unSnippet.tags)
         #~ print 'holaaa: ',type(unSnippet.referencias),unSnippet.referencias
-        if unSnippet.referencias == None:
-            unSnippet.referencias = ''
-
-        self.modificar.eReferencias.setText(unSnippet.referencias)
+        #TODO:PARCHEEEEEEEEEEEEEEEEEE!!!!!
+        if unSnippet.referencias != None:
+            self.modificar.eReferencias.setText(unSnippet.referencias)
         self.modificar.widgetcodigo.setCode(unSnippet.codigo)
         self.modificar.cbLenguajes.setCurrentIndex(
             self.modificar.cbLenguajes.findText(unSnippet.lenguaje))
@@ -133,8 +134,8 @@ class GUI(DObject):
     def showOpciones(self):
         """ """
         from opciones import Opciones
-        self.opciones = Opciones(self.fragmentos.ConfigsApp ,self.fragmentos.BDU)
-        self.opciones.show(self)
+        self.opciones = Opciones(self,self.fragmentos.ConfigsApp ,self.fragmentos.BDU)
+        self.opciones.show()
 
     def showAcercaDe(self):
         """ """
