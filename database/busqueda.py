@@ -103,20 +103,18 @@ class Busqueda :
 
         return sql
 
-    def __generarConsultaCompleja (self, campocomplejo) :
+    def __generarConsultaCompleja (self, campocomplejo, tagsPresicion) :
         """ Devuelve el sql del campo complejo buscado """
         #~ print 'generando consulta compleja... ',campocomplejo
         #solo soportado para operadores del mismo tipo,
         #ej: aaa and bbb; cc or ddd or fff
 
-        if campocomplejo.find(' and ') != -1:
-            operador = ' AND ' #en caso de una busqueda con and's
-        else: operador = ' OR ' #en caso de una busqueda con or's
-
+        operador = ' AND ' if campocomplejo.find(' and ') != -1 else ' OR '
+        
         criterios = campocomplejo[2:].split(operador.lower())
         sql = '('
         for criterio in criterios:
-            sql += self.__generarConsultaSimple(campocomplejo[:2]+criterio) + operador
+            sql += self.__generarConsultaSimple(campocomplejo[:2]+criterio, tagsPresicion) + operador
         return sql[:-len(operador)] + ')'
 
     def __generarSQL (self, listadecampos, favorito, tagsPresicion) :
@@ -128,7 +126,7 @@ class Busqueda :
                 if (campo.find(' and ') == -1) and (campo.find(' or ') == -1):
                     consulta_sql += self.__generarConsultaSimple(campo, tagsPresicion)
                 else:
-                    consulta_sql += self.__generarConsultaCompleja(campo)
+                    consulta_sql += self.__generarConsultaCompleja(campo, tagsPresicion)
                 consulta_sql += " \nAND "
         if favorito == 1:
             consulta_sql = consulta_sql[:-4] + "AND starred = '1' \nORDER BY language,title"

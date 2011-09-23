@@ -63,7 +63,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <property name="spacing">
          <number>1</number>
@@ -83,7 +83,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -99,7 +99,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Título</string>
+             <string>Título *</string>
             </property>
             <property name="buddy">
              <cstring>eTitulo</cstring>
@@ -117,6 +117,24 @@
             <property name="toolTip">
              <string>Título con el que se identificará el Snippet.</string>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit { 
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QLineEdit:focus {
+    border: 1px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QLineEdit:edit-focus {
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -130,7 +148,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Tags</string>
+           <string>Tags *</string>
           </property>
           <property name="buddy">
            <cstring>eTags</cstring>
@@ -149,6 +167,24 @@
             </property>
             <property name="toolTip">
              <string>Tags o claves de búsqueda con la cuál se hará referencia a este Snippet.</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit { 
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QLineEdit:focus {
+    border: 1px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QLineEdit:edit-focus {
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
             </property>
            </widget>
           </item>
@@ -202,6 +238,24 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Descripción breve acerca del codigo fuente de este Snippet.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QTextEdit { 
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QTextEdit:focus {
+    border: 1px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QTextEdit:edit-focus {
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -220,7 +274,7 @@ p, li { white-space: pre-wrap; }
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Lenguaje</string>
+             <string>Lenguaje *</string>
             </property>
             <property name="buddy">
              <cstring>cbLenguajes</cstring>
@@ -364,6 +418,24 @@ p, li { white-space: pre-wrap; }
               <property name="toolTip">
                <string>Persona que está por guardar este Snippet.</string>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit { 
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QLineEdit:focus {
+    border: 1px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QLineEdit:edit-focus {
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
+              </property>
              </widget>
             </item>
            </layout>
@@ -399,6 +471,24 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="toolTip">
                <string>Referencias a clases, librerías, modulos, etc. usados es este Snippet.</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit { 
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+QLineEdit:focus {
+    border: 1px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}
+
+QLineEdit:edit-focus {
+    border: 2px groove gray;
+    border-radius: 8px;
+    padding: 1px 2px;
+}</string>
               </property>
              </widget>
             </item>
@@ -458,8 +548,30 @@ p, li { white-space: pre-wrap; }
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QPushButton" name="btAbrirDesdeArchivo">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="toolTip">
            <string>Cargar código desde archivo.</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:4px;
+}
+
+QPushButton:pressed{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                            stop: 0 #dadbde, stop: 1 #f6f7fa);		
+border: 1px solid #505050;
+}
+QPushButton:hover{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2:1,
+stop: 0 #dadbde, stop: 1 #f6f7fa);
+}</string>
           </property>
           <property name="text">
            <string>Cargar desde...</string>
@@ -481,13 +593,61 @@ p, li { white-space: pre-wrap; }
         </item>
         <item>
          <widget class="QPushButton" name="btSalir">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:4px;
+padding-left:8px;
+padding-right:8px;
+}
+
+QPushButton:pressed{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                            stop: 0 #dadbde, stop: 1 #f6f7fa);		
+border: 1px solid #505050;
+}
+QPushButton:hover{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2:1,
+stop: 0 #dadbde, stop: 1 #f6f7fa);
+}</string>
+          </property>
           <property name="text">
-           <string>Salir</string>
+           <string>  Salir  </string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btGuardar">
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background: #DBDBDB;
+	border-radius: 3px;
+	color:#353535;
+	border: 1px solid #A0A197;
+	padding:4px;
+padding-left:8px;
+padding-right:8px;
+}
+
+QPushButton:pressed{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                            stop: 0 #dadbde, stop: 1 #f6f7fa);		
+border: 1px solid #505050;
+}
+QPushButton:hover{
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2:1,
+stop: 0 #dadbde, stop: 1 #f6f7fa);
+}</string>
+          </property>
           <property name="text">
            <string>Guardar</string>
           </property>
