@@ -43,6 +43,10 @@ class Opciones(QtGui.QMainWindow):
         self.__PT = PathTools()
         self.__Padre = parent
         
+        # usado para saber si hay que refrescar el combo 
+        # de bds de la interfaz principal, en caso
+        # de que se haya agregado alguna
+        self.__countBdsIsChanged = False
         # 
         self.__cargarValoresEnGUI()
 
@@ -61,12 +65,15 @@ class Opciones(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btAgregarBDReferencia_clicked(self):
         self.__agregarBDReferencia()            
+        # refresca el combo de la interfaz principal
+        self.__Padre.refreshBdsInComboMainWindow()
         
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
         
-            
-            pass
+        # refresca el combo de la interfaz principal
+        #~ self.__Padre.refreshBdsInComboMainWindow()
+        pass
         
     @QtCore.pyqtSlot()
     def on_btAceptar_clicked(self):
@@ -75,11 +82,16 @@ class Opciones(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btAgregarBDDefault_clicked(self):
         self.__agregarBDDefault()        
+        
+        # refresca el combo de la interfaz principal
+        self.__Padre.refreshBdsInComboMainWindow()
     
     @QtCore.pyqtSlot()
     def on_btQuitarBDDefault_clicked(self):
         self.__quitarBDDefault()
-        pass
+        # refresca el combo de la interfaz principal
+        self.__Padre.refreshBdsInComboMainWindow()
+        
     
     #~ 
     #~ TAB: GENERALES
@@ -95,6 +107,11 @@ class Opciones(QtGui.QMainWindow):
         
         # refleja el cambio en el CFG
         self.__Config.windowStateStartup = int(valor)
+        
+    @QtCore.pyqtSlot(bool)   
+    def on_cbxExpandirArbol_clicked(self, valor):
+        # refleja el cambio en el CFG
+        self.__Config.expandTree = int(valor)
         
     def on_eNombreUsuario_editingFinished(self):
         # obtiene el valor actual
@@ -156,6 +173,8 @@ class Opciones(QtGui.QMainWindow):
         self.cbxMaximizado.setChecked(
             int(self.__Config.windowStateStartup))
             
+        self.cbxExpandirArbol.setChecked(
+            int(self.__Config.expandTree))
     #~ 
     #~ TAB: CATALOGOS
     #~ 
@@ -214,9 +233,6 @@ class Opciones(QtGui.QMainWindow):
         bds = self.__DBU.getBDsNamesDatabasesDir()
         if bds : 
             map(self.lstBdsDefault.addItem,bds)
-            
-            # refresca el combo de la interfaz principal
-            self.__Padre.refreshBdsInComboMainWindow()
         
     def __cargarBDsDesdeCFG(self):
         ''' '''
@@ -224,10 +240,6 @@ class Opciones(QtGui.QMainWindow):
         bds = self.__Config.getDBsInCFGReferences()
         if bds : 
             map(self.lstBdsReferences.addItem,bds)
-            
-            # refresca el combo de la interfaz principal
-            self.__Padre.refreshBdsInComboMainWindow()
-        
                 
     def __cargarComboBDsDefault(self):
         ''' '''

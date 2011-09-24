@@ -91,7 +91,8 @@ class Configurations (object) :
     configurations_values = {
     "searchPresitionTags" : 0,
     "windowStateStartup" : 0,
-    "userUploader" : ''
+    "userUploader" : '',
+    "expandTree":0
     }
     
     # valores dentro de la seccion database
@@ -121,7 +122,8 @@ class Configurations (object) :
         configurations_values = {
         "searchPresitionTags" : 0,
         "windowStateStartup" : 0,
-        "userUploader" : ''
+        "userUploader" : '',
+        "expandTree" : 0
         }
         
         # valores dentro de la seccion database
@@ -136,7 +138,6 @@ class Configurations (object) :
         'database' : database_values 
         }
 
-        
 ######################
 ## Metodos PROPERTY ##
 ######################
@@ -146,7 +147,8 @@ class Configurations (object) :
     windowStateStartup = MyProperty(todo, 'windowStateStartup')
     referencesToBds = MyProperty(todo, 'referencesToBds')
     userUploader = MyProperty(todo, 'userUploader')
-    
+    expandTree = MyProperty(todo, 'expandTree')
+
 #########################
 ## Metodos de la clase ##
 #########################

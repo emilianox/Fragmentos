@@ -31,7 +31,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -68,8 +68,19 @@
           </item>
           <item>
            <widget class="QCheckBox" name="cbxBuscarTags">
+            <property name="toolTip">
+             <string>Forza a escribir el tag exactamente como fue guardado. 
+Por ejemplo 'prueba', en vez de 'prue'.</string>
+            </property>
             <property name="text">
              <string>Buscar &lt;tags&gt; con presición.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="cbxExpandirArbol">
+            <property name="text">
+             <string>Expandir árbol al realizar una búsqueda</string>
             </property>
            </widget>
           </item>
@@ -428,50 +439,8 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Visor de código</string>
+        <string>Pastebin</string>
        </attribute>
-       <widget class="QLabel" name="label_11">
-        <property name="geometry">
-         <rect>
-          <x>140</x>
-          <y>170</y>
-          <width>301</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <weight>50</weight>
-          <bold>false</bold>
-          <stylestrategy>PreferDefault</stylestrategy>
-          <kerning>true</kerning>
-         </font>
-        </property>
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="contextMenuPolicy">
-         <enum>Qt::ActionsContextMenu</enum>
-        </property>
-        <property name="acceptDrops">
-         <bool>false</bool>
-        </property>
-        <property name="toolTip">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Todavia no hay nada... Pero lo habrá :)</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::AutoText</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
       </widget>
      </widget>
     </item>

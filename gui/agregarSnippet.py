@@ -290,6 +290,10 @@ class agregarSnippet(QtGui.QMainWindow):
             snippetActual.fechaModificacion = fecha_Modificacion
             
             self.__cleanFields()
+            
+            # refresca el arbol en la interfaz principal
+            self.Padre.refreshTreeMainWindow()
+            
             QtGui.QMessageBox.information(self, "Modificar snippet","Snippet modificado correctamente.")
 
 

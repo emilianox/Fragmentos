@@ -119,8 +119,9 @@ class Main(QtGui.QMainWindow):
         self.historialSnippets = [[],0]
                 
     def loadBDsInCombo(self):
-        ''' ''' 
+        ''' '''         
         if self.SM.getDB() :
+            self.cbBD.clear()            
             bds = self.SM.getBDNames()
             if bds : map(self.cbBD.addItem, bds)
             
@@ -219,7 +220,7 @@ class Main(QtGui.QMainWindow):
         "Debes seleccionar un snippet para modificarlo.")
         else:
             self.Padre.showModificarSnippet(actual)
-            self.refreshTree()
+            #~ self.refreshTree()
 
     def __showSnippet(self, lenguaje, titulo):
         
@@ -293,7 +294,7 @@ class Main(QtGui.QMainWindow):
     def __enviarAPastebin(self):
         actual = self.SM.getSnippetActual()
         if actual is None:
-            QtGui.QMessageBox.warning(self, "Enviar snippet",
+            QtGui.QMessageBox.warning(self, "Enviar snippet a Pastebin",
         "Debes seleccionar un snippet para poder enviarlo.")
         else:
             #TODO:configurable
@@ -302,8 +303,15 @@ class Main(QtGui.QMainWindow):
                         paste_name = actual.titulo,
                         paste_expire_date = '1D',
                         paste_format = actual.lenguaje)
+            # copia el link al portapapeles
             self.Padre.clipboard.setText(url)
-            QtGui.QMessageBox.information(self, "Enviar Snippet","Snippet enviado correctamente.\n"+url)
+            mensaje = '''Snippet enviado correctamente.
+            
+            Puede encontrar su snippet en la siguiente dirección:
+            %s 
+            Link disponible en el portapapeles.''' % url
+            QtGui.QMessageBox.information(self, "Enviar Snippet a Pastebin",
+            mensaje)
 
     def refreshTree(self):
         """ A partir de la instancia actual de SM,
@@ -427,6 +435,12 @@ class Main(QtGui.QMainWindow):
             # si hubieron resultados en la busqueda
             self.colorBusqueda.set_color_busqueda()
             self.mytreeview.insertarEnArbol(datos)
+            
+            # si en las configuraciones este valor es true
+            # el arbol se expandira al realizar una busqueda
+            if self.Padre.fragmentos.ConfigsApp.expandTree :
+                self.tvLenguajes.expandAll()
+            
         else:
             self.colorBusqueda.set_color_busqueda(False)
             self.mytreeview.model.clear()
@@ -435,6 +449,10 @@ class Main(QtGui.QMainWindow):
             self.lbEstado.setText(
                 str(self.SM.getSnippetsCount()) + ' snippet(s) cargados...')
 
+    def on_eBusqueda_textEdited(self,cadena):
+        self.eBusqueda.setText(
+            self.__convertir_a_unicode(cadena).lower())
+        
     ################
     ### TREEVIEW ###
     ################
