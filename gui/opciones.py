@@ -21,7 +21,10 @@
 
 import os
 from PyQt4 import QtCore, QtGui, uic
+
 from pathtools import PathTools
+import icons_rc
+
 
 class Opciones(QtGui.QMainWindow):
     """Clase que maneja las interacciones entre la interfaz grafica y
@@ -33,6 +36,7 @@ class Opciones(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
+        self.setWindowIcon(QtGui.QIcon(':/icons/gear32.png'))
         
         # centra la ventana 
         self.__centerOnScreen()
@@ -65,14 +69,10 @@ class Opciones(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btAgregarBDReferencia_clicked(self):
         self.__agregarBDReferencia()            
-        # refresca el combo de la interfaz principal
-        self.__Padre.refreshBdsInComboMainWindow()
         
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
         
-        # refresca el combo de la interfaz principal
-        #~ self.__Padre.refreshBdsInComboMainWindow()
         pass
         
     @QtCore.pyqtSlot()
@@ -82,16 +82,10 @@ class Opciones(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btAgregarBDDefault_clicked(self):
         self.__agregarBDDefault()        
-        
-        # refresca el combo de la interfaz principal
-        self.__Padre.refreshBdsInComboMainWindow()
     
     @QtCore.pyqtSlot()
     def on_btQuitarBDDefault_clicked(self):
         self.__quitarBDDefault()
-        # refresca el combo de la interfaz principal
-        self.__Padre.refreshBdsInComboMainWindow()
-        
     
     #~ 
     #~ TAB: GENERALES
@@ -184,6 +178,7 @@ class Opciones(QtGui.QMainWindow):
         dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
         dialog.setDefaultSuffix("db")
         dialog.setNameFilter('Catalogo Fragmentos (*.db)')
+        
         if dialog.exec_():
             filename = dialog.selectedFiles()[0] # convierte a unicode el string
             filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
@@ -191,6 +186,9 @@ class Opciones(QtGui.QMainWindow):
             if self.__DBU.validarBD(filename):
                 self.__DBU.agregarBDADefault(filename)
                 self.__cargarBDsDesdeDatabases()
+                
+                # refresca el combo de la interfaz principal
+                self.__Padre.refreshBdsInComboMainWindow()
             else:
                 QtGui.QMessageBox.critical(self,"Agregar catalogo",
                 "Este archivo no es un catalogo valido de Fragmentos.")
@@ -208,6 +206,9 @@ class Opciones(QtGui.QMainWindow):
             if self.__DBU.validarBD(filename):
                 self.__agregarBDReferenciaInCFG(filename) # refresca la gui
                 self.__cargarBDsDesdeCFG()  
+                
+                # refresca el combo de la interfaz principal
+                self.__Padre.refreshBdsInComboMainWindow()
             else:
                 QtGui.QMessageBox.critical(self,"Agregar referencia a catalogo",
                 "Este archivo no es un catalogo valido de Fragmentos.")

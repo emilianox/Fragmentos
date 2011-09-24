@@ -23,7 +23,6 @@ class Main(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-        #TODO:
         self.setWindowIcon(QtGui.QIcon(':/icons/logo.png'))
         # centra la ventana en la pantalla
         self.__centerOnScreen()
@@ -121,7 +120,13 @@ class Main(QtGui.QMainWindow):
     def loadBDsInCombo(self):
         ''' '''         
         if self.SM.getDB() :
-            self.cbBD.clear()            
+            # recarga la lista de paths a bds
+            self.SM.loadAllPathDBs()
+            
+            # limpia las items insertados 
+            self.cbBD.clear()  
+             
+            #  obtiene los nombres de las bds          
             bds = self.SM.getBDNames()
             if bds : map(self.cbBD.addItem, bds)
             

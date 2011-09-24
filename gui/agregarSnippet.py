@@ -24,6 +24,7 @@ import sys
 
 from PyQt4 import QtCore, QtGui, uic
 from QTTips.Scintilla import Scintilla
+import icons_rc
 
 
 class agregarSnippet(QtGui.QMainWindow):
@@ -36,7 +37,7 @@ class agregarSnippet(QtGui.QMainWindow):
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-        
+        self.setWindowIcon(QtGui.QIcon(':/icons/linedpaperplus32.png'))
         # centra la ventana 
         self.__centerOnScreen()
         

@@ -50,7 +50,8 @@ class SnippetManager:
         
         # lista con las rutas de las base de datos
         # tanto las del pathdefault como del cfg file
-        self.__AllPathDBs = self.loadAllPathDBs()
+        self.__AllPathDBs = []
+        self.loadAllPathDBs()
         
         # trae si existe, el valor de la bd a cargar por defecto
         defaultBdName = self.__Configs.defaultBdName
@@ -263,6 +264,6 @@ class SnippetManager:
         #TODO: implementar estooo
         databases_cfg = self.__Configs.getDBsInCFGReferences()
         if databases_cfg :
-            return databases_dir + databases_cfg
+            self.__AllPathDBs = databases_dir + databases_cfg
         else:
-            return databases_dir
+            self.__AllPathDBs = databases_dir

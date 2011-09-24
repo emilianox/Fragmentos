@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string/>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>linedpaperplus32.png</normaloff>linedpaperplus32.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_8">
     <item>
@@ -671,7 +675,9 @@ stop: 0 #dadbde, stop: 1 #f6f7fa);
   <tabstop>btGuardar</tabstop>
   <tabstop>btSalir</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>btSalir</sender>

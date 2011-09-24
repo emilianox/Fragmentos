@@ -17,8 +17,8 @@
    <string>Opciones</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="fragmentos.qrc">
-    <normaloff>:/icons/empty.png</normaloff>:/icons/empty.png</iconset>
+   <iconset>
+    <normaloff>gear32.png</normaloff>gear32.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -472,7 +472,7 @@ Por ejemplo 'prueba', en vez de 'prue'.</string>
   </widget>
  </widget>
  <resources>
-  <include location="fragmentos.qrc"/>
+  <include location="icons.qrc"/>
  </resources>
  <connections>
   <connection>

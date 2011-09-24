@@ -110,9 +110,6 @@ class GUI(DObject):
             self.window.__centerOnScreen()
             self.window.eBusqueda.setFocus()
 
-
-
-
     def showModificarSnippet(self, unSnippet):
         u""" """
         from agregarSnippet import agregarSnippet
