@@ -312,9 +312,9 @@ class Main(QtGui.QMainWindow):
             self.Padre.clipboard.setText(url)
             mensaje = '''Snippet enviado correctamente.
             
-            Puede encontrar su snippet en la siguiente dirección:
+            Puede encontrar su snippet en la siguiente direccion:\n
             %s 
-            Link disponible en el portapapeles.''' % url
+            \nLink disponible en el portapapeles.''' % url
             QtGui.QMessageBox.information(self, "Enviar Snippet a Pastebin",
             mensaje)
 
@@ -323,9 +323,13 @@ class Main(QtGui.QMainWindow):
         refresca el arbol cargando nuevamente los snippets. """
                 
         lengs_and_titles = self.SM.getLengsAndTitles()
+        
+        # 
+        self.mytreeview.insertarEnArbol(lengs_and_titles)
+        
         # intancia el hilo que se encargara de refrescar el arbol 
-        treeview = TreeViewThread(self, lengs_and_titles)        
-        treeview.start()
+        #~ treeview = TreeViewThread(self, lengs_and_titles)        
+        #~ treeview.start()
         
         self.lbEstado.setText(
             str(self.SM.getSnippetsCount()) + ' snippet(s) cargados.')

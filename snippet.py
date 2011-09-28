@@ -84,34 +84,43 @@ class Snippet (object):
     def __setTitulo(self,titulo):
         print 'entrando a actualiuzar titulo...'
         self.__actualizarCampo('title',titulo)
-
+        self.__titulo = titulo
 
     def __setLenguaje(self,lenguaje):
         self.__actualizarCampo('language',lenguaje)
-
+        self.__lenguaje = lenguaje
+        
     def __setCodigo(self,codigo):
         self.__actualizarCampo('contens',codigo)
-
+        self.__codigo = codigo
+        
     def __setTags(self,tags):
         self.__actualizarCampo('tags',tags)
-
+        self.__tags = tags
+        
     def __setDescripcion(self,descripcion):
         self.__actualizarCampo('description',descripcion)
+        self.__descripcion = descripcion
 
     def __setFechaCreacion(self,fcreacion):
         self.__actualizarCampo('creation',fcreacion)
+        self.__fecha_creacion = fcreacion
 
     def __setReferencias(self,referencias):
         self.__actualizarCampo('reference',referencias)
+        self.__referencias = referencias
 
     def __setFavorito(self,favorito):
         self.__actualizarCampo('starred',favorito)
+        self.__favorito = favorito
 
     def __setFechaModificacion(self,fmodificacion):
         self.__actualizarCampo('modified',fmodificacion)
+        self.__fecha_modificacion = fmodificacion
 
     def __setUploader(self,uploader):
         self.__actualizarCampo('uploader',uploader)
+        self.__uploader = uploader
 
     def setDB(self,dbReference):
         self.__DB = dbReference

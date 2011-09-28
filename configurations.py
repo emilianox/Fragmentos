@@ -20,29 +20,96 @@
 
 
 import ConfigParser
-
 import os
 from pathtools import PathTools
 
 
-class MyProperty(object):
-    
-    def __init__(self, todo, name):
-        self.name = name
+#class MyProperty(object):
+#    
+#    def __init__(self, todo, name):
+#        self.name = name
+#
+#        self.cfgFile = todo['cfg']
+#                            
+#        self.config = todo['config']
+#        self.config.read(self.cfgFile)
+#        
+#        self.__sections = todo['sections']
+#
+#    def __get__(self, obj, objtype): 
+#        return self.__getValue(self.name)
+#
+#    def __set__(self, obj, val):
+#        self.__setValue(self.name, val)
+        
 
-        self.cfgFile = todo['cfg']
-                            
-        self.config = todo['config']
+        
+class Configurations (object) : 
+
+#    PT = PathTools()
+#    # ruta del archivo de configuracion
+#    cfgFile = PT.getPathCFGFile()
+#    # 
+#    config = ConfigParser.ConfigParser()
+#    
+#    # valores dentro de la seccion configurations
+#    configurations_values = {
+#    "searchPresitionTags" : 0,
+#    "windowStateStartup" : 0,
+#    "userUploader" : '',
+#    "expandTree":0
+#    }
+#    
+#    # valores dentro de la seccion database
+#    database_values = {
+#    "defaultBdName" : '',
+#    "referencesToBds" : ''
+#    }
+#    
+#    # diccionario con las secciones
+#    sections = {
+#    'configurations' : configurations_values,
+#    'database' : database_values 
+#    }
+#    
+#    todo = {'cfg' : cfgFile, 'config' : config, 'sections' : sections}
+    
+    def __init__(self):
+        
+        PT = PathTools()
+        # ubicacion del archivo de configuracion
+        self.cfgFile = PT.getPathCFGFile()
+        
+        # instancia de configparser
+        self.config = ConfigParser.ConfigParser()
         self.config.read(self.cfgFile)
         
-        self.__sections = todo['sections']
-
-    def __get__(self, obj, objtype): 
-        return self.__getValue(self.name)
-
-    def __set__(self, obj, val):
-        self.__setValue(self.name, val)
+        self.__searchPresitionTags = None
+        self.__windowStateStartup = None
+        self.__userUploader = None
+        self.__expandTree = None
+        self.__defaultBdName = None
+        self.__referencesToBds = None
         
+        # valores dentro de la seccion configurations
+        configurations_values = {
+        "searchpresitiontags" : 0,
+        "windowstatestartup" : 0,
+        "useruploader" : '',
+        "expandtree" : 0
+        }
+        
+        # valores dentro de la seccion database
+        database_values = {
+        "defaultbdName" : '',
+        "referencestobds" : ''
+        }
+        
+        # diccionario con las secciones
+        self.__sections = {
+        'configurations' : configurations_values,
+        'database' : database_values }
+
     def __getValue(self, attribute):
         """ Recupera del archivo de configuracion el  
         valor del atributo indicado. """
@@ -55,8 +122,9 @@ class MyProperty(object):
                 section = elemento
         try:
             # obtiene el valor desde el cfg
-            return self.config.get(section, attribute)
-        except ConfigParser.NoSectionError:
+            #~ print section, attribute
+            return self.config.get(section, attribute)            
+        except ConfigParser.NoSectionError, msg:
             print 'No existe la seccion <',section,'>'
             return None
     
@@ -72,82 +140,71 @@ class MyProperty(object):
                 section = elemento
         try:
             # establece el valor en el cfg
-            print section, attribute, value
+            #~ print section, attribute, value
             self.config.set(section, attribute, value)
             
             self.config.write(open(self.cfgFile,'w'))
         except ConfigParser.NoSectionError:
             print 'No existe la seccion <',section,'>'
-        
-class Configurations (object) : 
+            
+    def __get_search_presition_tags(self):
+        return self.__getValue('searchpresitiontags')
 
-    PT = PathTools()
-    # ruta del archivo de configuracion
-    cfgFile = PT.getPathCFGFile()
-    # 
-    config = ConfigParser.ConfigParser()
-    
-    # valores dentro de la seccion configurations
-    configurations_values = {
-    "searchPresitionTags" : 0,
-    "windowStateStartup" : 0,
-    "userUploader" : '',
-    "expandTree":0
-    }
-    
-    # valores dentro de la seccion database
-    database_values = {
-    "defaultBdName" : '',
-    "referencesToBds" : ''
-    }
-    
-    # diccionario con las secciones
-    sections = {
-    'configurations' : configurations_values,
-    'database' : database_values 
-    }
-    
-    todo = {'cfg' : cfgFile, 'config' : config, 'sections' : sections}
-    
-    def __init__(self):
-        
-        PT = PathTools()
-        # ubicacion del archivo de configuracion
-        self.cfgFile = PT.getPathCFGFile()
-        
-        # instancia de configparser
-        self.config = ConfigParser.ConfigParser()
-        
-        # valores dentro de la seccion configurations
-        configurations_values = {
-        "searchPresitionTags" : 0,
-        "windowStateStartup" : 0,
-        "userUploader" : '',
-        "expandTree" : 0
-        }
-        
-        # valores dentro de la seccion database
-        database_values = {
-        "defaultBdName" : '',
-        "referencesToBds" : ''
-        }
-        
-        # diccionario con las secciones
-        self.sections = {
-        'configurations' : configurations_values,
-        'database' : database_values 
-        }
+
+    def __get_window_state_startup(self):
+        return self.__getValue('windowstatestartup')
+
+
+    def __get_user_uploader(self):
+        return self.__getValue('useruploader')
+
+
+    def __get_expand_tree(self):        
+        return self.__getValue('expandtree')
+
+
+    def __get_default_bd_name(self):
+        return self.__getValue('defaultbdname')
+
+
+    def __get_references_to_bds(self):
+        return self.__getValue('referencestobds')
+
+
+    def __set_search_presition_tags(self, value):
+        self.__setValue('searchpresitiontags',value)
+
+
+    def __set_window_state_startup(self, value):
+        self.__setValue('windowstatestartup',value)
+
+
+    def __set_user_uploader(self, value):
+        self.__setValue('useruploader',value)
+
+
+    def __set_expand_tree(self, value):
+        self.__setValue('expandtree', value)
+
+
+    def __set_default_bd_name(self, value):
+        self.__setValue('defaultbdName',value)
+
+
+    def __set_references_to_bds(self, value):
+        self.__setValue('referencestobds',value)
+
 
 ######################
 ## Metodos PROPERTY ##
 ######################
     
-    defaultBdName = MyProperty(todo, 'defaultBdName')
-    searchPresitionTags = MyProperty(todo, 'searchPresitionTags')
-    windowStateStartup = MyProperty(todo, 'windowStateStartup')
-    referencesToBds = MyProperty(todo, 'referencesToBds')
-    userUploader = MyProperty(todo, 'userUploader')
-    expandTree = MyProperty(todo, 'expandTree')
+    searchPresitionTags = property(__get_search_presition_tags, __set_search_presition_tags, None, None)
+    windowStateStartup = property(__get_window_state_startup, __set_window_state_startup, None, None)
+    userUploader = property(__get_user_uploader, __set_user_uploader, None, None)
+    expandTree = property(__get_expand_tree, __set_expand_tree, None, None)
+    defaultBdName = property(__get_default_bd_name, __set_default_bd_name, None, None)
+    referencesToBds = property(__get_references_to_bds, __set_references_to_bds, None, None)
 
 #########################
 ## Metodos de la clase ##
@@ -160,13 +217,13 @@ class Configurations (object) :
         self.config.read(self.cfgFile)
         
         # agrega las secciones
-        for section in self.sections :
+        for section in self.__sections :
             #print section
             # crea la seccion
             self.config.add_section(section)
-            for atributo in self.sections[section]:
+            for atributo in self.__sections[section]:
                 # agrega el atributo para la seccion actual
-                self.config.set(section, atributo,self.sections[section][atributo])
+                self.config.set(section, atributo,self.__sections[section][atributo])
                 # print '>',atributo,self.sections[section][atributo]
             
         self.config.write(open(self.cfgFile, 'w'))
@@ -207,13 +264,14 @@ class Configurations (object) :
 def main():
 
     c = Configurations()
-    print c.getDBsNamesCFGReferences()
+    valor = c.referencesToBds
+    print valor,type(valor)
     #~ print c.getDBsInCFGReferences()
     #~ print c.defaulBdName
     #~ c.defaulBdName = "SourceCode"
     #~ c.windowStateStartup = "999"
     #~ print c.windowStateStartup
-    
+#    c.regenerateNewCFG()
     
 
 if __name__ == '__main__':

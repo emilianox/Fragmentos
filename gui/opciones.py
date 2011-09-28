@@ -86,7 +86,10 @@ class Opciones(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def on_btQuitarBDDefault_clicked(self):
         self.__quitarBDDefault()
-    
+        
+    def closeEvent(self, event):    
+        self.on_eNombreUsuario_editingFinished()
+        
     #~ 
     #~ TAB: GENERALES
     #~ 

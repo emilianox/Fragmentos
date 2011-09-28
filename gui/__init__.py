@@ -98,7 +98,9 @@ class GUI(DObject):
         self.agregar = agregarSnippet(self, "Agregar Snippet")
         self.agregar.operacion = "agregar"
         # lee desde el cfg y carga el nombre del usuario actual
-        self.agregar.eAutor.setText(self.fragmentos.ConfigsApp.userUploader)
+        user_uploader = self.fragmentos.ConfigsApp.userUploader
+        if user_uploader :
+            self.agregar.eAutor.setText(user_uploader)
         self.agregar.show()
 
     @servicio.method('ar.fragmentos.service')

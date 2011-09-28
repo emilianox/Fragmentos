@@ -264,6 +264,9 @@ class agregarSnippet(QtGui.QMainWindow):
             # obtiene el snippet actual
             snippetActual = self.SM.getSnippetActual()
             
+            lenguaje_viejo =  snippetActual.lenguaje 
+            titulo_viejo = snippetActual.titulo
+
             # pregunta por cada uno de los campos del snippet
             # si ha havido algun cambio, y en caso afirmativo
             # se setean los valores
@@ -291,6 +294,9 @@ class agregarSnippet(QtGui.QMainWindow):
             snippetActual.fechaModificacion = fecha_Modificacion
             
             self.__cleanFields()
+            
+            # actualiza el snippet en RAM
+            self.SM.modificarSnippet((lenguaje_viejo,titulo_viejo),snippetActual)
             
             # refresca el arbol en la interfaz principal
             self.Padre.refreshTreeMainWindow()

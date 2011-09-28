@@ -119,6 +119,13 @@ class SnippetManager:
         else:
             return False
 
+    def modificarSnippet(self, clave_spviejo, snippet_nuevo):
+        ''' Actualiza el snippet cargado en memoria'''
+        del self.__Snippets[clave_spviejo]
+        self.__Snippets[
+                (snippet_nuevo.lenguaje,snippet_nuevo.titulo)
+                    ] = snippet_nuevo
+
     def newSnippet(self, tuplaSnippet):
         ''' Crea una instancia de snippet. '''
         
@@ -160,8 +167,9 @@ class SnippetManager:
         all_lenguajes = self.__BD.getLenguajes()
         lenguajes = []
         # saca de la tupla y carga en la lista los lenguajes obtenidos
-        for lenguaje in all_lenguajes:
-            lenguajes.append(lenguaje[0])
+        #~ for lenguaje in all_lenguajes:
+            #~ lenguajes.append(lenguaje[0])
+        map(lambda lenguaje: lenguajes.append(lenguaje[0]), all_lenguajes)
         return lenguajes
 
     def getBDNames(self):
