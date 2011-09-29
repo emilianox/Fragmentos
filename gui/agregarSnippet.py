@@ -242,7 +242,7 @@ class agregarSnippet(QtGui.QMainWindow):
     def __normalizarTags(self, tags):
         u""" 
             Normaliza los tags: quitando espacios, 
-            quitando acentos, etc.
+            quitando repetidos, comas demas, etc.
         """
         # quita todo espacio en blanco de la palabra
         tags = ''.join(tags.split())
@@ -253,6 +253,9 @@ class agregarSnippet(QtGui.QMainWindow):
             tags = tags.replace(",,",",")
         # si llegaran a existe comas al principio y final, las quita
         tags = tags.strip(",")
+        # quita los tags repetidos
+        tags = list(set(tags.split(',')))
+        tags = ','.join(tags)
         
         return tags
 

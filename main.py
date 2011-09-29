@@ -22,7 +22,7 @@ from fragmentos import Fragmentos
 
 
 class Main :
-    ''' Clase que hace correr la aplicación.'''
+    u''' Clase que hace correr la aplicación.'''
 
     def __init__(self) :
         self.validar()

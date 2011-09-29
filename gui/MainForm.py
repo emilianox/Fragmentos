@@ -169,6 +169,7 @@ class Main(QtGui.QMainWindow):
         menubusqueda.addAction("'a=' Por Autor")
         
         menucompartir.addAction("Enviar a Pastebin", self.__enviarAPastebin)
+        menucompartir.addAction(u"¿Que es Pastebin?", self.__helpPastebin)
 
         self.btMenu.setMenu(menu)
 
@@ -346,6 +347,15 @@ class Main(QtGui.QMainWindow):
     #   Metodos usados en el menu de la aplicacion
     ###############################################################        
     
+    def __helpPastebin(self):
+        ''' '''
+        mensaje = u'''Pastebin es una aplicación web que permite a sus usuarios subir pequeños textos, generalmente ejemplos de código fuente, para que estén visibles al público en general.
+        
+        Enlace: http://pastebin.com
+        Fuente: http://es.wikipedia.org/wiki/Pastebin'''
+                
+        QtGui.QMessageBox.information(self, u"¿Que es Pastebin?",mensaje)
+        
     def __showOptions(self):
         ''' '''
         self.Padre.showOpciones()
@@ -447,7 +457,10 @@ class Main(QtGui.QMainWindow):
             
             # si en las configuraciones este valor es true
             # el arbol se expandira al realizar una busqueda
-            if self.Padre.fragmentos.ConfigsApp.expandTree :
+            if self.Padre.fragmentos.ConfigsApp.expandTree == '1' :
+                
+                print 'estoy por expandir el arbol..'
+                print self.Padre.fragmentos.ConfigsApp.expandTree
                 self.tvLenguajes.expandAll()
             
         else:
