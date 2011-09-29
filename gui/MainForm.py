@@ -458,9 +458,6 @@ class Main(QtGui.QMainWindow):
             # si en las configuraciones este valor es true
             # el arbol se expandira al realizar una busqueda
             if self.Padre.fragmentos.ConfigsApp.expandTree == '1' :
-                
-                print 'estoy por expandir el arbol..'
-                print self.Padre.fragmentos.ConfigsApp.expandTree
                 self.tvLenguajes.expandAll()
             
         else:

@@ -81,7 +81,8 @@ class Configurations (object) :
         self.cfgFile = PT.getPathCFGFile()
         
         # instancia de configparser
-        self.config = ConfigParser.ConfigParser()
+       
+        self.config = ConfigParser.RawConfigParser()
         self.config.read(self.cfgFile)
         
         self.__searchPresitionTags = None
