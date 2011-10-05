@@ -205,6 +205,7 @@ class Main(QtGui.QMainWindow):
         u""" Load shortcuts used in the application. """
                 
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+K"), self, self.eBusqueda.setFocus)
         # atajo : cerrar/salir
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
             
