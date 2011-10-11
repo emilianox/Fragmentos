@@ -32,7 +32,7 @@ class TreeView:
         treeview.setSelectionModel(SelectionModel)
         conector(SelectionModel, QtCore.SIGNAL(
                     "currentChanged(const QModelIndex &, const QModelIndex &)"),metodo)
-        self.__treeview = treeview
+        self.widget = treeview
 
 
     def __getModel(self):

@@ -35,7 +35,10 @@ class Main(QtGui.QMainWindow):
         self.mytreeview = TreeView(self.tvLenguajes,self.on_tvLenguajes_selectedItem,
                                    self.connect,iconSub=QtGui.QIcon(':/toolbar/linedpaper32.png'),
                                                 iconRoot=QtGui.QIcon(':/toolbar/lang.png'))
-
+        self.mytreeview.widget.setContextMenuPolicy( QtCore.Qt.CustomContextMenu )
+        self.connect(self.mytreeview.widget, QtCore.SIGNAL('customContextMenuRequested(const QPoint&)'),
+                      self.on_treecontext_menu)
+        
         # agrega el Widget de codigo
         self.widgetcodigo = Scintilla()
         self.wgtDetalles.setVisible(False)
@@ -71,8 +74,6 @@ class Main(QtGui.QMainWindow):
         self.eBusqueda.setFocus()
         self.btSptAnterior.setEnabled(False)
         self.btSptSiguiente.setEnabled(False)
-
-
 
 ######################
 ## Metodos de clase ##
@@ -140,27 +141,16 @@ class Main(QtGui.QMainWindow):
         """Crea el main menu"""
         
         menu = QtGui.QMenu(self.btMenu)
+        
         menusnippet = menu.addMenu("Snippet")
-        menudatabase= menu.addMenu("Catalogo")
-        menubusqueda = menu.addMenu("Busqueda")
-        menu.addSeparator()
-        menucompartir = menu.addMenu("Compartir")
-        menu.addSeparator()
-        menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
-        menu.addAction("Ayuda")
-        menu.addSeparator()
-        menu.addAction("Acerca de..", self.__mostrarAcercaDe)
-        menu.addSeparator()
-        menu.addAction("Salir", self.__destroyed, QtGui.QKeySequence("Ctrl+Q"))
-
         menusnippet.addAction("Agregar",self.__agregarSnippet,QtGui.QKeySequence("F9"))
         menusnippet.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
         menusnippet.addAction("Eliminar", self.__eliminarSnippet,QtGui.QKeySequence("Del"))
 
-
+        menudatabase= menu.addMenu("Catalogo")
         menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
-        #~ menudatabase.addAction("Eliminar")
-
+                
+        menubusqueda = menu.addMenu("Busqueda")
         menubusqueda.addAction("'t=' Por Titulo")
         menubusqueda.addAction("'g=' Por Tags")
         menubusqueda.addAction("'l=' Por Lenguaje")
@@ -168,8 +158,25 @@ class Main(QtGui.QMainWindow):
         menubusqueda.addAction("'m=' Por Fecha modificacion")
         menubusqueda.addAction("'a=' Por Autor")
         
+        menu.addSeparator()
+        
+        menucompartir = menu.addMenu("Compartir")
         menucompartir.addAction("Enviar a Pastebin", self.__enviarAPastebin)
         menucompartir.addAction(u"¿Que es Pastebin?", self.__helpPastebin)
+        
+        menu.addSeparator()
+        
+        menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
+        menu.addAction("Ayuda")
+        
+        menu.addSeparator()
+        
+        menu.addAction("Acerca de..", self.__mostrarAcercaDe)
+        
+        menu.addSeparator()
+        
+        menu.addAction("Salir", self.__destroyed, QtGui.QKeySequence("Ctrl+Q"))
+
 
         self.btMenu.setMenu(menu)
 
@@ -476,6 +483,11 @@ class Main(QtGui.QMainWindow):
     ################
     ### TREEVIEW ###
     ################
+    def on_treecontext_menu(self, point):
+        #TODO: hacer menu
+        menu = QtGui.QMenu()
+        menu.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
+        menu.exec_( self.mytreeview.widget.mapToGlobal(point) )
     
     def on_tvLenguajes_selectedItem(self,indice,b):
         if indice.parent().row() != -1:
