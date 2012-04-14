@@ -18,8 +18,7 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
-
-import sqlite3
+from database.sqlite import sqlite
 
 
 class Snippet (object):
@@ -115,7 +114,7 @@ class Snippet (object):
         self.__favorito = favorito
 
     def __setFechaModificacion(self,fmodificacion):
-        self.__actualizarCampo('modified',fmodificacion)
+        self.__actualizarCampo('modified','"'+fmodificacion+'"')
         self.__fecha_modificacion = fmodificacion
 
     def __setUploader(self,uploader):
@@ -129,12 +128,15 @@ class Snippet (object):
         ''' Recibe el campo y valor nuevo y edita ese campo en la
         base de datos, correspondiente a este Snippet. '''
         
-        sql_update = "UPDATE snippet SET %s = ? WHERE title = ? AND language = ?"
         try:
-            connection = sqlite3.connect(self.__DB.getPathBD())
-            cursor = connection.cursor()
-            cursor.execute(sql_update % (campo),(valorNuevo,self.titulo,self.lenguaje))
-            connection.commit()
+            bd = sqlite(self.__DB.getPathBD())
+            consulta = """UPDATE snippet 
+                SET "%s" = ? 
+                WHERE title = ? 
+                AND language = ?""" % campo
+                
+            return bd.realizarNoConsulta(consulta, 
+                (valorNuevo, self.titulo, self.lenguaje))
         except Exception, msg:
             print 'actualizarCampo: ',str(msg)
 

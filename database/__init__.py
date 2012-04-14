@@ -19,7 +19,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import sqlite3
+import sqlite
 from busqueda import Busqueda
 
 
@@ -30,12 +30,10 @@ class Database:
         u''' Costructor de la clase. '''
         #~ print 'my path es: ',rutaBD
         self.__pathBD = rutaBD
-        #conecta a la base de datos
-        self.__connection = sqlite3.connect(self.__pathBD)
-        #activa el cursor
-        self.__cursor = self.__connection.cursor()
         #~ print 'Una instancia de BD fue creada con exito...',#rutaBD
         self.__Busqueda = Busqueda()
+        
+        self.bd = sqlite.sqlite(self.__pathBD)
 
 ###############
 # METODOS BD  #
@@ -47,7 +45,7 @@ class Database:
 
     def getLenguajes(self):
         u''' Obtiene los lenguajes para la actual BD. '''
-        resultado = self.realizarConsulta('SELECT DISTINCT language FROM snippet ORDER BY language')
+        resultado = self.bd.realizarConsulta('SELECT DISTINCT language FROM snippet ORDER BY language')
         return resultado
 
     def getLengAndTitles(self, consulta=None, favorito = None, tagsPresicion = None):
@@ -55,7 +53,7 @@ class Database:
         
         #por defecto busca los que no son favoritos
         if not consulta and not favorito:
-            resultado = self.realizarConsulta('''SELECT language,title 
+            resultado = self.bd.realizarConsulta('''SELECT language,title 
                                                 FROM snippet  
                                                 ORDER BY language,title ''')
         else:
@@ -72,7 +70,7 @@ class Database:
 
     def getAllSnippets(self):
         u''' Obtiene todos los snippets de la base de datos. '''
-        resultado = self.realizarConsulta('''SELECT title,language,tags,contens,
+        resultado = self.bd.realizarConsulta('''SELECT title,language,tags,contens,
                                                     description,creation,reference,
                                                     modified,uploader,starred
                                             FROM snippet
@@ -81,7 +79,7 @@ class Database:
 
     def getSnippet(self, lenguaje, titulo):
         u''' Obtiene un snippet por su lenguaje y titulo correspondiente. '''
-        resultado = self.realizarConsulta("SELECT * FROM snippet WHERE language = '"+lenguaje+"' AND title = '"+titulo + "'")
+        resultado = self.bd.getDatosColumnas("snippet",criterios = {'language':lenguaje,'title':titulo})
         return self.__convertirASnippet(resultado)
 
     def getSnippetsCount(self):
@@ -89,15 +87,8 @@ class Database:
         cantidad = self.realizarConsulta('SELECT count(*) FROM snippet')
         return int(cantidad[0][0])
 
-    def realizarConsulta(self,consulta):
-        u''' Realiza una consulta a la base de datos. '''
-        #~ print consulta
-        cursor_temp = self.__cursor.execute(consulta)
-        lista = []
-        for fila in cursor_temp:
-            lista.append(fila)
-        #~ print 'Consulta completa...'
-        return lista
+    def realizarConsulta(self,consulta):        
+        return self.bd.realizarConsulta(consulta)
 
 ################################
 # METODOS PARA MANEJAR SNIPPET #
@@ -121,9 +112,7 @@ class Database:
             #~ print valor,'\n',type(valor)
             valores.append(valor)#.encode('ascii','utf-8'))        
         try:
-            self.__cursor.execute('INSERT INTO snippet '+campos+' VALUES '+sp, valores)
-            self.__connection.commit()
-            return True, None
+            return self.bd.realizarAlta("snippet", datosSnippet) , None
         #except sqlite3.OperationalException,msg:
         except Exception, msg:
             print 'agregarSnippet >> ',str(msg)
@@ -132,14 +121,9 @@ class Database:
     def eliminarSnippet(self,titulo,lenguaje):
         u''' Elimina un Snippet de la bd.'''
 
-        sql = u'DELETE FROM snippet ' + \
-        'WHERE title = "{0}" AND language = "{1}"'.format(titulo,lenguaje)
-        #~ print sql
+        condiciones = ['title = "{0}"'.format(titulo), 'language = "{1}"'.format(lenguaje)]
         try:
-            self.__cursor.execute(sql)
-            self.__connection.commit()
-            print "Un registro fue eliminado."
-            return True
+            return self.bd.realizarBaja("snippet", condiciones)
         except Exception, msg:
             print 'eliminarSnippet: ',msg
             return False
