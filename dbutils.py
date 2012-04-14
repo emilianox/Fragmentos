@@ -19,11 +19,11 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import sqlite3, os, os.path
+import sqlite3, os.path
 
 from members import Members
 from pathtools import PathTools
-from sqlite import sqlite
+from database import sqlite
 
 class DBUtils:
     ''' Clase para el manejo de utilidades de base de datos. '''
