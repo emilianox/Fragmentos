@@ -167,12 +167,12 @@ class Main(QtGui.QMainWindow):
         menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
                 
         menubusqueda = menu.addMenu("Busqueda")
-        menubusqueda.addAction("'t=' Por Titulo")
-        menubusqueda.addAction("'g=' Por Tags")
-        menubusqueda.addAction("'l=' Por Lenguaje")
-        menubusqueda.addAction("'n=' Por Fecha creacion")
-        menubusqueda.addAction("'m=' Por Fecha modificacion")
-        menubusqueda.addAction("'a=' Por Autor")
+        menubusqueda.addAction("'t=' Por Titulo", lambda : self.__cargarCriterioBusquedaEnBarra('t'),QtGui.QKeySequence("Alt+T"))
+        menubusqueda.addAction("'g=' Por Tags", lambda : self.__cargarCriterioBusquedaEnBarra('g'),QtGui.QKeySequence("Alt+G"))
+        menubusqueda.addAction("'l=' Por Lenguaje", lambda : self.__cargarCriterioBusquedaEnBarra('l'),QtGui.QKeySequence("Alt+L"))
+        menubusqueda.addAction("'n=' Por Fecha creacion", lambda : self.__cargarCriterioBusquedaEnBarra('n'),QtGui.QKeySequence("Alt+N"))
+        menubusqueda.addAction("'m=' Por Fecha modificacion", lambda : self.__cargarCriterioBusquedaEnBarra('m'),QtGui.QKeySequence("Alt+M"))
+        menubusqueda.addAction("'a=' Por Autor", lambda : self.__cargarCriterioBusquedaEnBarra('a'),QtGui.QKeySequence("Alt+A"))
         
         menu.addSeparator()
         
@@ -195,7 +195,16 @@ class Main(QtGui.QMainWindow):
 
 
         self.btMenu.setMenu(menu)
-
+    
+    def __cargarCriterioBusquedaEnBarra(self, criterio):
+        valor_a_cargar = unicode(self.eBusqueda.text().toUtf8(),'utf-8') 
+        index = valor_a_cargar.find(criterio + "=")
+        if index == -1 :
+            valor_a_cargar += "," + criterio + "=" if len(valor_a_cargar) > 0 else criterio + "="
+            self.eBusqueda.setText( valor_a_cargar )
+        else:
+            self.eBusqueda.setCursorPosition( index + 2 )
+    
     def __destroyed(self):
         ''' Hace volar la ventana. '''
         #TODO: hacer que cierre todas las ventanas
@@ -228,7 +237,7 @@ class Main(QtGui.QMainWindow):
         u""" Load shortcuts used in the application. """
                 
         QtGui.QShortcut(QtGui.QKeySequence("F11"), self, self.__toogleFullScreen)
-        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+K"), self, self.eBusqueda.setFocus)
+        QtGui.QShortcut(QtGui.QKeySequence("Ctrl+L"), self, self.eBusqueda.setFocus)
         # atajo : cerrar/salir
         QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Escape), self, self.close)
             
