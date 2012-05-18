@@ -28,7 +28,7 @@ import fragmentos_rc #@UnusedImport
 class AcercaDe(QtGui.QMainWindow):
     
     def __init__(self):
-        FILENAME = 'wAcercaDe.ui'
+        FILENAME = 'uis/wAcercaDe.ui'
         QtGui.QMainWindow.__init__(self)
     #cargamos la interfaz desde el archivo .ui
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)

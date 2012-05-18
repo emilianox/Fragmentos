@@ -22,8 +22,8 @@
 import os,sys
 from PyQt4 import QtCore, QtGui, uic# Importamos los módulos de Qt
 #Importo los iconos
-import fragmentos_rc  #@UnusedImport
-import icons_rc #@UnusedImport @UnresolvedImport
+import fragmentos_rc
+from gui.images import icons_rc #@UnusedImport @UnresolvedImport
 
 from QTTips.Scintilla import Scintilla
 from QTTips.TreeView import TreeView
@@ -35,7 +35,7 @@ class Main(QtGui.QMainWindow):
     
     def __init__(self,parent):
         """ Ventana Principal debe recibir una instancia de GUI """
-        FILENAME = 'MainForm.ui'
+        FILENAME = 'uis/MainForm.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)

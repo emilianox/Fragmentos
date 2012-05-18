@@ -17,8 +17,8 @@
    <string>Acerca de Fragmentos</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="fragmentos.qrc">
-    <normaloff>:/icons/empty.png</normaloff>:/icons/empty.png</iconset>
+   <iconset resource="images/icons.qrc">
+    <normaloff>:/toolbar/icon.png</normaloff>:/toolbar/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -48,7 +48,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="fragmentos.qrc">:/icons/logo.png</pixmap>
+         <pixmap>:/icons/logo.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -80,7 +80,7 @@
         <item>
          <widget class="QLabel" name="lbVersion">
           <property name="text">
-           <string>Version 0.0.0</string>
+           <string>Version 0.8.3</string>
           </property>
          </widget>
         </item>
@@ -112,14 +112,21 @@ p, li { white-space: pre-wrap; }
         <item>
          <widget class="QLabel" name="lbVersion_4">
           <property name="text">
-           <string>Emiliano Fernandez</string>
+           <string>Informática MEG</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="lbVersion_5">
           <property name="text">
-           <string>Jonathan Ferreyra</string>
+           <string>contacto@informaticameg.com</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>www.informaticameg.com</string>
           </property>
          </widget>
         </item>
@@ -155,7 +162,7 @@ p, li { white-space: pre-wrap; }
   </widget>
  </widget>
  <resources>
-  <include location="fragmentos.qrc"/>
+  <include location="images/icons.qrc"/>
  </resources>
  <connections>
   <connection>

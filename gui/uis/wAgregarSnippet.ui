@@ -17,8 +17,8 @@
    <string/>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>linedpaperplus32.png</normaloff>linedpaperplus32.png</iconset>
+   <iconset resource="images/icons.qrc">
+    <normaloff>:/toolbar/linedpaperplus32.png</normaloff>:/toolbar/linedpaperplus32.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -297,9 +297,20 @@ QTextEdit:edit-focus {
               </property>
               <property name="minimumSize">
                <size>
-                <width>150</width>
+                <width>108</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox {
+border: 1px solid #999999; 
+border-radius: 4px;
+padding: 3px 2px 2px 2px;
+min-width: 6em;
+}
+QComboBox::down-arrow {image: url(:toolbar/arrow_down.png);height: 10px;}
+QComboBox:editable {background: white;border-radius: 0px;}
+QComboBox::drop-down { border-style: none}</string>
               </property>
              </widget>
             </item>
@@ -578,7 +589,7 @@ stop: 0 #dadbde, stop: 1 #f6f7fa);
 }</string>
           </property>
           <property name="text">
-           <string>Cargar desde...</string>
+           <string>Cargar desde archivo...</string>
           </property>
          </widget>
         </item>
@@ -676,7 +687,7 @@ stop: 0 #dadbde, stop: 1 #f6f7fa);
   <tabstop>btSalir</tabstop>
  </tabstops>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="images/icons.qrc"/>
  </resources>
  <connections>
   <connection>

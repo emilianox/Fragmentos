@@ -23,7 +23,7 @@ import os
 from PyQt4 import QtCore, QtGui, uic
 
 from pathtools import PathTools
-import icons_rc
+from gui.images import icons_rc #@UnusedImport
 
 
 class Opciones(QtGui.QMainWindow):
@@ -32,11 +32,11 @@ class Opciones(QtGui.QMainWindow):
 
     def __init__(self, parent, configs, dbutils):
         # carga la interfaz desded el archivo ui
-        FILENAME = 'wOpciones.ui'
+        FILENAME = 'uis/wOpciones.ui'
         uifile = os.path.join(os.path.abspath(os.path.dirname(__file__)),FILENAME)
         QtGui.QMainWindow.__init__(self)
         uic.loadUi(uifile, self)
-        self.setWindowIcon(QtGui.QIcon(':/icons/gear32.png'))
+        self.setWindowIcon(QtGui.QIcon(':/toolbar/gear32.png'))
         
         # centra la ventana 
         self.__centerOnScreen()

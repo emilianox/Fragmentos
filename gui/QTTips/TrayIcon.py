@@ -1,3 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
 import sys
 from PyQt4 import QtGui, QtCore
 
@@ -32,7 +52,6 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
     def menuSearch(self):
         '''menu show'''
-        print 'search'
         # establece el foco en la barra de busqueda
         self.__window_parent.eBusqueda.setFocus()
         # si la ventana esta oculta, la muestra
@@ -41,19 +60,16 @@ class SystemTrayIcon(QtGui.QSystemTrayIcon):
 
     def menuAdd(self):
         '''menu show'''
-        #~ print 'add'
         # abre la ventana de agregar snippet
         self.__window_parent.Padre.showAgregarSnippet()
 
     def menuExit(self):
         '''menu show'''
-        #~ print 'exit'
         sys.exit(0)
 
     def __icon_activated(self,reason):
         if reason == QtGui.QSystemTrayIcon.Trigger:
             self.menuShowHide()
-            #print 'Ventana Escondida/mostrada'
 
 def main():
     app = QtGui.QApplication(sys.argv)
@@ -61,7 +77,6 @@ def main():
     w = QtGui.QWidget()
     SystemTrayIcon(QtGui.QIcon("star.png"), w)
 
-#    trayIcon.show()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
