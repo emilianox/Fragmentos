@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#       
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       
+#
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 2 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -23,57 +23,9 @@ import ConfigParser
 import os
 from pathtools import PathTools
 
-
-#class MyProperty(object):
-#    
-#    def __init__(self, todo, name):
-#        self.name = name
-#
-#        self.cfgFile = todo['cfg']
-#                            
-#        self.config = todo['config']
-#        self.config.read(self.cfgFile)
-#        
-#        self.__sections = todo['sections']
-#
-#    def __get__(self, obj, objtype): 
-#        return self.__getValue(self.name)
-#
-#    def __set__(self, obj, val):
-#        self.__setValue(self.name, val)
-        
-
         
 class Configurations (object) : 
 
-#    PT = PathTools()
-#    # ruta del archivo de configuracion
-#    cfgFile = PT.getPathCFGFile()
-#    # 
-#    config = ConfigParser.ConfigParser()
-#    
-#    # valores dentro de la seccion configurations
-#    configurations_values = {
-#    "searchPresitionTags" : 0,
-#    "windowStateStartup" : 0,
-#    "userUploader" : '',
-#    "expandTree":0
-#    }
-#    
-#    # valores dentro de la seccion database
-#    database_values = {
-#    "defaultBdName" : '',
-#    "referencesToBds" : ''
-#    }
-#    
-#    # diccionario con las secciones
-#    sections = {
-#    'configurations' : configurations_values,
-#    'database' : database_values 
-#    }
-#    
-#    todo = {'cfg' : cfgFile, 'config' : config, 'sections' : sections}
-    
     def __init__(self):
         
         PT = PathTools()
@@ -123,7 +75,6 @@ class Configurations (object) :
                 section = elemento
         try:
             # obtiene el valor desde el cfg
-            #~ print section, attribute
             return self.config.get(section, attribute)            
         except ConfigParser.NoSectionError, msg:
             print 'No existe la seccion <',section,'>'
@@ -141,7 +92,6 @@ class Configurations (object) :
                 section = elemento
         try:
             # establece el valor en el cfg
-            #~ print section, attribute, value
             self.config.set(section, attribute, value)
             
             self.config.write(open(self.cfgFile,'w'))
@@ -219,13 +169,11 @@ class Configurations (object) :
         
         # agrega las secciones
         for section in self.__sections :
-            #print section
             # crea la seccion
             self.config.add_section(section)
             for atributo in self.__sections[section]:
                 # agrega el atributo para la seccion actual
                 self.config.set(section, atributo,self.__sections[section][atributo])
-                # print '>',atributo,self.sections[section][atributo]
             
         self.config.write(open(self.cfgFile, 'w'))
         print 'CFG regenerado con exito!!!'
@@ -233,7 +181,6 @@ class Configurations (object) :
     def getDBsInCFGReferences(self):
         ''' Obtiene los path's de las bases de datos ubicadas 
         en el archivo de configuracion.'''
-        #~ 
         if self.referencesToBds != None :
             paths_cfg = self.referencesToBds.strip()
             if paths_cfg :
@@ -263,16 +210,7 @@ class Configurations (object) :
         return bd_names
         
 def main():
-
-    c = Configurations()
-    valor = c.referencesToBds
-    print valor,type(valor)
-    #~ print c.getDBsInCFGReferences()
-    #~ print c.defaulBdName
-    #~ c.defaulBdName = "SourceCode"
-    #~ c.windowStateStartup = "999"
-    #~ print c.windowStateStartup
-#    c.regenerateNewCFG()
+    pass
     
 
 if __name__ == '__main__':

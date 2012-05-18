@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       sin título.py
-#
-#       Copyright 2011 Alejandro Lucas Cantero <canteroalejandro@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -17,12 +15,11 @@
 #
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
-4#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from sqlite import sqlite
 from dbutils import DBUtils
-
+from database.sqlite import sqlite
 
 class SharedManager:
 

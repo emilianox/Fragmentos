@@ -90,6 +90,7 @@ class Main(QtGui.QMainWindow):
         self.eBusqueda.setFocus()
         self.btSptAnterior.setEnabled(False)
         self.btSptSiguiente.setEnabled(False)
+        self.btMas.setVisible(False)
 
 ######################
 ## Metodos de clase ##

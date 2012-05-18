@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -41,7 +40,6 @@ class Busqueda :
         listadecriteriosseparados = self.__separarPorCampos(labusqueda)
         if listadecriteriosseparados:
             sql = self.__generarSQL(listadecriteriosseparados, enfavoritos, tagsPresicion)
-            #~ print 'hice una consulta: ',len(sql)
         else :
             sql = ' '
         return sql
@@ -50,7 +48,6 @@ class Busqueda :
         """ separa la busqueda en una lista donde cada elemento es el criterio a buscar por campo """
         #CAUTION!!! Magic. Do not touch
         #~ labusqueda = 'f=sadsdas,t=dadfd and gernedsa,g=dsfbusdfud'
-        #~ print 'separando por comas...'
         listadecriterios = []
         if labusqueda.find('=') == -1:
             #caso en que solo escribas titulo(o sea nada)
@@ -65,10 +62,7 @@ class Busqueda :
             else:
             #caso en que tengas todo ej: t=hola,l=python
                 listadecriterios = labusqueda.split(',')
-                #~ print 'el num es: ',len(listadecriterios[-1])
-                #~ print 'nuevo antes:',listadecriterios[:-1]
                 if len(listadecriterios[-1]) < 3 :
-                    #~ listadecriterios = listadecriterios[:-1]
                     listadecriterios = False
 
         return listadecriterios
@@ -77,18 +71,17 @@ class Busqueda :
         """ devuelve el sql del campo simple buscado """
         #esto es para __generarSQL
         #preconsulta = 'SELECT language,title FROM snippet ORDER BY language,title where '
-        #~ print 'generando consulta simple... ',campo
 
         #~ campo = 'g=agua'
         if campo[:2] == 'g=':#%,atr,%-%,atr-atr,%-atr
             if tagsPresicion :
-                #~ print 'buscando tags con presicion...'
+                #~ buscando tags con presicion...
                 sql = "((" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+",%')"+\
                 " or (" + self.diccampos[campo[:2]] + " LIKE '%,"+campo[2:]+"%')"+\
                 " or (" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+",%')"+\
                 " or (" + self.diccampos[campo[:2]] + " ='"+campo[2:]+"'))"
             else:
-                #~ print 'buscando tags sin presicion...'
+                #~ buscando tags sin presicion...
                 sql = "(" + self.diccampos[campo[:2]] + " LIKE '%"+campo[2:]+"%')"
                 
         elif campo[:2] == 'l=':#atr%

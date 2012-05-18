@@ -94,7 +94,7 @@ QPushButton:hover {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="images/icons.qrc">
           <normaloff>:/toolbar/linedpaperplus32.png</normaloff>:/toolbar/linedpaperplus32.png</iconset>
         </property>
         <property name="iconSize">
@@ -174,7 +174,7 @@ QPushButton:hover {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="images/icons.qrc">
             <normaloff>:/toolbar/circleleft32.png</normaloff>:/toolbar/circleleft32.png</iconset>
           </property>
           <property name="iconSize">
@@ -244,7 +244,7 @@ QPushButton:hover {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="images/icons.qrc">
             <normaloff>:/toolbar/circleright32.png</normaloff>:/toolbar/circleright32.png</iconset>
           </property>
           <property name="iconSize">
@@ -332,7 +332,7 @@ background: #DBDBDB;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="icons.qrc">
+           <iconset resource="images/icons.qrc">
             <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
           </property>
           <property name="iconSize">
@@ -451,7 +451,7 @@ QLineEdit:edit-focus {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="images/icons.qrc">
           <normaloff>:/toolbar/notecheck32.png</normaloff>:/toolbar/notecheck32.png</iconset>
         </property>
         <property name="iconSize">
@@ -536,7 +536,7 @@ background: #DBDBDB;
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icons.qrc">
+         <iconset resource="images/icons.qrc">
           <normaloff>:/toolbar/gear32.png</normaloff>:/toolbar/gear32.png</iconset>
         </property>
         <property name="iconSize">
@@ -783,7 +783,7 @@ QComboBox::drop-down { border-style: none}</string>
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="icons.qrc">
+                  <iconset resource="images/icons.qrc">
                    <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -894,7 +894,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton">
+                  <widget class="QPushButton" name="btMas">
                    <property name="minimumSize">
                     <size>
                      <width>55</width>
@@ -1034,7 +1034,7 @@ background: #DBDBDB;
             <string>Ver detalles</string>
            </property>
            <property name="icon">
-            <iconset resource="icons.qrc">
+            <iconset resource="images/icons.qrc">
              <normaloff>:/toolbar/article32.png</normaloff>:/toolbar/article32.png</iconset>
            </property>
            <property name="checkable">
@@ -1062,7 +1062,7 @@ background: #DBDBDB;
  </tabstops>
  <resources>
   <include location="fragmentos.qrc"/>
-  <include location="icons.qrc"/>
+  <include location="images/icons.qrc"/>
  </resources>
  <connections>
   <connection>

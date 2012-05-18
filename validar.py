@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -63,7 +62,6 @@ class Validator :
 
     def checkIntegrityCfg (self) :
         """ Verifica la integridad del archivo de configuracion """
-        # returns
         pass
 
     def check (self) :
@@ -86,8 +84,6 @@ class ValidarShorcuts:
         self.__add_key = 'F9'
         self.__client = gconf.client_get_default()
         self.__validar_keys()
-
-
 
     def __check_search_key(self):
         self.__set_key('/desktop/gnome/keybindings/fragmentos-search/binding',self.__search_key)

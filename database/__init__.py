@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -28,9 +27,7 @@ class Database:
     
     def __init__(self,rutaBD):
         u''' Costructor de la clase. '''
-        #~ print 'my path es: ',rutaBD
         self.__pathBD = rutaBD
-        #~ print 'Una instancia de BD fue creada con exito...',#rutaBD
         self.__Busqueda = Busqueda()
         
         self.bd = sqlite.sqlite(self.__pathBD)
@@ -109,11 +106,9 @@ class Database:
         #se convierten los campos a unicode/utf8
         valores = []
         for valor in datosSnippet.values():
-            #~ print valor,'\n',type(valor)
             valores.append(valor)#.encode('ascii','utf-8'))        
         try:
             return self.bd.realizarAlta("snippet", datosSnippet) , None
-        #except sqlite3.OperationalException,msg:
         except Exception, msg:
             print 'agregarSnippet >> ',str(msg)
             return False, str(msg)
