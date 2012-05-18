@@ -190,7 +190,6 @@ class Configurations (object) :
                 #~ comprueba que existan estos archivos, retornando
                 #~ solo aquellas rutas que sean validas
                 rutas_validas = filter(os.path.exists,a_comprobar)
-                
                 return rutas_validas
         else:
             return []
@@ -208,6 +207,12 @@ class Configurations (object) :
                 # lo agrega a la lista
                 bd_names.append(nombre_bd[0])
         return bd_names
+        
+    def quitarDBInCFGReference(self, path_reference):
+        rutas = self.getDBsInCFGReferences()
+        if path_reference in rutas :
+            rutas.remove( path_reference )
+            self.referencesToBds = ','.join( rutas )
         
 def main():
     pass

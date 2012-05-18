@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       Copyright 2011 Emiliano Fernandez <emilianohfernandez@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -72,8 +71,7 @@ class Opciones(QtGui.QMainWindow):
         
     @QtCore.pyqtSlot()
     def on_btQuitarBDReferencia_clicked(self):
-        
-        pass
+        self.__quitarBDReferencia()
         
     @QtCore.pyqtSlot()
     def on_btAceptar_clicked(self):
@@ -176,14 +174,8 @@ class Opciones(QtGui.QMainWindow):
     #~ TAB: CATALOGOS
     #~ 
     def __agregarBDDefault(self):
-        dialog = QtGui.QFileDialog(self, 'Agregar catalogo')
-        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
-        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-        dialog.setDefaultSuffix("db")
-        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
-        
-        if dialog.exec_():
-            filename = dialog.selectedFiles()[0] # convierte a unicode el string
+        filename = QtGui.QFileDialog.getOpenFileName(self, u'Agregar catálogo',filter = '*.db')
+        if filename:
             filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
             
             if self.__DBU.validarBD(filename):
@@ -197,13 +189,8 @@ class Opciones(QtGui.QMainWindow):
                 "Este archivo no es un catalogo valido de Fragmentos.")
         
     def __agregarBDReferencia(self):
-        dialog = QtGui.QFileDialog(self, 'Agregar referencia a catalogo')
-        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
-        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-        dialog.setDefaultSuffix("db")
-        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
-        if dialog.exec_():
-            filename = dialog.selectedFiles()[0] # convierte a unicode el string
+        filename = QtGui.QFileDialog.getOpenFileName(self, u'Agregar referencia a catálogo',filter = '*.db')
+        if filename:
             filename = unicode(filename, 'utf-8') # persiste la nueva refrencia en el cfg
             
             if self.__DBU.validarBD(filename):
@@ -213,8 +200,8 @@ class Opciones(QtGui.QMainWindow):
                 # refresca el combo de la interfaz principal
                 self.__Padre.refreshBdsInComboMainWindow()
             else:
-                QtGui.QMessageBox.critical(self,"Agregar referencia a catalogo",
-                "Este archivo no es un catalogo valido de Fragmentos.")
+                QtGui.QMessageBox.critical(self,u"Agregar referencia a catálogo",
+                u"Este archivo no es un catálogo válido de Fragmentos.")
             
     def __agregarBDReferenciaInCFG(self, pathCatalogo):
         ''' Agrega el nuevo catalogo seleccionado a en el archivo CFG'''
@@ -260,7 +247,11 @@ class Opciones(QtGui.QMainWindow):
     def __quitarBDReferencia(self):
         ''' '''
         if self.lstBdsReferences.currentRow() != -1 :
-            pass
+            ruta_a_quitar = unicode(self.lstBdsReferences.currentItem().text().toUtf8(),'utf-8')            
+            self.__Config.quitarDBInCFGReference( ruta_a_quitar )
+            self.__cargarBDsDesdeCFG()
+            # refresca el combo de la interfaz principal
+            self.__Padre.refreshBdsInComboMainWindow()
             
     def __setPathDefaultBDsInGUI(self):
         ''' Obtiene la ruta del directorio por defecto y 

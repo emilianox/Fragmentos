@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Copyright 2011 Ferreyra, Jonathan <jalejandroferreyra@gmail.com>
-#       Copyright 2011 Fernandez, Emiliano <emilianohfernandez@gmail.com>
+#       Copyright 2011 Informática MEG <contacto@informaticameg.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -398,24 +397,19 @@ class Main(QtGui.QMainWindow):
         ''' Abre un dialogo de archivos, para guardar el 
         archivo de la bd creada.'''
         
-        dialog = QtGui.QFileDialog(self, 'Nuevo catalogo de Fragmentos')
-        dialog.setFileMode(QtGui.QFileDialog.AnyFile)
-        dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen | QtGui.QFileDialog.AcceptSave)
-        dialog.setDefaultSuffix("db")
-        dialog.setNameFilter('Catalogo Fragmentos (*.db)')
-        if dialog.exec_():
-            filename = self.__convertir_a_unicode(
-                            dialog.selectedFiles()[0])
-            print filename, type(filename)
-            
+        filename = QtGui.QFileDialog.getSaveFileName(self, 'Nuevo catalogo de Fragmentos',filter = '*.db')
+        if filename:
+            filename = self.__convertir_a_unicode(filename)                            
+            if filename[-3:] != '.db' :
+                filename += filename + '.db'
             # llamamos al metodo que crea la bd
             estado = self.Padre.fragmentos.BDU.newDataBase(filename)
             if estado :
-                QtGui.QMessageBox.information(self, "Nuevo catalogo",
-                "Catalogo creado con exito en : \n\n" + filename)
+                QtGui.QMessageBox.information(self, u"Nuevo catálogo",
+                u"Catálogo creado con exito en : \n\n" + filename)
             else:
-                QtGui.QMessageBox.critical(self, "Nuevo catalogo",
-                "Se ha producido un error al intentar crear el catalogo.")
+                QtGui.QMessageBox.critical(self, u"Nuevo catálogo",
+                u"Se ha producido un error al intentar crear el catálogo.")
 
 ############
 ## Events ##

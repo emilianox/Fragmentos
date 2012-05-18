@@ -31,7 +31,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -251,6 +251,9 @@ Por ejemplo 'prueba', en vez de 'prue'.</string>
               </item>
               <item>
                <widget class="QPushButton" name="btQuitarBDDefault">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="toolTip">
                  <string>Elimina físicamente el catálogo seleccionado.</string>
                 </property>
@@ -436,11 +439,6 @@ Por ejemplo 'prueba', en vez de 'prue'.</string>
          </layout>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="tab_3">
-       <attribute name="title">
-        <string>Pastebin</string>
-       </attribute>
       </widget>
      </widget>
     </item>
