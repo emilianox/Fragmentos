@@ -494,8 +494,10 @@ class Main(QtGui.QMainWindow):
                 str(self.SM.getSnippetsCount()) + ' snippet(s) cargados...')
 
     def on_eBusqueda_textEdited(self,cadena):
+        posicion_cursor = self.eBusqueda.cursorPosition()
         self.eBusqueda.setText(
             self.__convertir_a_unicode(cadena).lower())
+        self.eBusqueda.setCursorPosition( posicion_cursor )
         
     ################
     ### TREEVIEW ###
