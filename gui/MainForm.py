@@ -27,6 +27,7 @@ from gui.images import icons_rc #@UnusedImport @UnresolvedImport
 from QTTips.Scintilla import Scintilla
 from QTTips.TreeView import TreeView
 from QTTips.QcolorTextEdit import QcolorTextEdit
+from gui.comoEmpezar import ComoEmpezar
 
 
 class Main(QtGui.QMainWindow):
@@ -55,10 +56,12 @@ class Main(QtGui.QMainWindow):
                       self.on_treecontext_menu)
         
         # agrega el Widget de codigo
+        self.widgetcomoEmpezar = ComoEmpezar()
         self.widgetcodigo = Scintilla()
         self.wgtDetalles.setVisible(False)
         self.vlCodigo.insertWidget(0,self.widgetcodigo.getEditor())
-
+        self.vlCodigo.insertWidget(1,self.widgetcomoEmpezar)
+        self.widgetcodigo.getEditor().setVisible(False)
         # Reordenamiento y expancion del separador tree-widgetcodigo
         self.spPrincipal.setSizes([50,900])#ni idea pero no tocar
 
@@ -163,7 +166,7 @@ class Main(QtGui.QMainWindow):
         menusnippet.addAction("Editar", self.__modificarSnippet,QtGui.QKeySequence("Ctrl+M"))
         menusnippet.addAction("Eliminar", self.__eliminarSnippet,QtGui.QKeySequence("Del"))
 
-        menudatabase= menu.addMenu("Catalogo")
+        menudatabase= menu.addMenu(u"Catálogo")
         menudatabase.addAction("Nuevo... ", self.__nuevaBDFragmentos)
                 
         menubusqueda = menu.addMenu("Busqueda")
@@ -183,11 +186,11 @@ class Main(QtGui.QMainWindow):
         menu.addSeparator()
         
         menu.addAction("Opciones", self.__showOptions, QtGui.QKeySequence("Ctrl+O"))
-        menu.addAction("Ayuda")
+        menu.addAction("Ayuda", self.__mostrarAyuda)
         
         menu.addSeparator()
         
-        menu.addAction("Acerca de..", self.__mostrarAcercaDe)
+        menu.addAction("Acerca de...", self.__mostrarAcercaDe)
         
         menu.addSeparator()
         
@@ -262,6 +265,8 @@ class Main(QtGui.QMainWindow):
             #~ self.refreshTree()
 
     def __showSnippet(self, lenguaje, titulo):
+        self.widgetcomoEmpezar.setVisible(False)
+        self.widgetcodigo.getEditor().setVisible(True)
         
         # obtiene el snippet segun titulo y lenguaje
         snippet = self.SM.getSnippet(lenguaje,titulo)
@@ -395,8 +400,10 @@ class Main(QtGui.QMainWindow):
         
     def __mostrarAyuda(self) : 
         ''' '''
-        QtGui.QMessageBox.information(self, "Ayuda",
-                "Opcion todavia no disponible en esta version.")
+#        QtGui.QMessageBox.information(self, "Ayuda",
+#                "Opcion todavia no disponible en esta version.")
+        self.widgetcomoEmpezar.setVisible(True)
+        self.widgetcodigo.getEditor().setVisible(False)
     
     def __mostrarAcercaDe(self):
         ''' '''
@@ -475,9 +482,9 @@ class Main(QtGui.QMainWindow):
         
         def cambiarColorBarra(barra, rojo = False):
             style = '''
-            QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; /**/}
-            QLineEdit:focus {border: 1px groove gray; border-radius: 8px; padding: 1px 2px;}
-            QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px 2px;}'''
+            QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; 
+            border-top-left-radius: 8px ; border-top-right-radius: 0px solid white;
+            border-bottom-right-radius: 0px ; border-bottom-left-radius: 8px; /**/}'''
             barra.setStyleSheet( style.replace('/**/','background-color: #FF6666;')) if rojo else barra.setStyleSheet( style )
                  
         datos = [] #@UnusedVariable

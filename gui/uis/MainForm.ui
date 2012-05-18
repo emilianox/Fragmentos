@@ -38,10 +38,7 @@
      <number>2</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,1,0,0">
-      <property name="spacing">
-       <number>0</number>
-      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
       <property name="leftMargin">
        <number>4</number>
       </property>
@@ -94,7 +91,7 @@ QPushButton:hover {
          <string/>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../images/icons.qrc">
           <normaloff>:/toolbar/linedpaperplus32.png</normaloff>:/toolbar/linedpaperplus32.png</iconset>
         </property>
         <property name="iconSize">
@@ -174,7 +171,7 @@ QPushButton:hover {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="../images/icons.qrc">
             <normaloff>:/toolbar/circleleft32.png</normaloff>:/toolbar/circleleft32.png</iconset>
           </property>
           <property name="iconSize">
@@ -244,7 +241,7 @@ QPushButton:hover {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="../images/icons.qrc">
             <normaloff>:/toolbar/circleright32.png</normaloff>:/toolbar/circleright32.png</iconset>
           </property>
           <property name="iconSize">
@@ -273,38 +270,30 @@ QPushButton:hover {
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <property name="spacing">
-         <number>0</number>
+       <widget class="QPushButton" name="btBuscarEnFavoritos">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="leftMargin">
-         <number>4</number>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
         </property>
-        <item>
-         <widget class="QPushButton" name="btBuscarEnFavoritos">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
-          </property>
-          <property name="toolTip">
-           <string>Buscar en favoritos</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton:hover {
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>Buscar en favoritos</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton:hover {
 	background: #DBDBDB;
 	border-radius: 3px;
 	color:#353535;
@@ -327,46 +316,57 @@ background: #DBDBDB;
 	border: 1px solid #A0A197;
 	padding:8px;
 }</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-          <property name="default">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../images/icons.qrc">
+          <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLineEdit" name="eBusqueda">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
            </font>
           </property>
           <property name="toolTip">
-           <string>Claves de búsqueda:
+           <string>Criterios de búsqueda:
 
 t=título
 l=lenguaje
@@ -382,9 +382,11 @@ u=autor</string>
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; /*background-color: #FF6666;*/}
-QLineEdit:focus {border: 1px groove gray; border-radius: 8px; padding: 1px 2px;}
-QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px 2px;}</string>
+           <string notr="true">QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; 
+border-top-left-radius: 8px ; border-top-right-radius: 0px solid white;
+border-bottom-right-radius: 0px ; border-bottom-left-radius: 8px;}
+
+</string>
           </property>
           <property name="inputMethodHints">
            <set>Qt::ImhLowercaseOnly</set>
@@ -400,6 +402,51 @@ QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px
           </property>
           <property name="cursorPosition">
            <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="maximumSize">
+           <size>
+            <width>27</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Criterios de búsqueda:
+
+t=título
+l=lenguaje
+g=tags
+c=contenido
+d=descripcion
+r=referencias
+n=fecha creacion
+m=fecha modificado
+u=autor</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { border: 2px groove gray; padding: 1px 2px; background-color: white;
+border-top-left-radius: 0px ;
+border-top-right-radius: 8px;
+border-bottom-right-radius: 8px;
+border-bottom-left-radius: 0px;
+
+border-left: 0px solid white;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../images/icons.qrc">:/toolbar/search32.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -438,7 +485,7 @@ QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px
          <string/>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../images/icons.qrc">
           <normaloff>:/toolbar/notecheck32.png</normaloff>:/toolbar/notecheck32.png</iconset>
         </property>
         <property name="iconSize">
@@ -523,7 +570,7 @@ background: #DBDBDB;
          <string/>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../images/icons.qrc">
           <normaloff>:/toolbar/gear32.png</normaloff>:/toolbar/gear32.png</iconset>
         </property>
         <property name="iconSize">
@@ -612,6 +659,9 @@ border: 1px solid #BFBFBF;
             <width>108</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Selector de catálogos</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QComboBox {
@@ -763,6 +813,9 @@ QComboBox::drop-down { border-style: none}</string>
                    <height>30</height>
                   </size>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="toolTip">
                   <string>Establecer como favorito</string>
                  </property>
@@ -770,7 +823,7 @@ QComboBox::drop-down { border-style: none}</string>
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../images/icons.qrc">
                    <normaloff>:/toolbar/star32.png</normaloff>:/toolbar/star32.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -935,7 +988,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QLabel" name="lbEstado">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -955,23 +1008,13 @@ p, li { white-space: pre-wrap; }
            <property name="text">
             <string>0 snippet(s) encontrados</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
            <property name="margin">
             <number>4</number>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_4">
@@ -1021,7 +1064,7 @@ background: #DBDBDB;
             <string>Ver detalles</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../images/icons.qrc">
              <normaloff>:/toolbar/article32.png</normaloff>:/toolbar/article32.png</iconset>
            </property>
            <property name="checkable">
@@ -1048,8 +1091,7 @@ background: #DBDBDB;
   <tabstop>btSptAnterior</tabstop>
  </tabstops>
  <resources>
-  <include location="fragmentos.qrc"/>
-  <include location="images/icons.qrc"/>
+  <include location="../images/icons.qrc"/>
  </resources>
  <connections>
   <connection>

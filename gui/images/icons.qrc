@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="toolbar">
+    <file>arrow_down_left.png</file>
     <file>logo.png</file>
     <file>icon.png</file>
     <file>arrow_down.png</file>
