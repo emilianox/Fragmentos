@@ -463,15 +463,21 @@ class Main(QtGui.QMainWindow):
     ###############
     
     def on_eBusqueda_textChanged(self,cadena):
-        # campo de pruebas en la busqueda
         
+        def cambiarColorBarra(barra, rojo = False):
+            style = '''
+            QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; /**/}
+            QLineEdit:focus {border: 1px groove gray; border-radius: 8px; padding: 1px 2px;}
+            QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px 2px;}'''
+            barra.setStyleSheet( style.replace('/**/','background-color: #FF6666;')) if rojo else barra.setStyleSheet( style )
+                 
         datos = [] #@UnusedVariable
         datos = self.SM.getLengsAndTitles(
             str(self.__convertir_a_unicode(cadena)),
                 self.btBuscarEnFavoritos.isChecked())
         if datos:
             # si hubieron resultados en la busqueda
-            self.colorBusqueda.set_color_busqueda()
+            cambiarColorBarra(self.eBusqueda, False)
             self.mytreeview.insertarEnArbol(datos)
             
             # si en las configuraciones este valor es true
@@ -480,7 +486,7 @@ class Main(QtGui.QMainWindow):
                 self.tvLenguajes.expandAll()
             
         else:
-            self.colorBusqueda.set_color_busqueda(False)
+            cambiarColorBarra(self.eBusqueda, True)
             self.mytreeview.model.clear()
         self.lbEstado.setText(str(len(datos))+' snippet(s) encontrados...')
         if cadena == "":

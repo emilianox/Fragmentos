@@ -382,22 +382,9 @@ u=autor</string>
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLineEdit { 
-    border: 2px groove gray;
-    border-radius: 8px;
-    padding: 1px 2px;
-}
-QLineEdit:focus {
-    border: 1px groove gray;
-    border-radius: 8px;
-    padding: 1px 2px;
-}
-
-QLineEdit:edit-focus {
-    border: 2px groove gray;
-    border-radius: 8px;
-    padding: 1px 2px;
-}</string>
+           <string notr="true">QLineEdit { border: 2px groove gray; border-radius: 8px; padding: 1px 2px; /*background-color: #FF6666;*/}
+QLineEdit:focus {border: 1px groove gray; border-radius: 8px; padding: 1px 2px;}
+QLineEdit:edit-focus { border: 2px groove gray; border-radius: 8px; padding: 1px 2px;}</string>
           </property>
           <property name="inputMethodHints">
            <set>Qt::ImhLowercaseOnly</set>
